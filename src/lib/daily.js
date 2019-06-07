@@ -1,12 +1,6 @@
-import { connect } from 'react-redux';
 import React, { Component } from 'react';
-import { Route, Switch } from 'react-router-dom';
-import PropTypes from 'prop-types';
-import { withRouter } from 'react-router';
-import I18 from '../../../../../i18'
 
-
-class Cron extends Component {
+export default class Cron extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -46,15 +40,15 @@ class Cron extends Component {
         return (<div class="tab-pane" >
                     <div class="well well-small">
                         <input type="radio" onClick={(e) => {this.setState({every:true}) ; this.props.onChange()}} value="1" name="DailyRadio" checked={this.state.every ? true : false} />
-                        &nbsp; <I18 tkey='Every' /> &nbsp;
+                        &nbsp; Every &nbsp;
                         <input disabled={this.state.every ? false: true} type="Number" onChange={this.onDayChange} value={this.state.value[3].split('/')[1] ? this.state.value[3].split('/')[1] :''} />
-                        &nbsp; <I18 tkey='day(s)' />
+                        &nbsp; day(s)
                     </div>
                     <div class="well well-small">
                         <input onClick={(e) => {this.setState({every:false}); this.props.onChange(['0',this.state.value[1], this.state.value[2],'?','*', 'MON-FRI','*'])}} type="radio" value="2" name="DailyRadio" checked={this.state.every ? false : true}/>
-                        &nbsp; <I18 tkey='Every week day' /> &nbsp;
+                        &nbsp; Every week day &nbsp;
                     </div>
-                    &nbsp; <I18 tkey='Start time' /> &nbsp;
+                    &nbsp; Start time &nbsp;
                     <select id="DailyHours" class="hours" onChange={this.onAtHourChange} value={this.state.value[2]}>
                         <option id="0">00</option><option id="1">01</option><option id="2">02</option><option id="3">03</option><option id="4">04</option><option id="5">05</option><option id="6">06</option><option id="7">07</option><option id="8">08</option><option id="9">09</option><option id="10">10</option><option id="11">11</option><option id="12">12</option><option id="13">13</option><option id="14">14</option><option id="15">15</option><option id="16">16</option><option id="17">17</option><option id="18">18</option><option id="19">19</option><option id="20">20</option><option id="21">21</option><option id="22">22</option><option id="23">23</option>
                     </select>
@@ -64,16 +58,3 @@ class Cron extends Component {
                 </div>)
     }
 }
-
-Cron.propTypes = {
-    user: PropTypes.object.isRequired,
-    actions: PropTypes.object.isRequired,
-    dispatch: PropTypes.func.isRequired,
-    history: PropTypes.object.isRequired,
-};
-
-export default withRouter(connect(store => ({ 
-    user: store.user,
-    actions: store.actions,
-    translations :store.translations,
-}))(Cron));

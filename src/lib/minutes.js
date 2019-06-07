@@ -1,6 +1,4 @@
-import { connect } from 'react-redux';
 import React, { Component } from 'react';
-import I18 from '../../../../../i18'
 
 
 export default class Cron extends Component {
@@ -21,7 +19,7 @@ export default class Cron extends Component {
     render() {
         this.state.value = this.props.value
         return (<div className="well">   
-               <I18 tkey='Every' /> <input type="Number" onChange={this.onChange.bind(this)} value={this.state.value[1].split('/')[1]} min={1} max={60}/> <I18 tkey='minute(s)' />
+               Every <input type="Number" onChange={this.onChange.bind(this)} value={this.state.value[1].split('/')[1]} min={1} max={60}/> minute(s)'
         </div>)
     }
 }

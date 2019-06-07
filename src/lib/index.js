@@ -1,7 +1,5 @@
-import { connect } from 'react-redux';
 import React, { Component } from 'react';
 import cronstrue from 'cronstrue';
-import I18 from '../../../../../i18'
 import Minutes from './minutes';
 import Daily from './daily';
 import Hourly from './hourly';
@@ -49,7 +47,7 @@ export default class Cron extends Component {
     }
     getHeaders() {
         return tabs.map(d => {  
-            return <li className={this.state.selectedTab === d ? 'active' : ''}><a onClick={this.tabChanged.bind(this,d)}><I18 tkey={d}/></a></li>
+            return <li className={this.state.selectedTab === d ? 'active' : ''}><a onClick={this.tabChanged.bind(this,d)}>{d}</a></li>
         })
     }
     onValueChange(val) {
@@ -101,8 +99,8 @@ export default class Cron extends Component {
                 {this.getHeaders()}
             </ul>
             <div className="cron_builder_bordering">{this.getComponent(this.state.selectedTab)}</div>
-            {this.props.showResultText && <div className="text_align_center padding-5 cron-builder-bg">{this.getVal()}</div>}
-            {this.props.showResultCron && <div className="margin-top-5 text_align_center padding-5 cron-builder-bg">{this.state.value.toString().replace(/,/g,' ').replace(/!/g, ',')}</div>}       
+            {this.props.showResultText && <div className="cron-builder-bg">{this.getVal()}</div>}
+            {this.props.showResultCron && <div className="cron-builder-bg">{this.state.value.toString().replace(/,/g,' ').replace(/!/g, ',')}</div>}       
         </div>)
     }
 }

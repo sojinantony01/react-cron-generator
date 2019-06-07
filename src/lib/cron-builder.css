@@ -17,6 +17,8 @@
 .cron-builder-bg {
     background-color: #086090;
     color: white;
+    text-align: center;
+    margin-bottom: 4px;
 }
 .cron_builder_bordering select {
     background-color: white;
@@ -39,4 +41,8 @@
     border: 1px solid #d0cbcb;
     padding: 5px;
     background-color: #dddef13d;
+    width: 50%;
+}
+.text_align_left {
+    text-align: left;
 }

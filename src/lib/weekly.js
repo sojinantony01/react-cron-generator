@@ -1,12 +1,7 @@
-import { connect } from 'react-redux';
 import React, { Component } from 'react';
-import { Route, Switch } from 'react-router-dom';
-import PropTypes from 'prop-types';
-import { withRouter } from 'react-router';
-import I18 from '../../../../../i18'
 
 
-class Cron extends Component {
+export default class Cron extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -59,21 +54,21 @@ class Cron extends Component {
             <div class="well well-small row">
                 <div class="span6 col-sm-6">
                     <div className="text_align_left">
-                        <input type="checkbox" value="MON" onChange={this.onCheck} checked={(this.state.value[5].search('MON') !== -1 ) ? true : false} />&nbsp;<I18 tkey='Monday' /><br/>
-                        <input type="checkbox" value="WED" onChange={this.onCheck} checked={this.state.value[5].search('WED') !== -1 ? true : false}  />&nbsp;<I18 tkey='Wednesday' /><br/>
-                        <input type="checkbox" value="FRI" onChange={this.onCheck} checked={(this.state.value[5].search('FRI') !== -1 ) ? true : false}/>&nbsp;<I18 tkey='Friday' /><br/>
-                        <input type="checkbox" value="SUN" onChange={this.onCheck} checked={this.state.value[5].search('SUN') !== -1 ? true : false}/>&nbsp;<I18 tkey='Sunday' />
+                        <input type="checkbox" value="MON" onChange={this.onCheck} checked={(this.state.value[5].search('MON') !== -1 ) ? true : false} />&nbsp;Monday<br/>
+                        <input type="checkbox" value="WED" onChange={this.onCheck} checked={this.state.value[5].search('WED') !== -1 ? true : false}  />&nbsp;Wednesday<br/>
+                        <input type="checkbox" value="FRI" onChange={this.onCheck} checked={(this.state.value[5].search('FRI') !== -1 ) ? true : false}/>&nbsp;Friday<br/>
+                        <input type="checkbox" value="SUN" onChange={this.onCheck} checked={this.state.value[5].search('SUN') !== -1 ? true : false}/>&nbsp;Sunday
                     </div>
                 </div>
                 <div class="span6 col-sm-6">
                     <div className="text_align_left">
-                        <input type="checkbox" value="TUE" onChange={this.onCheck} checked={this.state.value[5].search('TUE') !== -1 ? true : false}/>&nbsp;<I18 tkey='Tuesday' /><br />
-                        <input type="checkbox" value="THU" onChange={this.onCheck} checked={this.state.value[5].search('THU') !== -1 ? true : false}/>&nbsp;<I18 tkey='Thursday' /><br />
-                        <input type="checkbox" value="SAT" onChange={this.onCheck} checked={this.state.value[5].search('SAT') !== -1 ? true : false}/>&nbsp;<I18 tkey='Saturday' />
+                        <input type="checkbox" value="TUE" onChange={this.onCheck} checked={this.state.value[5].search('TUE') !== -1 ? true : false}/>&nbsp;Tuesday<br />
+                        <input type="checkbox" value="THU" onChange={this.onCheck} checked={this.state.value[5].search('THU') !== -1 ? true : false}/>&nbsp;Thursday<br />
+                        <input type="checkbox" value="SAT" onChange={this.onCheck} checked={this.state.value[5].search('SAT') !== -1 ? true : false}/>&nbsp;Saturday
                     </div><br /><br />
                 </div>
             </div>
-            &nbsp; <I18 tkey='Start time' /> &nbsp;
+            &nbsp; Start time &nbsp;
             <select  class="hours" onChange={this.onAtHourChange} value={this.state.value[2]}>
                 <option value="0">00</option><option value="1">01</option><option value="2">02</option><option value="3">03</option><option value="4">04</option><option value="5">05</option><option value="6">06</option><option value="7">07</option><option value="8">08</option><option value="9">09</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option><option value="21">21</option><option value="22">22</option><option value="23">23</option>
             </select>
@@ -84,15 +79,3 @@ class Cron extends Component {
     }
 }
 
-Cron.propTypes = {
-    user: PropTypes.object.isRequired,
-    actions: PropTypes.object.isRequired,
-    dispatch: PropTypes.func.isRequired,
-    history: PropTypes.object.isRequired,
-};
-
-export default withRouter(connect(store => ({ 
-    user: store.user,
-    actions: store.actions,
-    translations :store.translations,
-}))(Cron));
