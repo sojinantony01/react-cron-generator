@@ -56,5 +56,5 @@ export default App;
 | showResultText | show in readable text format | false |
 | showResultCron | show cron expression | false | 
 ## Acknowledgments
-
+*cronstrue
 *viswanath lakshmanan

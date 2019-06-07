@@ -1,6 +1,6 @@
 {
   "name": "react-cron-generator",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "keywords": [
     "React cron generator",
     "cron builder",
@@ -32,6 +32,7 @@
     "rimraf": "^2.6.3"
   },
   "peerDependencies": {
+    "cronstrue": "^1.72.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6"
   },
