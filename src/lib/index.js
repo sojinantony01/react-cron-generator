@@ -94,7 +94,8 @@ export default class Cron extends Component {
     }
 
     render() {
-        return (<div className='cron_builder'>
+        return (    
+            <div className='cron_builder'>
             <ul className="nav nav-tabs" >
                 {this.getHeaders()}
             </ul>
