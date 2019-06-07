@@ -9,9 +9,7 @@
     "React cron"
   ],
   "author": "Sojin antony",
-  "dependencies": {
-
-  },
+  "dependencies": {},
   "main": "dist/index.js",
   "module": "dist/index.js",
   "files": [
