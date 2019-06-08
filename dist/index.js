@@ -10,8 +10,8 @@ import Daily from './daily';
 import Hourly from './hourly';
 import Weekly from './weekly';
 import Monthly from './monthly';
-import Yearly from './yearly';
-import './cron-builder.css';
+import Yearly from './yearly'; // import './cron-builder.css';
+
 var tabs = ['Minutes', 'Hourly', 'Daily', 'Weekly', 'Monthly']; //,'Yearly'
 
 var Cron =

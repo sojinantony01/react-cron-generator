@@ -4,7 +4,8 @@ Simple react component to generate cron expression
 
 ## Getting Started
 
-Package allows to build linux scheduler cron expression.
+Package helps to build linux scheduler cron expression.
+
 
 ```
 data = '* * * * * * *'
@@ -21,6 +22,8 @@ npm install react-cron-generator
 ```
 import React, { Component } from 'react'
 import Cron from 'react-cron-generator'
+import 'react-cron-generator/dist/cron-builder.css'
+
 
 class App extends Component {
 
