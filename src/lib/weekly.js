@@ -14,17 +14,20 @@ export default class Cron extends Component {
 
     onAtHourChange(e) {
         let val = this.state.value;
+        val[0] = '0' 
         val[2] = `${e.target.value}`;
         this.props.onChange(val)
     }
     onAtMinuteChange(e) {
         let val = this.state.value;
+        val[0] = '0' 
         val[1] = `${e.target.value}`;
         this.props.onChange(val)
     }
 
     onCheck(e) {
         let val = this.state.value;
+        val[0] = '0' 
         if(e.target.checked) {
             val[2] = (`${val[2]}`.split('/').length > 1) ? '0' : val[2].toString(); 
             val[3] = '?';

@@ -21,7 +21,7 @@ export default class Cron extends Component {
             this.state.value = ['0','0','0','*','*','*','*']
             this.state.selectedTab = tabs[0]
         } else  {
-            this.state.value = this.props.value.split(' ');
+            this.state.value = this.props.value.replace(/,/g, '!').split(' '); ;
             let val = this.state.value;
             if((val[1].search('/') !== -1) && (val[2] == '*') && (val[3] == '1/1')) {
                 this.state.selectedTab = tabs[0];
