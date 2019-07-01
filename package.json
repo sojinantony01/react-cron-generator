@@ -1,6 +1,6 @@
 {
   "name": "react-cron-generator",
-  "version": "1.0.5",
+  "version": "1.0.9",
   "keywords": [
     "React cron generator",
     "cron builder",
@@ -8,7 +8,11 @@
     "cron",
     "React cron",
     "cron builder",
-    "cron ui"
+    "cron ui",
+    "react cron ",
+    "react cron editor",
+    "react cron creator"
+
   ],
   "author": "Sojin antony",
   "dependencies": {
@@ -47,6 +51,7 @@
   "eslintConfig": {
     "extends": "react-app"
   },
+  "license": "ISC",
   "browserslist": {
     "production": [
       ">0.2%",
