@@ -36,9 +36,15 @@ function (_Component) {
   }, {
     key: "onHourChange",
     value: function onHourChange(e) {
-      if (this.state.every) {
+      if (this.state.every && (e.target.value > 0 && e.target.value < 24 || e.target.value == '')) {
         var val = ['0', '0', '*', '*', '*', '?', '*'];
-        val[2] = "0/".concat(e.target.value);
+
+        if (e.target.value == '') {
+          val[2] = '';
+        } else {
+          val[2] = "0/".concat(e.target.value);
+        }
+
         val[3] = '1/1';
         this.props.onChange(val);
       }
@@ -78,7 +84,7 @@ function (_Component) {
             every: true
           });
 
-          _this2.props.onChange();
+          _this2.props.onChange(['0', '0', '0/1', '1/1', '*', '?', '*']);
         },
         checked: this.state.every ? true : false
       }), React.createElement("span", null, "\xA0Every \xA0"), React.createElement("input", {
@@ -87,11 +93,9 @@ function (_Component) {
         onChange: this.onHourChange,
         value: this.state.value[2].split('/')[1] ? this.state.value[2].split('/')[1] : ''
       }), React.createElement("span", null, "\xA0hour(s)\xA0")), React.createElement("div", {
-        className: "container-fluid"
+        className: "well row well-small margin-right-0 margin-left-0"
       }, React.createElement("div", {
-        className: "well row well-small "
-      }, React.createElement("div", {
-        className: "col-md-offset-2 col-md-6 "
+        className: "col-md-offset-2 col-md-6 text_align_right"
       }, React.createElement("input", {
         type: "radio",
         onClick: function onClick(e) {
@@ -103,7 +107,7 @@ function (_Component) {
         },
         checked: this.state.every ? false : true
       }), React.createElement("span", {
-        className: ""
+        className: "margin-right-10 "
       }, "\xA0At\xA0"), React.createElement("select", {
         className: "hours",
         disabled: this.state.every ? true : false,
@@ -114,7 +118,7 @@ function (_Component) {
         disabled: this.state.every ? true : false,
         onChange: this.onAtMinuteChange,
         value: this.state.value[1]
-      }, this.getMinutes()))))));
+      }, this.getMinutes())))));
     }
   }, {
     key: "getHours",

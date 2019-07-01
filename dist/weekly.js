@@ -29,6 +29,7 @@ function (_Component) {
     key: "onAtHourChange",
     value: function onAtHourChange(e) {
       var val = this.state.value;
+      val[0] = '0';
       val[2] = "".concat(e.target.value);
       this.props.onChange(val);
     }
@@ -36,6 +37,7 @@ function (_Component) {
     key: "onAtMinuteChange",
     value: function onAtMinuteChange(e) {
       var val = this.state.value;
+      val[0] = '0';
       val[1] = "".concat(e.target.value);
       this.props.onChange(val);
     }
@@ -43,6 +45,7 @@ function (_Component) {
     key: "onCheck",
     value: function onCheck(e) {
       var val = this.state.value;
+      val[0] = '0';
 
       if (e.target.checked) {
         val[2] = "".concat(val[2]).split('/').length > 1 ? '0' : val[2].toString();
@@ -74,9 +77,9 @@ function (_Component) {
       return React.createElement("div", {
         className: "container-fluid"
       }, React.createElement("div", {
-        className: "well well-small row"
+        class: "well well-small row"
       }, React.createElement("div", {
-        className: "span6 col-sm-6"
+        class: "span6 col-sm-6"
       }, React.createElement("div", {
         className: "text_align_left"
       }, React.createElement("input", {
@@ -100,7 +103,7 @@ function (_Component) {
         onChange: this.onCheck,
         checked: this.state.value[5].search('SUN') !== -1 ? true : false
       }), "\xA0Sunday")), React.createElement("div", {
-        className: "span6 col-sm-6"
+        class: "span6 col-sm-6"
       }, React.createElement("div", {
         className: "text_align_left"
       }, React.createElement("input", {
@@ -119,7 +122,7 @@ function (_Component) {
         onChange: this.onCheck,
         checked: this.state.value[5].search('SAT') !== -1 ? true : false
       }), "\xA0Saturday"), React.createElement("br", null), React.createElement("br", null))), "\xA0 Start time \xA0", React.createElement("select", {
-        className: "hours",
+        class: "hours",
         onChange: this.onAtHourChange,
         value: this.state.value[2]
       }, React.createElement("option", {
@@ -172,7 +175,7 @@ function (_Component) {
         value: "23"
       }, "23")), React.createElement("select", _defineProperty({
         value: "DailyMinutes",
-        className: "minutes",
+        class: "minutes",
         onChange: this.onAtMinuteChange
       }, "value", this.state.value[1]), React.createElement("option", {
         value: "0"

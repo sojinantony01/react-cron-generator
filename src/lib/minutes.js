@@ -9,13 +9,17 @@ export default class Cron extends Component {
         };
     }
     onChange(e) {
-        if(e.target.value <60) {
+        if((e.target.value > 0 && e.target.value < 60) || e.target.value == '') {
             let val = ['0','*','*','*','*','?','*']
-            val[1] = `0/${e.target.value}`;
+            
+            if(e.target.value == '') {
+                val[1] = '';
+            } else {
+                val[1] = `0/${e.target.value}`;
+            }
             this.props.onChange(val)
         } 
     }
-
     render() {
         this.state.value = this.props.value
         return (<div className="well">   

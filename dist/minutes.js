@@ -23,9 +23,15 @@ function (_Component) {
   _createClass(Cron, [{
     key: "onChange",
     value: function onChange(e) {
-      if (e.target.value < 60) {
+      if (e.target.value > 0 && e.target.value < 60 || e.target.value == '') {
         var val = ['0', '*', '*', '*', '*', '?', '*'];
-        val[1] = "0/".concat(e.target.value);
+
+        if (e.target.value == '') {
+          val[1] = '';
+        } else {
+          val[1] = "0/".concat(e.target.value);
+        }
+
         this.props.onChange(val);
       }
     }

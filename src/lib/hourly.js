@@ -18,10 +18,14 @@ export default class Cron extends Component {
         }
     }
     onHourChange(e) {
-        if(this.state.every) {
+        if(this.state.every && ((e.target.value > 0 && e.target.value < 24) || e.target.value == '')) {
             let val = ['0','0','*','*','*','?','*'];
-            val[2] = `0/${e.target.value}`;
-            val[3] = '1/1'
+            if(e.target.value == '') {
+                val[2] = '';
+            } else {
+                val[2] = `0/${e.target.value}`;
+            }
+            val[3] = '1/1';
             this.props.onChange(val)
         } 
     }
@@ -45,23 +49,21 @@ export default class Cron extends Component {
             <div className="tab-content">              
                 <div className="tab-pane active">
                     <div className="well well-small">
-                        <input type="radio" onClick={(e) => {this.setState({every:true}) ; this.props.onChange()}} checked={this.state.every ? true:false} />
+                        <input type="radio" onClick={(e) => {this.setState({every:true}) ; this.props.onChange(['0','0','0/1','1/1','*','?','*'])}} checked={this.state.every ? true:false} />
                         <span >&nbsp;Every &nbsp;</span>
                         <input disabled={this.state.every ? false: true} type="Number" onChange={this.onHourChange} value={this.state.value[2].split('/')[1] ? this.state.value[2].split('/')[1] : ''}  />
                         <span >&nbsp;hour(s)&nbsp;</span>
                     </div>
-                    <div className="container-fluid">
-                    <div className="well row well-small ">
-                    <div className="col-md-offset-2 col-md-6 ">
+                    <div className="well row well-small margin-right-0 margin-left-0">
+                    <div className="col-md-offset-2 col-md-6 text_align_right">
                         <input type="radio" onClick={(e) => {this.setState({every:false}); this.props.onChange()}} checked={this.state.every ? false : true}/>
-                            <span className="">&nbsp;At&nbsp;</span>
+                            <span className="margin-right-10 ">&nbsp;At&nbsp;</span>
                         <select className="hours" disabled={this.state.every ? true: false}  onChange={this.onAtHourChange} value={this.state.value[2]}>
                             {this.getHours()}
                         </select>
                         <select  className="minutes" disabled={this.state.every ? true: false} onChange={this.onAtMinuteChange} value={this.state.value[1]}>
                             {this.getMinutes()}
                         </select>
-                    </div>
                     </div>
                     </div>
                 </div>
@@ -82,5 +84,6 @@ export default class Cron extends Component {
         }
         return minutes;
     }
+
 }
 

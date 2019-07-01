@@ -34,25 +34,59 @@ function (_Component) {
     key: "componentWillMount",
     value: function componentWillMount() {
       if (!this.props.value || this.props.value.split(' ').length !== 7) {
-        this.state.value = ['0', '0', '0', '*', '*', '*', '*'];
+        this.state.value = ['0', '0', '00', '1/1', '*', '?', '*'];
         this.state.selectedTab = tabs[0];
+        this.parentChange(this.state.value);
       } else {
-        this.state.value = this.props.value.split(' ');
-        var val = this.state.value;
+        this.state.value = this.props.value.replace(/,/g, '!').split(' ');
+      }
 
-        if (val[1].search('/') !== -1 && val[2] == '*' && val[3] == '1/1') {
-          this.state.selectedTab = tabs[0];
-        } else if (val[3] == '1/1') {
-          this.state.selectedTab = tabs[1];
-        } else if (val[3].search('/') !== -1 || val[5] == 'MON-FRI') {
-          this.state.selectedTab = tabs[2];
-        } else if (val[3] === '?') {
-          this.state.selectedTab = tabs[3];
-        } else if (val[3].startsWith('L') || val[4] === '1/1') {
-          this.state.selectedTab = tabs[4];
-        } else {
-          this.state.selectedTab = tabs[0];
-        }
+      var val = this.state.value;
+
+      if (val[1].search('/') !== -1 && val[2] == '*' && val[3] == '1/1') {
+        this.state.selectedTab = tabs[0];
+      } else if (val[3] == '1/1') {
+        this.state.selectedTab = tabs[1];
+      } else if (val[3].search('/') !== -1 || val[5] == 'MON-FRI') {
+        this.state.selectedTab = tabs[2];
+      } else if (val[3] === '?') {
+        this.state.selectedTab = tabs[3];
+      } else if (val[3].startsWith('L') || val[4] === '1/1') {
+        this.state.selectedTab = tabs[4];
+      } else {
+        this.state.selectedTab = tabs[0];
+      }
+    }
+  }, {
+    key: "defaultValue",
+    value: function defaultValue(tab) {
+      switch (tab) {
+        case tabs[0]:
+          return ['0', '0/1', '*', '*', '*', '?', '*'];
+          break;
+
+        case tabs[1]:
+          return ['0', '0', '00', '1/1', '*', '?', '*'];
+          break;
+
+        case tabs[2]:
+          return ['0', '0', '00', '1/1', '*', '?', '*'];
+          break;
+
+        case tabs[3]:
+          return ['0', '0', '00', '?', '*', '*', '*'];
+          break;
+
+        case tabs[4]:
+          return ['0', '0', '00', '1', '1/1', '?', '*'];
+          break;
+
+        case tabs[5]:
+          return ['0', '0', '00', '1', '1/1', '?', '*'];
+          break;
+
+        default:
+          return;
       }
     }
   }, {
@@ -60,8 +94,9 @@ function (_Component) {
     value: function tabChanged(tab) {
       this.setState({
         selectedTab: tab,
-        value: ['0', '0', '0', '*', '*', '*', '*']
+        value: this.defaultValue(tab)
       });
+      this.parentChange(this.defaultValue(tab));
     }
   }, {
     key: "getHeaders",
@@ -79,23 +114,38 @@ function (_Component) {
   }, {
     key: "onValueChange",
     value: function onValueChange(val) {
-      var newVal = '';
-
       if (val && val.length) {
         this.setState({
           value: val
         });
       } else {
         this.setState({
-          value: ['0', '0', '0', '*', '*', '*', '*']
+          value: ['0', '0', '00', '1/1', '*', '?', '*']
         });
-        val = ['0', '0', '0', '*', '*', '*', '*'];
+        val = ['0', '0', '00', '1/1', '*', '?', '*'];
       }
 
+      this.parentChange(val);
+    }
+  }, {
+    key: "parentChange",
+    value: function parentChange(val) {
+      var newVal = '';
       newVal = val.toString().replace(/,/g, ' ');
       newVal = newVal.replace(/!/g, ',');
       console.log(newVal);
       this.props.onChange(newVal);
+    }
+  }, {
+    key: "getVal",
+    value: function getVal() {
+      var val = cronstrue.toString(this.state.value.toString().replace(/,/g, ' ').replace(/!/g, ','));
+
+      if (val.search('undefined') === -1) {
+        return val;
+      }
+
+      return '-';
     }
   }, {
     key: "getComponent",
@@ -146,12 +196,6 @@ function (_Component) {
         default:
           return;
       }
-    }
-  }, {
-    key: "getVal",
-    value: function getVal() {
-      var val = cronstrue.toString(this.state.value.toString().replace(/,/g, ' ').replace(/!/g, ','));
-      return val;
     }
   }, {
     key: "render",

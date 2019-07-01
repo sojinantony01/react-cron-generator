@@ -1,12 +1,14 @@
 {
   "name": "react-cron-generator",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "keywords": [
     "React cron generator",
     "cron builder",
     "Scheduler expression builder",
     "cron",
-    "React cron"
+    "React cron",
+    "cron builder",
+    "cron ui"
   ],
   "author": "Sojin antony",
   "dependencies": {
