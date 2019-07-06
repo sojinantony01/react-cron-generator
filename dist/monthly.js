@@ -89,9 +89,9 @@ function (_Component) {
 
       this.state.value = this.props.value;
       return React.createElement("div", {
-        class: "tab-pane"
+        className: "tab-pane"
       }, React.createElement("div", {
-        class: "well well-small"
+        className: "well well-small"
       }, React.createElement("input", {
         type: "radio",
         onChange: function onChange(e) {
@@ -110,7 +110,7 @@ function (_Component) {
         value: this.state.value[3],
         onChange: this.onDayChange
       }), "\xA0of every month(s)"), React.createElement("div", {
-        class: "well well-small"
+        className: "well well-small"
       }, React.createElement("input", {
         onChange: function onChange(e) {
           _this2.setState({
@@ -124,7 +124,7 @@ function (_Component) {
         name: "DailyRadio",
         checked: this.state.every === "2" ? true : false
       }), "\xA0 Last day of every month \xA0"), React.createElement("div", {
-        class: "well well-small"
+        className: "well well-small"
       }, React.createElement("input", {
         onChange: function onChange(e) {
           _this2.setState({
@@ -138,7 +138,7 @@ function (_Component) {
         name: "DailyRadio",
         checked: this.state.every === "3" ? true : false
       }), "\xA0 On the last weekday of every month \xA0"), React.createElement("div", {
-        class: "well well-small"
+        className: "well well-small"
       }, React.createElement("input", {
         type: "radio",
         onChange: function onChange(e) {
@@ -157,7 +157,7 @@ function (_Component) {
         value: this.state.value[3].split('-')[1],
         onChange: this.onLastDayChange
       }), "\xA0day(s) before the end of the month"), "\xA0 Start time \xA0", React.createElement("select", {
-        class: "hours",
+        className: "hours",
         onChange: this.onAtHourChange,
         value: this.state.value[2]
       }, React.createElement("option", {
@@ -210,7 +210,7 @@ function (_Component) {
         value: "23"
       }, "23")), React.createElement("select", _defineProperty({
         value: "DailyMinutes",
-        class: "minutes",
+        className: "minutes",
         onChange: this.onAtMinuteChange
       }, "value", this.state.value[1]), React.createElement("option", {
         value: "0"

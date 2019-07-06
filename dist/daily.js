@@ -74,9 +74,9 @@ function (_Component) {
 
       this.state.value = this.props.value;
       return React.createElement("div", {
-        class: "tab-pane"
+        className: "tab-pane"
       }, React.createElement("div", {
-        class: "well well-small"
+        className: "well well-small"
       }, React.createElement("input", {
         type: "radio",
         onClick: function onClick(e) {
@@ -95,7 +95,7 @@ function (_Component) {
         onChange: this.onDayChange,
         value: this.state.value[3].split('/')[1] ? this.state.value[3].split('/')[1] : ''
       }), "\xA0 day(s)"), React.createElement("div", {
-        class: "well well-small"
+        className: "well well-small"
       }, React.createElement("input", {
         onClick: function onClick(e) {
           _this2.setState({
@@ -110,7 +110,7 @@ function (_Component) {
         checked: this.state.every ? false : true
       }), "\xA0 Every week day\xA0"), "\xA0 Start time\xA0", React.createElement("select", {
         id: "DailyHours",
-        class: "hours",
+        className: "hours",
         onChange: this.onAtHourChange,
         value: this.state.value[2]
       }, React.createElement("option", {
@@ -163,7 +163,7 @@ function (_Component) {
         id: "23"
       }, "23")), React.createElement("select", {
         id: "DailyMinutes",
-        class: "minutes",
+        className: "minutes",
         onChange: this.onAtMinuteChange,
         value: this.state.value[1]
       }, React.createElement("option", {

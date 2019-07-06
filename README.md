@@ -5,7 +5,7 @@ Simple react component to generate cron expression
 ## Getting Started
 
 Package helps to build linux scheduler cron expression.
-
+Make sure you have include bootstrap in your project
 
 ```
 data = '* * * * * * *'
