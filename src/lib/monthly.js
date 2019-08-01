@@ -53,12 +53,7 @@ export default class Cron extends Component {
                         &nbsp;of every month(s)
                     </div>
 
-                    <div className="well well-small">
-                        <input type="radio"  onChange={(e) => {this.setState({every:e.target.value});  this.props.onChange(this.state.value) }} value="4" name="MonthlyRadio" checked={this.state.every === "4" ? true : false} />
-                       
-                        <input readOnly={this.state.every !== "4"} type="number" value={this.state.value[3].split('-')[1]} onChange={this.onLastDayChange}/>
-                        &nbsp;day(s) before the end of the month
-                    </div>
+                    
         
                 </div>)
     }
