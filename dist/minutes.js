@@ -24,7 +24,8 @@ function (_Component) {
     key: "onChange",
     value: function onChange(e) {
       if (e.target.value > 0 && e.target.value < 60 || e.target.value == '') {
-        var val = ['0', '*', '*', '*', '*', '?', '*'];
+        console.log("VALUEEE", e.target.value);
+        var val = this.props.value;
 
         if (e.target.value == '') {
           val[1] = '';
