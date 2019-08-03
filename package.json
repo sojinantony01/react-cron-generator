@@ -16,8 +16,7 @@
   ],
   "author": "Sojin antony",
   "dependencies": {
-    "cronstrue": "^1.72.0",
-    "gh-pages": "^2.1.0"
+    "cronstrue": "^1.72.0"
   },
   "main": "dist/index.js",
   "module": "dist/index.js",
@@ -29,7 +28,6 @@
     "type": "git",
     "url": "https://github.com/sojinantony01/react-cron-generator.git"
   },
-  "homepage": "https://sojinantony01.github.io/react-cron-generator",
   "devDependencies": {
     "@babel/cli": "^7.4.4",
     "@babel/runtime": "^7.5.1",
@@ -45,6 +43,7 @@
     "react": "^16.8.6",
     "react-dom": "^16.8.6"
   },
+  "homepage": "https://sojinantony01.github.io/react-cron-generator",
   "scripts": {
     "start": "react-scripts start",
     "build": "rm -rf dist && NODE_ENV=production babel src/lib --out-dir dist --copy-files --ignore __tests__,spec.js,test.js,__snapshots__",
