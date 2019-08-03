@@ -6,7 +6,7 @@ import Hourly from './hourly';
 import Weekly from './weekly';
 import Monthly from './monthly';
 import Yearly from './yearly';
-// import './cron-builder.css';
+import './cron-builder.css';
 const tabs = ['Minutes','Hourly','Daily','Weekly', 'Monthly'] //,'Yearly'
 export default class Cron extends Component {
     constructor(props) {
