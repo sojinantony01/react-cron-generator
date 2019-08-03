@@ -18,25 +18,26 @@ export default class Cron extends Component {
         }
     }
     onHourChange(e) {
+        console.log("1111111",this.props.value)
         if(this.state.every && ((e.target.value > 0 && e.target.value < 24) || e.target.value == '')) {
-            let val = ['0','0','*','*','*','?','*'];
+            let val = this.props.value
             if(e.target.value == '') {
                 val[2] = '';
             } else {
                 val[2] = `0/${e.target.value}`;
             }
-            val[3] = '1/1';
+           // val[3] = '1/1';
             this.props.onChange(val)
         } 
     }
     onAtHourChange(e) {
-        let val = ['0',this.state.value[1],'*','*','*','?','*']
+        let val = this.props.value
         val[2] = `${e.target.value}`;
         val[3] = '1/1'
         this.props.onChange(val)
     }
     onAtMinuteChange(e) {
-        let val = ['0','*',this.state.value[2],'*','*','?','*']
+        let val = this.props.value
         val[1] = `${e.target.value}`;
         val[3] = '1/1'
         this.props.onChange(val)
@@ -49,7 +50,7 @@ export default class Cron extends Component {
             <div className="tab-content">              
                 <div className="tab-pane active">
                     <div className="well well-small">
-                        <input type="radio" onClick={(e) => {this.setState({every:true}) ; this.props.onChange(['0','0','0/1','1/1','*','?','*'])}} checked={this.state.every ? true:false} />
+                        <input type="radio" onClick={(e) => {this.setState({every:true}) ; this.props.onChange(this.props.value)}} checked={this.state.every ? true:false} />
                         <span >&nbsp;Every &nbsp;</span>
                         <input disabled={this.state.every ? false: true} type="Number" onChange={this.onHourChange} value={this.state.value[2].split('/')[1] ? this.state.value[2].split('/')[1] : ''}  />
                         <span >&nbsp;hour(s)&nbsp;</span>

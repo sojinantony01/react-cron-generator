@@ -42,7 +42,7 @@ function (_Component) {
     key: "onDayChange",
     value: function onDayChange(e) {
       if (e.target.value > 0 && e.target.value < 32 || e.target.value == '') {
-        var val = ['0', this.state.value[1] === '*' ? '0' : this.state.value[1], this.state.value[2] === '*' ? '0' : this.state.value[2], '*', '*', '?', '*'];
+        var val = this.props.value;
 
         if (e.target.value == '') {
           val[3] = '';

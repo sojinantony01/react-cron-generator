@@ -60,43 +60,38 @@ function (_Component) {
   }, {
     key: "defaultValue",
     value: function defaultValue(tab) {
-      switch (tab) {
-        case tabs[0]:
-          return ['0', '0/1', '*', '*', '*', '?', '*'];
-          break;
-
-        case tabs[1]:
-          return ['0', '0', '00', '1/1', '*', '?', '*'];
-          break;
-
-        case tabs[2]:
-          return ['0', '0', '00', '1/1', '*', '?', '*'];
-          break;
-
-        case tabs[3]:
-          return ['0', '0', '00', '?', '*', '*', '*'];
-          break;
-
-        case tabs[4]:
-          return ['0', '0', '00', '1', '1/1', '?', '*'];
-          break;
-
-        case tabs[5]:
-          return ['0', '0', '00', '1', '1/1', '?', '*'];
-          break;
-
-        default:
-          return;
-      }
+      // switch(tab) {
+      //     case tabs[0] : 
+      //         return   ['0','0/1','*','*','*','?','*']
+      //         break;
+      //     case tabs[1] : 
+      //         return   ['0','0','00','1/1','*','?','*']
+      //         break;
+      //     case tabs[2] : 
+      //         return   ['0','0','00','1/1','*','?','*']
+      //         break;
+      //     case tabs[3] : 
+      //         return   ['0','0','00','?','*','*','*']
+      //         break;
+      //     case tabs[4] : 
+      //         return   ['0','0','00','1','1/1','?','*']
+      //         break;
+      //     case tabs[5] : 
+      //         return   ['0','0','00','1','1/1','?','*']
+      //         break;
+      //     default: 
+      //         return
+      // }
+      return ['0', '0/1', '*', '*', '*', '?', '*'];
     }
   }, {
     key: "tabChanged",
     value: function tabChanged(tab) {
       this.setState({
         selectedTab: tab,
-        value: this.defaultValue(tab)
+        value: this.state.value
       });
-      this.parentChange(this.defaultValue(tab));
+      this.parentChange(this.state.value);
     }
   }, {
     key: "getHeaders",
@@ -115,6 +110,7 @@ function (_Component) {
     key: "onValueChange",
     value: function onValueChange(val) {
       if (val && val.length) {
+        console.log("IF E GIRDI", val);
         this.setState({
           value: val
         });
@@ -159,6 +155,7 @@ function (_Component) {
           break;
 
         case tabs[1]:
+          console.log("HOURLY VALUE:", this.state.value);
           return React.createElement(Hourly, {
             value: this.state.value,
             onChange: this.onValueChange.bind(this)
