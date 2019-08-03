@@ -42,34 +42,33 @@ export default class Cron extends Component {
     }
 
     defaultValue(tab) {
-        // switch(tab) {
-        //     case tabs[0] : 
-        //         return   ['0','0/1','*','*','*','?','*']
-        //         break;
-        //     case tabs[1] : 
-        //         return   ['0','0','00','1/1','*','?','*']
-        //         break;
-        //     case tabs[2] : 
-        //         return   ['0','0','00','1/1','*','?','*']
-        //         break;
-        //     case tabs[3] : 
-        //         return   ['0','0','00','?','*','*','*']
-        //         break;
-        //     case tabs[4] : 
-        //         return   ['0','0','00','1','1/1','?','*']
-        //         break;
-        //     case tabs[5] : 
-        //         return   ['0','0','00','1','1/1','?','*']
-        //         break;
-        //     default: 
-        //         return
-        // }
-        return   ['0','0/1','*','*','*','?','*']
+        switch(tab) {
+            case tabs[0] : 
+                return   ['0','0/1','*','*','*','?','*']
+                break;
+            case tabs[1] : 
+                return   ['0','0','00','1/1','*','?','*']
+                break;
+            case tabs[2] : 
+                return   ['0','0','00','1/1','*','?','*']
+                break;
+            case tabs[3] : 
+                return   ['0','0','00','?','*','*','*']
+                break;
+            case tabs[4] : 
+                return   ['0','0','00','1','1/1','?','*']
+                break;
+            case tabs[5] : 
+                return   ['0','0','00','1','1/1','?','*']
+                break;
+            default: 
+                return
+        }
     }
 
     tabChanged(tab) {
-        this.setState({selectedTab:tab, value:this.state.value}); 
-        this.parentChange(this.state.value)
+        this.setState({selectedTab:tab, value:this.defaultValue(tab)}); 
+        this.parentChange(this.defaultValue(tab))
     }
     getHeaders() {
         return tabs.map(d => {  
@@ -78,7 +77,6 @@ export default class Cron extends Component {
     }
     onValueChange(val) {     
         if(val && val.length) {
-            console.log("IF E GIRDI" , val)
             this.setState({value:val})
         } else { 
             this.setState({value:['0','0','00','1/1','*','?','*']})
@@ -109,10 +107,9 @@ export default class Cron extends Component {
                 return   <Minutes value={this.state.value} onChange={this.onValueChange.bind(this)}/>
                 break;
             case tabs[1] : 
-            console.log("HOURLY VALUE:" , this.state.value) 
-                return   <Hourly value={this.state.value} onChange={this.onValueChange.bind(this)}/> 
-                break; 
-            case tabs[2] :  
+                return   <Hourly value={this.state.value} onChange={this.onValueChange.bind(this)}/>
+                break;
+            case tabs[2] : 
                 return   <Daily value={this.state.value} onChange={this.onValueChange.bind(this)}/>
                 break;
             case tabs[3] : 
