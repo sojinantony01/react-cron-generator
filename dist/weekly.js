@@ -1,4 +1,3 @@
-import _defineProperty from "@babel/runtime/helpers/esm/defineProperty";
 import _classCallCheck from "@babel/runtime/helpers/esm/classCallCheck";
 import _createClass from "@babel/runtime/helpers/esm/createClass";
 import _possibleConstructorReturn from "@babel/runtime/helpers/esm/possibleConstructorReturn";
@@ -6,10 +5,9 @@ import _getPrototypeOf from "@babel/runtime/helpers/esm/getPrototypeOf";
 import _assertThisInitialized from "@babel/runtime/helpers/esm/assertThisInitialized";
 import _inherits from "@babel/runtime/helpers/esm/inherits";
 import React, { Component } from 'react';
+import { Container, Row, Col, Form, FormGroup, Label, Input, FormText, CustomInput } from 'reactstrap';
 
-var Cron =
-/*#__PURE__*/
-function (_Component) {
+var Cron = /*#__PURE__*/function (_Component) {
   _inherits(Cron, _Component);
 
   function Cron(props) {
@@ -74,57 +72,76 @@ function (_Component) {
     key: "render",
     value: function render() {
       this.state.value = this.props.value;
-      return React.createElement("div", {
-        className: "container-fluid"
-      }, React.createElement("div", {
-        className: "well well-small row"
-      }, React.createElement("div", {
-        className: "span6 col-sm-6"
-      }, React.createElement("div", {
-        className: "text_align_left"
-      }, React.createElement("input", {
+      return React.createElement(Container, null, React.createElement(Row, {
+        className: "mt-sm-1"
+      }, React.createElement(Container, null, React.createElement(Row, null, React.createElement(Col, {
+        className: "col-6"
+      }, React.createElement(CustomInput, {
+        id: "checkbox-monday",
         type: "checkbox",
         value: "MON",
+        label: "Monday",
         onChange: this.onCheck,
         checked: this.state.value[5].search('MON') !== -1 ? true : false
-      }), "\xA0Monday", React.createElement("br", null), React.createElement("input", {
+      }), React.createElement(CustomInput, {
+        id: "checkbox-wednesday",
         type: "checkbox",
         value: "WED",
+        label: "Wednesday",
         onChange: this.onCheck,
         checked: this.state.value[5].search('WED') !== -1 ? true : false
-      }), "\xA0Wednesday", React.createElement("br", null), React.createElement("input", {
+      }), React.createElement(CustomInput, {
+        id: "checkbox-friday",
         type: "checkbox",
         value: "FRI",
+        label: "Friday",
         onChange: this.onCheck,
         checked: this.state.value[5].search('FRI') !== -1 ? true : false
-      }), "\xA0Friday", React.createElement("br", null), React.createElement("input", {
+      }), React.createElement(CustomInput, {
+        id: "checkbox-sunday",
         type: "checkbox",
         value: "SUN",
+        label: "Sunday",
         onChange: this.onCheck,
         checked: this.state.value[5].search('SUN') !== -1 ? true : false
-      }), "\xA0Sunday")), React.createElement("div", {
-        className: "span6 col-sm-6"
+      })), React.createElement(Col, {
+        className: "col-6"
       }, React.createElement("div", {
         className: "text_align_left"
-      }, React.createElement("input", {
+      }, React.createElement(CustomInput, {
+        id: "checkbox-tuesday",
         type: "checkbox",
         value: "TUE",
+        label: "Tuesday",
         onChange: this.onCheck,
         checked: this.state.value[5].search('TUE') !== -1 ? true : false
-      }), "\xA0Tuesday", React.createElement("br", null), React.createElement("input", {
+      }), React.createElement(CustomInput, {
+        id: "checkbox-thursday",
         type: "checkbox",
         value: "THU",
+        label: "Thursday",
         onChange: this.onCheck,
         checked: this.state.value[5].search('THU') !== -1 ? true : false
-      }), "\xA0Thursday", React.createElement("br", null), React.createElement("input", {
+      }), React.createElement(CustomInput, {
+        id: "checkbox-saturday",
         type: "checkbox",
         value: "SAT",
+        label: "Saturday",
         onChange: this.onCheck,
         checked: this.state.value[5].search('SAT') !== -1 ? true : false
-      }), "\xA0Saturday"), React.createElement("br", null), React.createElement("br", null))), "\xA0 Start time \xA0", React.createElement("select", {
-        className: "hours",
-        onChange: this.onAtHourChange,
-        value: this.state.value[2]
+      })))))), React.createElement(Row, {
+        className: "mt-sm-1"
+      }, React.createElement(Col, null, React.createElement(Form, {
+        inline: true
+      }, React.createElement(FormGroup, null, React.createElement(Label, {
+        className: "mr-sm-1"
+      }, "Start time"), React.createElement(Input, {
+        className: "mr-sm-1 hours",
+        type: "select",
+        min: 0,
+        max: 23,
+        value: this.state.value[2],
+        onChange: this.onAtHourChange
       }, React.createElement("option", {
         value: "0"
       }, "00"), React.createElement("option", {
@@ -173,11 +190,14 @@ function (_Component) {
         value: "22"
       }, "22"), React.createElement("option", {
         value: "23"
-      }, "23")), React.createElement("select", _defineProperty({
-        value: "DailyMinutes",
+      }, "23")), React.createElement(Input, {
         className: "minutes",
+        type: "select",
+        min: 0,
+        max: 59,
+        value: this.state.value[1],
         onChange: this.onAtMinuteChange
-      }, "value", this.state.value[1]), React.createElement("option", {
+      }, React.createElement("option", {
         value: "0"
       }, "00"), React.createElement("option", {
         value: "1"
@@ -297,7 +317,7 @@ function (_Component) {
         value: "58"
       }, "58"), React.createElement("option", {
         value: "59"
-      }, "59")));
+      }, "59")))))));
     }
   }]);
 

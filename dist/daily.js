@@ -5,10 +5,9 @@ import _getPrototypeOf from "@babel/runtime/helpers/esm/getPrototypeOf";
 import _assertThisInitialized from "@babel/runtime/helpers/esm/assertThisInitialized";
 import _inherits from "@babel/runtime/helpers/esm/inherits";
 import React, { Component } from 'react';
+import { Container, Row, Col, Form, FormGroup, Label, Input, FormText, CustomInput } from 'reactstrap';
 
-var Cron =
-/*#__PURE__*/
-function (_Component) {
+var Cron = /*#__PURE__*/function (_Component) {
   _inherits(Cron, _Component);
 
   function Cron(props) {
@@ -73,44 +72,58 @@ function (_Component) {
       var _this2 = this;
 
       this.state.value = this.props.value;
-      return React.createElement("div", {
-        className: "tab-pane"
-      }, React.createElement("div", {
-        className: "well well-small"
-      }, React.createElement("input", {
+      return React.createElement(Container, null, React.createElement(Row, {
+        className: "mt-sm-1"
+      }, React.createElement(Col, null, React.createElement(Form, {
+        inline: true
+      }, React.createElement(FormGroup, null, React.createElement(Label, {
+        for: "every"
+      }, React.createElement(CustomInput, {
+        id: "variant-selector-every",
         type: "radio",
+        name: "variantSelector",
+        checked: this.state.every ? true : false,
         onClick: function onClick(e) {
           _this2.setState({
             every: true
           });
 
           _this2.props.onChange();
-        },
-        value: "1",
-        name: "DailyRadio",
-        checked: this.state.every ? true : false
-      }), "\xA0 Every \xA0", React.createElement("input", {
-        disabled: this.state.every ? false : true,
+        }
+      }), "Every"), React.createElement(Input, {
         type: "Number",
-        onChange: this.onDayChange,
-        value: this.state.value[3].split('/')[1] ? this.state.value[3].split('/')[1] : ''
-      }), "\xA0 day(s)"), React.createElement("div", {
-        className: "well well-small"
-      }, React.createElement("input", {
+        className: "mx-sm-1",
+        disabled: this.state.every ? false : true,
+        min: 1,
+        max: 31,
+        value: this.state.value[3].split('/')[1] ? this.state.value[3].split('/')[1] : '',
+        onChange: this.onDayChange
+      }), React.createElement(FormText, {
+        color: "muted"
+      }, "Must be integer value (1 - 31)."))))), React.createElement(Row, {
+        className: "mt-sm-1"
+      }, React.createElement(Col, null, React.createElement(Form, {
+        inline: true
+      }, React.createElement(FormGroup, null, React.createElement(Label, {
+        for: "every-week-day",
+        className: "mr-sm-1"
+      }, React.createElement(CustomInput, {
+        id: "variant-selector-every-week-day",
+        type: "radio",
+        name: "variantSelector",
+        checked: this.state.every ? false : true,
         onClick: function onClick(e) {
           _this2.setState({
             every: false
           });
 
           _this2.props.onChange(['0', _this2.state.value[1], _this2.state.value[2], '?', '*', 'MON-FRI', '*']);
-        },
-        type: "radio",
-        value: "2",
-        name: "DailyRadio",
-        checked: this.state.every ? false : true
-      }), "\xA0 Every week day\xA0"), "\xA0 Start time\xA0", React.createElement("select", {
+        }
+      }), "Every Mon - Fri at"), React.createElement(Input, {
         id: "DailyHours",
-        className: "hours",
+        className: "mr-sm-1 hours",
+        type: "select",
+        disabled: this.state.every ? true : false,
         onChange: this.onAtHourChange,
         value: this.state.value[2]
       }, React.createElement("option", {
@@ -161,9 +174,11 @@ function (_Component) {
         id: "22"
       }, "22"), React.createElement("option", {
         id: "23"
-      }, "23")), React.createElement("select", {
+      }, "23")), React.createElement(Input, {
         id: "DailyMinutes",
-        className: "minutes",
+        className: "mr-sm-1 minutes",
+        type: "select",
+        disabled: this.state.every ? true : false,
         onChange: this.onAtMinuteChange,
         value: this.state.value[1]
       }, React.createElement("option", {
@@ -286,7 +301,7 @@ function (_Component) {
         id: "58"
       }, "58"), React.createElement("option", {
         id: "59"
-      }, "59")));
+      }, "59")))))));
     }
   }]);
 

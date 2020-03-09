@@ -1,4 +1,3 @@
-import _defineProperty from "@babel/runtime/helpers/esm/defineProperty";
 import _classCallCheck from "@babel/runtime/helpers/esm/classCallCheck";
 import _createClass from "@babel/runtime/helpers/esm/createClass";
 import _possibleConstructorReturn from "@babel/runtime/helpers/esm/possibleConstructorReturn";
@@ -6,10 +5,9 @@ import _getPrototypeOf from "@babel/runtime/helpers/esm/getPrototypeOf";
 import _assertThisInitialized from "@babel/runtime/helpers/esm/assertThisInitialized";
 import _inherits from "@babel/runtime/helpers/esm/inherits";
 import React, { Component } from 'react';
+import { Container, Row, Col, Form, FormGroup, Label, Input, FormText, CustomInput } from 'reactstrap';
 
-var Cron =
-/*#__PURE__*/
-function (_Component) {
+var Cron = /*#__PURE__*/function (_Component) {
   _inherits(Cron, _Component);
 
   function Cron(props) {
@@ -88,78 +86,111 @@ function (_Component) {
       var _this2 = this;
 
       this.state.value = this.props.value;
-      return React.createElement("div", {
-        className: "tab-pane"
-      }, React.createElement("div", {
-        className: "well well-small"
-      }, React.createElement("input", {
+      return React.createElement(Container, null, React.createElement(Row, {
+        className: "mt-sm-1"
+      }, React.createElement(Col, null, React.createElement(Form, {
+        inline: true
+      }, React.createElement(FormGroup, null, React.createElement(Label, {
+        className: "mr-sm-1"
+      }, React.createElement(CustomInput, {
+        id: "variant-selector-day",
         type: "radio",
+        name: "variantSelector",
+        value: "1",
+        checked: this.state.every === "1",
         onChange: function onChange(e) {
           _this2.setState({
             every: e.target.value
           });
 
           _this2.props.onChange(['0', _this2.state.value[1] === '*' ? '0' : _this2.state.value[1], _this2.state.value[2] === '*' ? '0' : _this2.state.value[2], '1', '1/1', '?', '*']);
-        },
-        value: "1",
-        name: "MonthlyRadio",
-        checked: this.state.every === "1" ? true : false
-      }), "\xA0Day\xA0", React.createElement("input", {
+        }
+      }), "Day of every month"), React.createElement(Input, {
+        className: "mr-sm-1",
         readOnly: this.state.every !== "1",
         type: "number",
+        min: 1,
+        max: 31,
         value: this.state.value[3],
         onChange: this.onDayChange
-      }), "\xA0of every month(s)"), React.createElement("div", {
-        className: "well well-small"
-      }, React.createElement("input", {
+      }), React.createElement(FormText, {
+        color: "muted"
+      }, "Must be integer value (1 - 31)."))))), React.createElement(Row, {
+        className: "mt-sm-1"
+      }, React.createElement(Col, null, React.createElement(Form, {
+        inline: true
+      }, React.createElement(FormGroup, null, React.createElement(Label, null, React.createElement(CustomInput, {
+        id: "variant-selector-last-day",
+        type: "radio",
+        name: "variantSelector",
+        value: "2",
+        checked: this.state.every === "2",
         onChange: function onChange(e) {
           _this2.setState({
             every: e.target.value
           });
 
           _this2.props.onChange(['0', _this2.state.value[1] === '*' ? '0' : _this2.state.value[1], _this2.state.value[2] === '*' ? '0' : _this2.state.value[2], 'L', '*', '?', '*']);
-        },
+        }
+      }), "Last day of every month"))))), React.createElement(Row, {
+        className: "mt-sm-1"
+      }, React.createElement(Col, null, React.createElement(Form, {
+        inline: true
+      }, React.createElement(FormGroup, null, React.createElement(Label, null, React.createElement(CustomInput, {
+        id: "variant-selector-last-week-day",
         type: "radio",
-        value: "2",
-        name: "DailyRadio",
-        checked: this.state.every === "2" ? true : false
-      }), "\xA0 Last day of every month \xA0"), React.createElement("div", {
-        className: "well well-small"
-      }, React.createElement("input", {
+        name: "variantSelector",
+        value: "3",
+        checked: this.state.every === "3",
         onChange: function onChange(e) {
           _this2.setState({
             every: e.target.value
           });
 
           _this2.props.onChange(['0', _this2.state.value[1] === '*' ? '0' : _this2.state.value[1], _this2.state.value[2] === '*' ? '0' : _this2.state.value[2], 'LW', '*', '?', '*']);
-        },
+        }
+      }), "Last weekday of every month"))))), React.createElement(Row, {
+        className: "mt-sm-1"
+      }, React.createElement(Col, null, React.createElement(Form, {
+        inline: true
+      }, React.createElement(FormGroup, null, React.createElement(Label, {
+        className: "mr-sm-1"
+      }, React.createElement(CustomInput, {
+        id: "variant-selector-before-end-month",
         type: "radio",
-        value: "3",
-        name: "DailyRadio",
-        checked: this.state.every === "3" ? true : false
-      }), "\xA0 On the last weekday of every month \xA0"), React.createElement("div", {
-        className: "well well-small"
-      }, React.createElement("input", {
-        type: "radio",
+        name: "variantSelector",
+        value: "4",
+        checked: this.state.every === "4",
         onChange: function onChange(e) {
           _this2.setState({
             every: e.target.value
           });
 
           _this2.props.onChange(['0', _this2.state.value[1] === '*' ? '0' : _this2.state.value[1], _this2.state.value[2] === '*' ? '0' : _this2.state.value[2], "L-".concat(1), '*', '?', '*']);
-        },
-        value: "4",
-        name: "MonthlyRadio",
-        checked: this.state.every === "4" ? true : false
-      }), React.createElement("input", {
+        }
+      }), "Day(s) before the end of the month"), React.createElement(Input, {
+        className: "mr-sm-1",
         readOnly: this.state.every !== "4",
-        type: "number",
+        type: "Number",
+        min: 1,
+        max: 31,
         value: this.state.value[3].split('-')[1],
         onChange: this.onLastDayChange
-      }), "\xA0day(s) before the end of the month"), "\xA0 Start time \xA0", React.createElement("select", {
-        className: "hours",
-        onChange: this.onAtHourChange,
-        value: this.state.value[2]
+      }), React.createElement(FormText, {
+        color: "muted"
+      }, "Must be integer value (1 - 31)."))))), React.createElement(Row, {
+        className: "mt-sm-1"
+      }, React.createElement(Col, null, React.createElement(Form, {
+        inline: true
+      }, React.createElement(FormGroup, null, React.createElement(Label, {
+        className: "mr-sm-1"
+      }, "Start time"), React.createElement(Input, {
+        className: "mr-sm-1 hours",
+        type: "select",
+        min: 0,
+        max: 23,
+        value: this.state.value[2],
+        onChange: this.onAtHourChange
       }, React.createElement("option", {
         value: "0"
       }, "00"), React.createElement("option", {
@@ -208,11 +239,14 @@ function (_Component) {
         value: "22"
       }, "22"), React.createElement("option", {
         value: "23"
-      }, "23")), React.createElement("select", _defineProperty({
-        value: "DailyMinutes",
+      }, "23")), React.createElement(Input, {
         className: "minutes",
+        type: "select",
+        min: 0,
+        max: 59,
+        value: this.state.value[1],
         onChange: this.onAtMinuteChange
-      }, "value", this.state.value[1]), React.createElement("option", {
+      }, React.createElement("option", {
         value: "0"
       }, "00"), React.createElement("option", {
         value: "1"
@@ -332,7 +366,7 @@ function (_Component) {
         value: "58"
       }, "58"), React.createElement("option", {
         value: "59"
-      }, "59")));
+      }, "59")))))));
     }
   }]);
 

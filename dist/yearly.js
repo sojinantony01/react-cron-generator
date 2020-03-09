@@ -5,9 +5,7 @@ import _getPrototypeOf from "@babel/runtime/helpers/esm/getPrototypeOf";
 import _inherits from "@babel/runtime/helpers/esm/inherits";
 import React, { Component } from 'react';
 
-var Cron =
-/*#__PURE__*/
-function (_Component) {
+var Cron = /*#__PURE__*/function (_Component) {
   _inherits(Cron, _Component);
 
   function Cron(props) {

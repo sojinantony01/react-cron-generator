@@ -5,10 +5,9 @@ import _getPrototypeOf from "@babel/runtime/helpers/esm/getPrototypeOf";
 import _assertThisInitialized from "@babel/runtime/helpers/esm/assertThisInitialized";
 import _inherits from "@babel/runtime/helpers/esm/inherits";
 import React, { Component } from 'react';
+import { Container, Row, Col, Form, FormGroup, Label, Input, FormText, CustomInput } from 'reactstrap';
 
-var Cron =
-/*#__PURE__*/
-function (_Component) {
+var Cron = /*#__PURE__*/function (_Component) {
   _inherits(Cron, _Component);
 
   function Cron(props) {
@@ -71,54 +70,71 @@ function (_Component) {
       var _this2 = this;
 
       this.state.value = this.props.value;
-      return React.createElement("div", {
-        className: "tab-content"
-      }, React.createElement("div", {
-        className: "tab-pane active"
-      }, React.createElement("div", {
-        className: "well well-small"
-      }, React.createElement("input", {
+      return React.createElement(Container, null, React.createElement(Row, {
+        className: "mt-sm-1"
+      }, React.createElement(Col, {
+        className: "col-6"
+      }, React.createElement(Form, {
+        inline: true
+      }, React.createElement(FormGroup, null, React.createElement(Label, {
+        for: "every"
+      }, React.createElement(CustomInput, {
+        id: "variant-selector-every",
         type: "radio",
+        name: "variantSelector",
+        checked: this.state.every ? true : false,
         onClick: function onClick(e) {
           _this2.setState({
             every: true
           });
 
           _this2.props.onChange(['0', '0', '0/1', '1/1', '*', '?', '*']);
-        },
-        checked: this.state.every ? true : false
-      }), React.createElement("span", null, "\xA0Every \xA0"), React.createElement("input", {
-        disabled: this.state.every ? false : true,
+        }
+      }), "Every"), React.createElement(Input, {
+        id: "every",
+        className: "mx-sm-1",
         type: "Number",
-        onChange: this.onHourChange,
-        value: this.state.value[2].split('/')[1] ? this.state.value[2].split('/')[1] : ''
-      }), React.createElement("span", null, "\xA0hour(s)\xA0")), React.createElement("div", {
-        className: "well row well-small margin-right-0 margin-left-0"
-      }, React.createElement("div", {
-        className: "col-md-offset-2 col-md-6 text_align_right"
-      }, React.createElement("input", {
+        disabled: this.state.every ? false : true,
+        min: 1,
+        max: 23,
+        value: this.state.value[2].split('/')[1] ? this.state.value[2].split('/')[1] : '',
+        onChange: this.onHourChange
+      }), React.createElement(FormText, {
+        color: "muted"
+      }, "Must be integer value (1 - 23)."))))), React.createElement(Row, {
+        className: "mt-sm-1"
+      }, React.createElement(Col, {
+        className: "col-6"
+      }, React.createElement(Form, {
+        inline: true
+      }, React.createElement(FormGroup, null, React.createElement(Label, {
+        for: "at",
+        className: "mr-sm-1"
+      }, React.createElement(CustomInput, {
+        id: "variant-selector-at",
         type: "radio",
+        name: "variantSelector",
+        checked: this.state.every ? false : true,
         onClick: function onClick(e) {
           _this2.setState({
             every: false
           });
 
           _this2.props.onChange();
-        },
-        checked: this.state.every ? false : true
-      }), React.createElement("span", {
-        className: "margin-right-10 "
-      }, "\xA0At\xA0"), React.createElement("select", {
-        className: "hours",
+        }
+      }), "At"), React.createElement(Input, {
+        className: "mr-sm-1 hours",
+        type: "select",
         disabled: this.state.every ? true : false,
         onChange: this.onAtHourChange,
         value: this.state.value[2]
-      }, this.getHours()), React.createElement("select", {
-        className: "minutes",
+      }, this.getHours()), React.createElement(Input, {
+        type: "select",
+        className: "mr-sm-1 minutes",
         disabled: this.state.every ? true : false,
         onChange: this.onAtMinuteChange,
         value: this.state.value[1]
-      }, this.getMinutes())))));
+      }, this.getMinutes()))))));
     }
   }, {
     key: "getHours",

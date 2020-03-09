@@ -10,13 +10,11 @@ import Daily from './daily';
 import Hourly from './hourly';
 import Weekly from './weekly';
 import Monthly from './monthly';
-import Yearly from './yearly'; // import './cron-builder.css';
-
+import Yearly from './yearly';
+import { Container, Row, Col, Nav, NavItem, NavLink } from 'reactstrap';
 var tabs = ['Minutes', 'Hourly', 'Daily', 'Weekly', 'Monthly']; //,'Yearly'
 
-var Cron =
-/*#__PURE__*/
-function (_Component) {
+var Cron = /*#__PURE__*/function (_Component) {
   _inherits(Cron, _Component);
 
   function Cron(props) {
@@ -104,9 +102,9 @@ function (_Component) {
       var _this2 = this;
 
       return tabs.map(function (d) {
-        return React.createElement("li", {
-          className: _this2.state.selectedTab === d ? 'active' : ''
-        }, React.createElement("a", {
+        return React.createElement(NavItem, null, React.createElement(NavLink, {
+          href: "#",
+          active: _this2.state.selectedTab === d,
           onClick: _this2.tabChanged.bind(_this2, d)
         }, d));
       });
@@ -201,16 +199,15 @@ function (_Component) {
     key: "render",
     value: function render() {
       return React.createElement("div", {
-        className: "cron_builder"
-      }, React.createElement("ul", {
-        className: "nav nav-tabs"
-      }, this.getHeaders()), React.createElement("div", {
-        className: "cron_builder_bordering"
-      }, this.getComponent(this.state.selectedTab)), this.props.showResultText && React.createElement("div", {
-        className: "cron-builder-bg"
-      }, this.getVal()), this.props.showResultCron && React.createElement("div", {
-        className: "cron-builder-bg"
-      }, this.state.value.toString().replace(/,/g, ' ').replace(/!/g, ',')));
+        className: "react-cron-generator"
+      }, React.createElement(Nav, {
+        fill: true,
+        pills: true
+      }, this.getHeaders()), React.createElement(Container, null, React.createElement(Row, {
+        className: "panel-row justify-content-center align-items-center"
+      }, React.createElement(Col, {
+        className: "col-6"
+      }, this.getComponent(this.state.selectedTab)))));
     }
   }]);
 

@@ -4,10 +4,9 @@ import _possibleConstructorReturn from "@babel/runtime/helpers/esm/possibleConst
 import _getPrototypeOf from "@babel/runtime/helpers/esm/getPrototypeOf";
 import _inherits from "@babel/runtime/helpers/esm/inherits";
 import React, { Component } from 'react';
+import { Form, FormGroup, Label, Input, FormText } from 'reactstrap';
 
-var Cron =
-/*#__PURE__*/
-function (_Component) {
+var Cron = /*#__PURE__*/function (_Component) {
   _inherits(Cron, _Component);
 
   function Cron(props) {
@@ -39,15 +38,23 @@ function (_Component) {
     key: "render",
     value: function render() {
       this.state.value = this.props.value;
-      return React.createElement("div", {
-        className: "well"
-      }, "Every ", React.createElement("input", {
+      return React.createElement(Form, {
+        className: "mt-sm-1",
+        inline: true
+      }, React.createElement(FormGroup, null, React.createElement(Label, {
+        for: "every"
+      }, "Every"), React.createElement(Input, {
+        id: "every",
+        className: "mx-sm-1",
+        placeholder: "Minute value",
         type: "Number",
-        onChange: this.onChange.bind(this),
-        value: this.state.value[1].split('/')[1],
         min: 1,
-        max: 60
-      }), " minute(s)'");
+        max: 59,
+        onChange: this.onChange.bind(this),
+        value: this.state.value[1].split('/')[1]
+      }), React.createElement(FormText, {
+        color: "muted"
+      }, "Must be integer value (1 - 59).")));
     }
   }]);
 
