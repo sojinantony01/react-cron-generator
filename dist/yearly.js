@@ -1,31 +1,26 @@
-import _classCallCheck from "@babel/runtime/helpers/esm/classCallCheck";
-import _createClass from "@babel/runtime/helpers/esm/createClass";
-import _possibleConstructorReturn from "@babel/runtime/helpers/esm/possibleConstructorReturn";
-import _getPrototypeOf from "@babel/runtime/helpers/esm/getPrototypeOf";
-import _inherits from "@babel/runtime/helpers/esm/inherits";
-import React, { Component } from 'react';
+"use strict";
 
-var Cron = /*#__PURE__*/function (_Component) {
-  _inherits(Cron, _Component);
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
 
-  function Cron(props) {
-    var _this;
+var _react = _interopRequireWildcard(require("react"));
 
-    _classCallCheck(this, Cron);
+function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(Cron).call(this, props));
-    _this.state = {};
-    return _this;
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
+class Cron extends _react.Component {
+  constructor(props) {
+    super(props);
+    this.state = {};
   }
 
-  _createClass(Cron, [{
-    key: "render",
-    value: function render() {
-      return React.createElement("div", null, "yearly");
-    }
-  }]);
+  render() {
+    return _react.default.createElement("div", null, "yearly");
+  }
 
-  return Cron;
-}(Component);
+}
 
-export { Cron as default };
+exports.default = Cron;
