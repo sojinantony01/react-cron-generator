@@ -19,7 +19,7 @@ export default class Cron extends Component {
   }
   componentWillMount() {
     if (!this.props.value || this.props.value.split(' ').length !== 7) {
-      this.state.value = ['0', '0', '00', '1/1', '*', '?', '*']
+      this.state.value = ['0', '0', '00', '1/1', '*', '?']
       this.state.selectedTab = tabs[0];
       this.parentChange(this.state.value)
     } else {
@@ -45,22 +45,22 @@ export default class Cron extends Component {
   defaultValue(tab) {
     switch (tab) {
       case tabs[0]:
-        return ['0', '0/1', '*', '*', '*', '?', '*']
+        return ['0', '0/1', '*', '*', '*', '?']
         break;
       case tabs[1]:
-        return ['0', '0', '00', '1/1', '*', '?', '*']
+        return ['0', '0', '00', '1/1', '*', '?']
         break;
       case tabs[2]:
-        return ['0', '0', '00', '1/1', '*', '?', '*']
+        return ['0', '0', '00', '1/1', '*', '?']
         break;
       case tabs[3]:
-        return ['0', '0', '00', '?', '*', '*', '*']
+        return ['0', '0', '00', '?', '*', '*']
         break;
       case tabs[4]:
-        return ['0', '0', '00', '1', '1/1', '?', '*']
+        return ['0', '0', '00', '1', '1/1', '?']
         break;
       case tabs[5]:
-        return ['0', '0', '00', '1', '1/1', '?', '*']
+        return ['0', '0', '00', '1', '1/1', '?']
         break;
       default:
         return
@@ -88,8 +88,8 @@ export default class Cron extends Component {
     if (val && val.length) {
       this.setState({ value: val })
     } else {
-      this.setState({ value: ['0', '0', '00', '1/1', '*', '?', '*'] })
-      val = ['0', '0', '00', '1/1', '*', '?', '*'];
+      this.setState({ value: ['0', '0', '00', '1/1', '*', '?'] })
+      val = ['0', '0', '00', '1/1', '*', '?'];
     }
     this.parentChange(val)
   }

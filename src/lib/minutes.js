@@ -11,7 +11,7 @@ export default class Cron extends Component {
   }
   onChange(e) {
     if ((e.target.value > 0 && e.target.value < 60) || e.target.value == '') {
-      let val = ['0', '*', '*', '*', '*', '?', '*']
+      let val = ['0', '*', '*', '*', '*', '?']
 
       if (e.target.value == '') {
         val[1] = '';

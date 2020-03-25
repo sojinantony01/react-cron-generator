@@ -42,7 +42,7 @@ class Cron extends _react.Component {
 
   onDayChange(e) {
     if (parseInt(e.target.value) > 0 && parseInt(e.target.value) <= 31 || e.target.value == "") {
-      let val = ['0', this.state.value[1] === '*' ? '0' : this.state.value[1], this.state.value[2] === '*' ? '0' : this.state.value[2], this.state.value[3], '1/1', '?', '*'];
+      let val = ['0', this.state.value[1] === '*' ? '0' : this.state.value[1], this.state.value[2] === '*' ? '0' : this.state.value[2], this.state.value[3], '1/1', '?'];
       val[3] = `${e.target.value}`;
       this.props.onChange(val);
     }
@@ -50,7 +50,7 @@ class Cron extends _react.Component {
 
   onLastDayChange(e) {
     if (parseInt(e.target.value) >> 0 && parseInt(e.target.value) <= 31 || e.target.value == "") {
-      let val = ['0', this.state.value[1] === '*' ? '0' : this.state.value[1], this.state.value[2] === '*' ? '0' : this.state.value[2], this.state.value[3], '1/1', '?', '*'];
+      let val = ['0', this.state.value[1] === '*' ? '0' : this.state.value[1], this.state.value[2] === '*' ? '0' : this.state.value[2], this.state.value[3], '1/1', '?'];
 
       if (e.target.value == '') {
         val[3] = '';
@@ -92,7 +92,7 @@ class Cron extends _react.Component {
         this.setState({
           every: e.target.value
         });
-        this.props.onChange(['0', this.state.value[1] === '*' ? '0' : this.state.value[1], this.state.value[2] === '*' ? '0' : this.state.value[2], '1', '1/1', '?', '*']);
+        this.props.onChange(['0', this.state.value[1] === '*' ? '0' : this.state.value[1], this.state.value[2] === '*' ? '0' : this.state.value[2], '1', '1/1', '?']);
       }
     }), "Day of every month"), _react.default.createElement(_reactstrap.Input, {
       className: "mr-sm-1",
@@ -118,7 +118,7 @@ class Cron extends _react.Component {
         this.setState({
           every: e.target.value
         });
-        this.props.onChange(['0', this.state.value[1] === '*' ? '0' : this.state.value[1], this.state.value[2] === '*' ? '0' : this.state.value[2], 'L', '*', '?', '*']);
+        this.props.onChange(['0', this.state.value[1] === '*' ? '0' : this.state.value[1], this.state.value[2] === '*' ? '0' : this.state.value[2], 'L', '*', '?']);
       }
     }), "Last day of every month"))))), _react.default.createElement(_reactstrap.Row, {
       className: "mt-sm-1"
@@ -134,7 +134,7 @@ class Cron extends _react.Component {
         this.setState({
           every: e.target.value
         });
-        this.props.onChange(['0', this.state.value[1] === '*' ? '0' : this.state.value[1], this.state.value[2] === '*' ? '0' : this.state.value[2], 'LW', '*', '?', '*']);
+        this.props.onChange(['0', this.state.value[1] === '*' ? '0' : this.state.value[1], this.state.value[2] === '*' ? '0' : this.state.value[2], 'LW', '*', '?']);
       }
     }), "Last weekday of every month"))))), _react.default.createElement(_reactstrap.Row, {
       className: "mt-sm-1"
@@ -152,7 +152,7 @@ class Cron extends _react.Component {
         this.setState({
           every: e.target.value
         });
-        this.props.onChange(['0', this.state.value[1] === '*' ? '0' : this.state.value[1], this.state.value[2] === '*' ? '0' : this.state.value[2], `L-${1}`, '*', '?', '*']);
+        this.props.onChange(['0', this.state.value[1] === '*' ? '0' : this.state.value[1], this.state.value[2] === '*' ? '0' : this.state.value[2], `L-${1}`, '*', '?']);
       }
     }), "Day(s) before the end of the month"), _react.default.createElement(_reactstrap.Input, {
       className: "mr-sm-1",

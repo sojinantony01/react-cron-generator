@@ -28,14 +28,14 @@ export default class Cron extends Component {
   }
   onDayChange(e) {
     if (((parseInt(e.target.value) > 0 && parseInt(e.target.value) <= 31)) || e.target.value == "") {
-      let val = ['0', this.state.value[1] === '*' ? '0' : this.state.value[1], this.state.value[2] === '*' ? '0' : this.state.value[2], this.state.value[3], '1/1', '?', '*'];
+      let val = ['0', this.state.value[1] === '*' ? '0' : this.state.value[1], this.state.value[2] === '*' ? '0' : this.state.value[2], this.state.value[3], '1/1', '?'];
       val[3] = `${e.target.value}`;
       this.props.onChange(val)
     }
   }
   onLastDayChange(e) {
     if (((parseInt(e.target.value) >> 0 && parseInt(e.target.value) <= 31)) || e.target.value == "") {
-      let val = ['0', this.state.value[1] === '*' ? '0' : this.state.value[1], this.state.value[2] === '*' ? '0' : this.state.value[2], this.state.value[3], '1/1', '?', '*'];
+      let val = ['0', this.state.value[1] === '*' ? '0' : this.state.value[1], this.state.value[2] === '*' ? '0' : this.state.value[2], this.state.value[3], '1/1', '?'];
       if (e.target.value == '') {
         val[3] = ''
       } else {
@@ -69,7 +69,7 @@ export default class Cron extends Component {
                     name="variantSelector"
                     value="1"
                     checked={this.state.every === "1"}
-                    onChange={(e) => { this.setState({ every: e.target.value }); this.props.onChange(['0', this.state.value[1] === '*' ? '0' : this.state.value[1], this.state.value[2] === '*' ? '0' : this.state.value[2], '1', '1/1', '?', '*']) }}
+                    onChange={(e) => { this.setState({ every: e.target.value }); this.props.onChange(['0', this.state.value[1] === '*' ? '0' : this.state.value[1], this.state.value[2] === '*' ? '0' : this.state.value[2], '1', '1/1', '?']) }}
                   />
                   Day of every month
                 </Label>
@@ -98,7 +98,7 @@ export default class Cron extends Component {
                     name="variantSelector"
                     value="2"
                     checked={this.state.every === "2"}
-                    onChange={(e) => { this.setState({ every: e.target.value }); this.props.onChange(['0', this.state.value[1] === '*' ? '0' : this.state.value[1], this.state.value[2] === '*' ? '0' : this.state.value[2], 'L', '*', '?', '*']) }}
+                    onChange={(e) => { this.setState({ every: e.target.value }); this.props.onChange(['0', this.state.value[1] === '*' ? '0' : this.state.value[1], this.state.value[2] === '*' ? '0' : this.state.value[2], 'L', '*', '?']) }}
                   />
                   Last day of every month
                 </Label>
@@ -117,7 +117,7 @@ export default class Cron extends Component {
                     name="variantSelector"
                     value="3"
                     checked={this.state.every === "3"}
-                    onChange={(e) => { this.setState({ every: e.target.value }); this.props.onChange(['0', this.state.value[1] === '*' ? '0' : this.state.value[1], this.state.value[2] === '*' ? '0' : this.state.value[2], 'LW', '*', '?', '*']) }}
+                    onChange={(e) => { this.setState({ every: e.target.value }); this.props.onChange(['0', this.state.value[1] === '*' ? '0' : this.state.value[1], this.state.value[2] === '*' ? '0' : this.state.value[2], 'LW', '*', '?']) }}
                   />
                   Last weekday of every month
                 </Label>
@@ -136,7 +136,7 @@ export default class Cron extends Component {
                     name="variantSelector"
                     value="4"
                     checked={this.state.every === "4"}
-                    onChange={(e) => { this.setState({ every: e.target.value }); this.props.onChange(['0', this.state.value[1] === '*' ? '0' : this.state.value[1], this.state.value[2] === '*' ? '0' : this.state.value[2], `L-${1}`, '*', '?', '*']) }}
+                    onChange={(e) => { this.setState({ every: e.target.value }); this.props.onChange(['0', this.state.value[1] === '*' ? '0' : this.state.value[1], this.state.value[2] === '*' ? '0' : this.state.value[2], `L-${1}`, '*', '?']) }}
                   />
                   Day(s) before the end of the month
                 </Label>

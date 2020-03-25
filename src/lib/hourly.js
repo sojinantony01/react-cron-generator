@@ -20,7 +20,7 @@ export default class Cron extends Component {
   }
   onHourChange(e) {
     if (this.state.every && ((e.target.value > 0 && e.target.value < 24) || e.target.value == '')) {
-      let val = ['0', '0', '*', '*', '*', '?', '*'];
+      let val = ['0', '0', '*', '*', '*', '?'];
       if (e.target.value == '') {
         val[2] = '';
       } else {
@@ -31,13 +31,13 @@ export default class Cron extends Component {
     }
   }
   onAtHourChange(e) {
-    let val = ['0', this.state.value[1], '*', '*', '*', '?', '*']
+    let val = ['0', this.state.value[1], '*', '*', '*', '?']
     val[2] = `${e.target.value}`;
     val[3] = '1/1'
     this.props.onChange(val)
   }
   onAtMinuteChange(e) {
-    let val = ['0', '*', this.state.value[2], '*', '*', '?', '*']
+    let val = ['0', '*', this.state.value[2], '*', '*', '?']
     val[1] = `${e.target.value}`;
     val[3] = '1/1'
     this.props.onChange(val)
@@ -58,7 +58,7 @@ export default class Cron extends Component {
                     type="radio"
                     name="variantSelector"
                     checked={this.state.every ? true : false}
-                    onClick={(e) => { this.setState({ every: true }); this.props.onChange(['0', '0', '0/1', '1/1', '*', '?', '*']) }}
+                    onClick={(e) => { this.setState({ every: true }); this.props.onChange(['0', '0', '0/1', '1/1', '*', '?']) }}
                   />
                   Every
                     </Label>

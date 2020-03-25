@@ -37,7 +37,7 @@ class Cron extends _react.Component {
 
   onDayChange(e) {
     if (e.target.value > 0 && e.target.value < 32 || e.target.value == '') {
-      let val = ['0', this.state.value[1] === '*' ? '0' : this.state.value[1], this.state.value[2] === '*' ? '0' : this.state.value[2], '*', '*', '?', '*'];
+      let val = ['0', this.state.value[1] === '*' ? '0' : this.state.value[1], this.state.value[2] === '*' ? '0' : this.state.value[2], '*', '*', '?'];
 
       if (e.target.value == '') {
         val[3] = '';
@@ -106,7 +106,7 @@ class Cron extends _react.Component {
         this.setState({
           every: false
         });
-        this.props.onChange(['0', this.state.value[1], this.state.value[2], '?', '*', 'MON-FRI', '*']);
+        this.props.onChange(['0', this.state.value[1], this.state.value[2], '?', '*', 'MON-FRI']);
       }
     }), "Every Mon - Fri at"), _react.default.createElement(_reactstrap.Input, {
       id: "DailyHours",
