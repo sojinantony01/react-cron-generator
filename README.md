@@ -58,6 +58,20 @@ export default App;
 | onChange |  |  |
 | showResultText | show in readable text format | false |
 | showResultCron | show cron expression | false | 
+| options | Options for Cron component
+
+## Options
+
+**options.headers**
+
+```
+import { HEADERS } from './lib/meta';
+
+const options = {
+  headers: [HEADERS.MONTHLY, HEADERS.WEEKLY, HEADERS.MINUTES, HEADERS.HOURLY, HEADERS.DAILY]
+};
+
+```
 ## Acknowledgments
 *cronstrue
-*viswanath lakshmanan
+*Viswanath Lekshmanan
