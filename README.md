@@ -73,5 +73,5 @@ const options = {
 
 ```
 ## Acknowledgments
-*cronstrue
-*Viswanath Lekshmanan
+** cronstrue **
+** Viswanath Lekshmanan **
