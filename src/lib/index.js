@@ -42,8 +42,8 @@ export default class Cron extends Component {
     }
 
     getHeaders() {
-        return tabs.map(d => {  
-            return <li className={this.state.selectedTab === d ? 'active' : ''}><a href onClick={this.tabChanged.bind(this,d)}>{d}</a></li>
+        return tabs.map((d, index) => {  
+            return <li key={index} className={this.state.selectedTab === d ? 'active' : ''}><a onClick={this.tabChanged.bind(this,d)}>{d}</a></li>
         })
     }
     onValueChange(val) {     

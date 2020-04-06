@@ -6,6 +6,7 @@ export default class HourlyCron extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            every: false
         };
         this.onHourChange = this.onHourChange.bind(this);
         this.onAtHourChange = this.onAtHourChange.bind(this);
@@ -46,7 +47,7 @@ export default class HourlyCron extends Component {
             <div className="tab-content">              
                 <div className="tab-pane active">
                     <div className="well well-small">
-                        <input type="radio" onClick={(e) => {this.setState({every:true}) ; this.props.onChange(['0','0','0/1','1/1','*','?','*'])}} checked={this.state.every} />
+                        <input type="radio" onClick={(e) => {this.setState({ every:true }) ; this.props.onChange(['0','0','0/1','1/1','*','?','*'])}} checked={this.state.every} />
                         <span>Every </span>
                         <input disabled={!this.state.every} type="Number" onChange={this.onHourChange} value={this.state.value[2].split('/')[1] ? this.state.value[2].split('/')[1] : ''}  />
                         <span>hour(s)</span>
@@ -55,8 +56,8 @@ export default class HourlyCron extends Component {
                     <div className="col-md-offset-2 col-md-6 text_align_right">
                         <input type="radio" onClick={(e) => {this.setState({ every: false }); this.props.onChange();}} checked={!this.state.every}/>
                             <span className="margin-right-10 ">At</span>
-                        <Hour onChange={this.onAtHourChange} value={this.state.value[2]} />
-                        <Minutes onChange={this.onAtMinuteChange} value={this.state.value[1]} />
+                        <Hour disabled={this.state.every} onChange={this.onAtHourChange} value={this.state.value[2]} />
+                        <Minutes disabled={this.state.every} onChange={this.onAtMinuteChange} value={this.state.value[1]} />
                     </div>
                     </div>
                 </div>

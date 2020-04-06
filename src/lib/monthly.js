@@ -1,3 +1,4 @@
+/* eslint-disable react/no-direct-mutation-state */
 import React, { Component } from 'react';
 import Minutes from './minutes-select';
 import Hour from './hour-select';
@@ -15,6 +16,7 @@ export default class MonthlyCron extends Component {
         this.onAtHourChange = this.onAtHourChange.bind(this);
         this.onAtMinuteChange = this.onAtMinuteChange.bind(this);
     }
+    
     componentWillMount() {
         this.state.value = this.props.value;
         if(this.state.value[3] === 'L'){
