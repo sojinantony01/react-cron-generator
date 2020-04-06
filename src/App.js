@@ -1,5 +1,7 @@
-import React, { Component } from 'react'
-import Cron from './lib'
+import React, { Component } from 'react';
+import Cron from './lib';
+import { HEADERS } from './lib/meta';
+
 class App extends Component {
 
   constructor(props) {
@@ -10,14 +12,16 @@ class App extends Component {
   }
 
   render() {
+    const options = {
+      headers: [HEADERS.MONTHLY, HEADERS.WEEKLY, HEADERS.MINUTES]
+    };
     return (<div>
       <Cron
-        onChange={(e)=> {this.setState({value:e}); console.log(e)}}
+        options={options}
+        onChange={(e)=> {this.setState({value:e});}}
         value={this.state.value}
         showResultText={true}
-        showResultCron={true}
-        />
-                            
+        showResultCron={true} />            
     </div>)
   }
 }

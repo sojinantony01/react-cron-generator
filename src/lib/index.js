@@ -1,7 +1,7 @@
 /* eslint-disable react/no-direct-mutation-state */
 import React, { Component } from 'react';
 import cronstrue from 'cronstrue';
-import { tabs, metadata } from './meta';
+import { metadata, loadHeaders } from './meta';
 import './cron-builder.css';
 
 export default class Cron extends Component {
@@ -9,30 +9,31 @@ export default class Cron extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            headers: loadHeaders(this.props.options),
         };
     }
 
     componentWillMount() {
         if(!this.props.value || this.props.value.split(' ').length !== 7 ) {
             this.state.value = ['0','0','00','1/1','*','?','*']
-            this.state.selectedTab = tabs[0];
+            this.state.selectedTab = this.state.headers[0];
             this.parentChange(this.state.value);
         } else  {
             this.state.value = this.props.value.replace(/,/g, '!').split(' ');
         }
         let val = this.state.value;
         if((val[1].search('/') !== -1) && (val[2] === '*') && (val[3] === '1/1')) {
-            this.state.selectedTab = tabs[0];
+            this.state.selectedTab = this.state.headers[0];
         } else if((val[3] === '1/1')) {
-            this.state.selectedTab = tabs[1];
+            this.state.selectedTab = this.state.headers[1];
         } else if((val[3].search('/') !== -1) || (val[5] === 'MON-FRI')) {
-            this.state.selectedTab = tabs[2];
+            this.state.selectedTab = this.state.headers[2];
         } else if (val[3] === '?') {
-            this.state.selectedTab = tabs[3];
+            this.state.selectedTab = this.state.headers[3];
         } else if (val[3].startsWith('L') || val[4] === '1/1') {
-            this.state.selectedTab = tabs[4];
+            this.state.selectedTab = this.state.headers[4];
         } else {
-            this.state.selectedTab = tabs[0];
+            this.state.selectedTab = this.state.headers[0];
         }
     }
 
@@ -42,10 +43,11 @@ export default class Cron extends Component {
     }
 
     getHeaders() {
-        return tabs.map((d, index) => {  
+        return this.state.headers.map((d, index) => {
             return <li key={index} className={this.state.selectedTab === d ? 'active' : ''}><a onClick={this.tabChanged.bind(this,d)}>{d}</a></li>
         })
     }
+
     onValueChange(val) {     
         if(val && val.length) {
             this.setState({ value:val });
@@ -60,7 +62,6 @@ export default class Cron extends Component {
         let newVal = '';
         newVal = val.toString().replace(/,/g,' ');
         newVal = newVal.replace(/!/g, ',');
-        console.log(newVal);
         this.props.onChange(newVal) 
     }
 
@@ -73,7 +74,7 @@ export default class Cron extends Component {
     }
 
     defaultValue(tab) {
-        const index = tabs.indexOf(tab);
+        const index = this.state.headers.indexOf(tab);
         if(metadata[index] === -1) {
             return;
         }
@@ -81,7 +82,7 @@ export default class Cron extends Component {
     }
 
     getComponent(tab) {
-        const index = tabs.indexOf(tab);
+        const index = this.state.headers.indexOf(tab);
         if(metadata[index] === -1) {
             return;
         }
