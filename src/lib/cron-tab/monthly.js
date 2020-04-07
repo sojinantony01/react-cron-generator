@@ -1,7 +1,7 @@
 /* eslint-disable react/no-direct-mutation-state */
 import React, { Component } from 'react';
-import Minutes from './minutes-select';
-import Hour from './hour-select';
+import Minutes from '../minutes-select';
+import Hour from '../hour-select';
 
 export default class MonthlyCron extends Component {
     constructor(props) {

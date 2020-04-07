@@ -65,10 +65,10 @@ export default App;
 **options.headers**
 
 ```
-import { HEADERS } from './lib/meta';
+import { HEADER } from 'react-cron-generator';
 
 const options = {
-  headers: [HEADERS.MONTHLY, HEADERS.WEEKLY, HEADERS.MINUTES, HEADERS.HOURLY, HEADERS.DAILY]
+  headers: [HEADER.MONTHLY, HEADER.WEEKLY, HEADER.MINUTES, HEADERS.HOURLY, HEADERS.DAILY]
 };
 
 ```

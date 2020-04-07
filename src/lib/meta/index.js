@@ -1,10 +1,10 @@
-import Minutes from '../minutes';
-import Daily from '../daily';
-import Hourly from '../hourly';
-import Weekly from '../weekly';
-import Monthly from '../monthly';
+import Minutes from '../cron-tab/minutes';
+import Daily from '../cron-tab/daily';
+import Hourly from '../cron-tab/hourly';
+import Weekly from '../cron-tab/weekly';
+import Monthly from '../cron-tab/monthly';
 
-export const HEADERS = {
+export const HEADER = {
     MINUTES: 'MINUTES',
     HOURLY: 'HOURLY',
     DAILY: 'DAILY',

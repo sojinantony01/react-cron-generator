@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import Minutes from './minutes-select';
-import Hour from './hour-select';
+import Minutes from '../minutes-select';
+import Hour from '../hour-select';
 
 export default class HourlyCron extends Component {
     constructor(props) {
