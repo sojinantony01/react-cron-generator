@@ -55,13 +55,13 @@ export default App;
 ```
 ## props
 
-| Prop | Description | Default
-| --- | --- | -- |
-| value | cron expression  |  |
-| onChange |  |  |
-| showResultText | show in readable text format | false |
-| showResultCron | show cron expression | false | 
-| options | Options for Cron component
+| Prop | Description | Default | Mandatory
+| --- | --- | -- | -- |
+| value | cron expression  |  |  |
+| onChange |  |  | Yes
+| showResultText | show in readable text format | false | No
+| showResultCron | show cron expression | false | No
+| options | Options for Cron component, *Must pass a valid cron value for available headers | All available headers | No
 
 ## Options
 
@@ -71,7 +71,7 @@ export default App;
 import { HEADER } from 'react-cron-generator';
 
 const options = {
-  headers: [HEADER.MONTHLY, HEADER.WEEKLY, HEADER.MINUTES, HEADERS.HOURLY, HEADERS.DAILY]
+  headers: [HEADER.MONTHLY, HEADER.WEEKLY, HEADER.MINUTES, HEADER.HOURLY, HEADER.DAILY]
 };
 
 ```
