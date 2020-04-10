@@ -40,7 +40,7 @@ class App extends Component {
   render() {
     return (<div>
       <Cron
-        onChange={(e)=> {this.setState({value:e}); console.log(e)}}
+        onChange={(e)=> {this.setState({value:e});}}
         value={this.state.value}
         showResultText={true}
         showResultCron={true}
@@ -61,6 +61,22 @@ export default App;
 | onChange |  |  |
 | showResultText | show in readable text format | false |
 | showResultCron | show cron expression | false | 
+| options | Options for Cron component
+
+## Options
+
+**options.headers**
+
+```
+import { HEADER } from 'react-cron-generator';
+
+const options = {
+  headers: [HEADER.MONTHLY, HEADER.WEEKLY, HEADER.MINUTES, HEADERS.HOURLY, HEADERS.DAILY]
+};
+
+```
 ## Acknowledgments
-*cronstrue
-*viswanath lakshmanan
+
+**cronstrue**
+
+**Viswanath Lekshmanan**

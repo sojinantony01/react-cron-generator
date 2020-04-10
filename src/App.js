@@ -1,5 +1,6 @@
-import React, { Component } from 'react'
-import Cron from './lib'
+import React, { Component } from 'react';
+import Cron from './lib';
+
 class App extends Component {
 
   constructor(props) {

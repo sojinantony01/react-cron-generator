@@ -14,11 +14,16 @@
     padding-left: 5px;
     cursor: pointer;
 }
+
+.df {
+    display: flex;
+}
 .cron-builder-bg {
     background-color: #086090;
     color: white;
     text-align: center;
     margin-bottom: 4px;
+    padding: 8px 0px;
 }
 .cron_builder_bordering select {
     background-color: white;
@@ -49,4 +54,3 @@
 .nav li {
     cursor: pointer;
 }
-
