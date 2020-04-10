@@ -57,7 +57,7 @@ export default App;
 
 | Prop | Description | Default | Mandatory
 | --- | --- | -- | -- |
-| value | cron expression  |  |  |
+| value | cron expression  |  |  No|
 | onChange |  |  | Yes
 | showResultText | show in readable text format | false | No
 | showResultCron | show cron expression | false | No
@@ -75,6 +75,9 @@ const options = {
 };
 
 ```
+
+[Sojin Antony](https://sojinantony01.github.io/)
+
 ## Acknowledgments
 
 **cronstrue**
