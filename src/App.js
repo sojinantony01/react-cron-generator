@@ -1,10 +1,6 @@
 import React, { Component } from 'react';
 import Cron from './lib';
-import { HEADER } from './lib';
 
-const options = {
-  headers: [HEADER.MONTHLY, HEADER.WEEKLY, HEADER.MINUTES, HEADER.HOURLY, HEADER.DAILY]
-};
 
 class App extends Component {
 
