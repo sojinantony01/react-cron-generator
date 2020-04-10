@@ -14,6 +14,9 @@ data = '* * * * * * *'
 npm install react-cron-generator
 
 ```
+## demo
+[Live demo](https://sojinantony01.github.io/react-cron-generator/)
+
 ![alt text](https://raw.githubusercontent.com/sojinantony01/react-cron-generator/master/public/images/Screenshot%20from%202019-06-08%2000-31-31.png)
 
 ![alt text](https://raw.githubusercontent.com/sojinantony01/react-cron-generator/master/public/images/Screenshot%20from%202019-06-08%2000-31-57.png)
