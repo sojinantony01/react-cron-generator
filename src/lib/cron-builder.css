@@ -3,8 +3,9 @@
     border-top: none;
     text-align: center;
     padding: 10px;
+    background: #fff;
 }
-.cron_builder_bordering input {
+.cron_builder_bordering input, .cron_builder_bordering select {
     width: 100px;
     margin-right: 10px;
     margin-left: 10px;

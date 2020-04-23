@@ -86,7 +86,8 @@ export default class Cron extends Component {
         if(metadata[index] === -1) {
             return;
         }
-        const CronComponent = metadata[index].component;
+        const selectedMetaData = metadata.find(data => data.component.name === (tab + 'Cron'))
+        const CronComponent = selectedMetaData.component;
         return <CronComponent value={this.state.value} onChange={this.onValueChange.bind(this)} />;
     }
 
