@@ -87,6 +87,9 @@ export default class Cron extends Component {
             return;
         }
         const selectedMetaData = metadata.find(data => data.component.name === (tab + 'Cron'))
+        if(!selectedMetaData) {
+            throw new Error('Value does not match any available headers.');
+        }
         const CronComponent = selectedMetaData.component;
         return <CronComponent value={this.state.value} onChange={this.onValueChange.bind(this)} />;
     }
