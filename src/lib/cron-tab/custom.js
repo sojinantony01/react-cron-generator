@@ -37,23 +37,23 @@ export default class CustomCron extends Component {
         let tmp;
         if (parts[0] !== cron_minutes) {
             this.setState({cron_minutes: parts[0]});
-            cron_minutes_id, cronValueItemToList(true, 59, parts[0]);
+            cronValueItemToList(true, 59, parts[0]);
         }
         if (parts[1] !== cron_hours) {
             this.setState({cron_hours: parts[1]});
-            cron_hours_id, cronValueItemToList(true, 23, parts[1]);
+            cronValueItemToList(true, 23, parts[1]);
         }
         if (parts[2] !== cron_dom) {
             this.setState({cron_dom: parts[2]});
-            cron_dom_id, cronValueItemToList(false, 31, parts[2]);
+            cronValueItemToList(false, 31, parts[2]);
         }
         if (parts[3] !== cron_months) {
             this.setState({cron_months: parts[3]});
-            cron_months_id, cronValueItemToList(false, 12, parts[3]);
+            cronValueItemToList(false, 12, parts[3]);
         }
         if (parts[4] !== cron_dow) {
             this.setState({cron_dow: parts[4]});
-            cron_dow_id, cronValueItemToList(true, 6, parts[4]);
+            cronValueItemToList(true, 6, parts[4]);
         }
     }
 
