@@ -33,7 +33,7 @@ export const metadata = [{
     initialCron: ['0', '0', '00', '1/1', '*', '?', '*']
 }, {
     component: Daily,
-    initialCron: ['0', '0', '00', '1/1', '*', '?', '*']
+    initialCron: ['0', '0', '00', '*', '*', '?', '*']
 }, {
     component: Weekly,
     initialCron: ['0', '0', '00', '?', '*', '*', '*']
@@ -42,7 +42,7 @@ export const metadata = [{
     initialCron: ['0', '0', '00', '1', '1/1', '?', '*']
 }, {
     component: Custom,
-    initialCron: ['0', '0', '00', '1', '1/1', '?', '*']
+    initialCron: ['*', '*', '*', '*', '*', '*', '*']
 }];
 
 const validateHeaders = (headers) => {

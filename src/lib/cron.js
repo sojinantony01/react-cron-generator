@@ -1,11 +1,11 @@
 /* eslint-disable react/no-direct-mutation-state */
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import cronstrue from 'cronstrue';
-import { metadata, loadHeaders } from './meta';
+import {metadata, loadHeaders} from './meta';
 import './cron-builder.css';
 
 export default class Cron extends Component {
-    
+
     constructor(props) {
         super(props);
         this.state = {
@@ -14,19 +14,19 @@ export default class Cron extends Component {
     }
 
     componentWillMount() {
-        if(!this.props.value || this.props.value.split(' ').length !== 7 ) {
-            this.state.value = ['0','0','00','1/1','*','?','*']
+        if (!this.props.value || this.props.value.split(' ').length !== 7) {
+            this.state.value = ['0', '0', '00', '1/1', '*', '?', '*']
             this.state.selectedTab = this.state.headers[0];
             this.parentChange(this.state.value);
-        } else  {
+        } else {
             this.state.value = this.props.value.replace(/,/g, '!').split(' ');
         }
         let val = this.state.value;
-        if((val[1].search('/') !== -1) && (val[2] === '*') && (val[3] === '1/1')) {
+        if ((val[1].search('/') !== -1) && (val[2] === '*') && (val[3] === '1/1')) {
             this.state.selectedTab = this.state.headers[0];
-        } else if((val[3] === '1/1')) {
+        } else if ((val[3] === '1/1')) {
             this.state.selectedTab = this.state.headers[1];
-        } else if((val[3].search('/') !== -1) || (val[5] === 'MON-FRI')) {
+        } else if ((val[3].search('/') !== -1) || (val[5] === 'MON-FRI')) {
             this.state.selectedTab = this.state.headers[2];
         } else if (val[3] === '?') {
             this.state.selectedTab = this.state.headers[3];
@@ -38,44 +38,45 @@ export default class Cron extends Component {
     }
 
     tabChanged(tab) {
-        this.setState({selectedTab: tab, value:this.defaultValue(tab) }); 
+        this.setState({selectedTab: tab, value: this.defaultValue(tab)});
         this.parentChange(this.defaultValue(tab))
     }
 
     getHeaders() {
         return this.state.headers.map((d, index) => {
-            return <li key={index} className={this.state.selectedTab === d ? 'active' : ''}><a onClick={this.tabChanged.bind(this,d)}>{d}</a></li>
+            return <li key={index} className={this.state.selectedTab === d ? 'active' : ''}><a
+                onClick={this.tabChanged.bind(this, d)}>{d}</a></li>
         })
     }
 
-    onValueChange(val) {     
-        if(val && val.length) {
-            this.setState({ value:val });
-        } else { 
-            this.setState({ value: ['0','0','00','1/1','*','?','*'] });
-            val = ['0','0','00','1/1','*','?','*'];
+    onValueChange(val) {
+        if (val && val.length) {
+            this.setState({value: val});
+        } else {
+            this.setState({value: ['0', '0', '00', '1/1', '*', '?', '*']});
+            val = ['0', '0', '00', '1/1', '*', '?', '*'];
         }
-       this.parentChange(val)
+        this.parentChange(val)
     }
 
     parentChange(val) {
         let newVal = '';
-        newVal = val.toString().replace(/,/g,' ');
+        newVal = val.toString().replace(/,/g, ' ');
         newVal = newVal.replace(/!/g, ',');
-        this.props.onChange(newVal) 
+        this.props.onChange(newVal)
     }
 
     getVal() {
-        let val = cronstrue.toString(this.state.value.toString().replace(/,/g,' ').replace(/!/g, ','))
-        if(val.search('undefined') === -1) {
+        let val = cronstrue.toString(this.state.value.toString().replace(/,/g, ' ').replace(/!/g, ','))
+        if (val.search('undefined') === -1) {
             return val;
         }
-        return '-';   
+        return '-';
     }
 
     defaultValue(tab) {
         const index = this.state.headers.indexOf(tab);
-        if(metadata[index] === -1) {
+        if (metadata[index] === -1) {
             return;
         }
         return metadata[index].initialCron;
@@ -83,26 +84,27 @@ export default class Cron extends Component {
 
     getComponent(tab) {
         const index = this.state.headers.indexOf(tab);
-        if(metadata[index] === -1) {
+        if (metadata[index] === -1) {
             return;
         }
         const selectedMetaData = metadata.find(data => data.component.name === (tab + 'Cron'))
-        if(!selectedMetaData) {
+        if (!selectedMetaData) {
             throw new Error('Value does not match any available headers.');
         }
         const CronComponent = selectedMetaData.component;
-        return <CronComponent value={this.state.value} onChange={this.onValueChange.bind(this)} />;
+        return <CronComponent value={this.state.value} onChange={this.onValueChange.bind(this)}/>;
     }
 
     render() {
-        return (    
+        return (
             <div className='cron_builder'>
-            <ul className="nav nav-tabs" >
-                {this.getHeaders()}
-            </ul>
-            <div className="cron_builder_bordering">{this.getComponent(this.state.selectedTab)}</div>
-            {this.props.showResultText && <div className="cron-builder-bg">{this.getVal()}</div>}
-            {this.props.showResultCron && <div className="cron-builder-bg">{this.state.value.toString().replace(/,/g,' ').replace(/!/g, ',')}</div>}       
-        </div>)
+                <ul className="nav nav-tabs">
+                    {this.getHeaders()}
+                </ul>
+                <div className="cron_builder_bordering">{this.getComponent(this.state.selectedTab)}</div>
+                {this.props.showResultText && <div className="cron-builder-bg">{this.getVal()}</div>}
+                {this.props.showResultCron && <div
+                    className="cron-builder-bg">{this.state.value.toString().replace(/,/g, ' ').replace(/!/g, ',')}</div>}
+            </div>)
     }
 }
