@@ -82,4 +82,4 @@ const options = {
 
 **cronstrue**
 
-[Viswanath Lekshmanan](https://github.com/ViswanathLekshmanan)
+[Viswanath Lekshmanan](https://viswanathl.in/)
