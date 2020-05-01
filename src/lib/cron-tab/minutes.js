@@ -1,11 +1,6 @@
 import React, { Component } from 'react';
 
 export default class MinutesCron extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-        };
-    }
 
     onChange(e) {
         if((e.target.value > 0 && e.target.value < 60) || e.target.value === '') {
@@ -16,9 +11,13 @@ export default class MinutesCron extends Component {
     }
 
     render() {
-        this.state.value = this.props.value
+        const translateFn = this.props.translate;
+        let value = this.props.value;
+        if(value && value.length > 1) {
+            value = value[1].split('/')[1];
+        }
         return (<div className="well">   
-               Every <input type="Number" onChange={this.onChange.bind(this)} value={this.state.value[1].split('/')[1]} min={1} max={60} /> minute(s)
+               {translateFn('Every')} <input type="Number" onChange={this.onChange.bind(this)} value={value} min={1} max={60} /> {translateFn('minute(s)')}
         </div>)
     }
 }
