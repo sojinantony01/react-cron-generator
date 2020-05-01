@@ -1,6 +1,6 @@
 {
   "name": "react-cron-generator-custom",
-  "version": "1.8.2",
+  "version": "1.8.7",
   "description": "Simple react component to generate cron expression",
   "keywords": [
     "React cron generator",
