@@ -91,7 +91,18 @@ export default class Cron extends Component {
             throw new Error('Value does not match any available headers.');
         }
         const CronComponent = selectedMetaData.component;
-        return <CronComponent value={this.state.value} onChange={this.onValueChange.bind(this)} />;
+        return <CronComponent translate={this.translate.bind(this)} value={this.state.value} onChange={this.onValueChange.bind(this)} />;
+    }
+
+    translate(key) {
+        let translatedText = key;
+        if(this.props.translateFn) {
+            translatedText = this.props.translateFn(key);
+            if(typeof translatedText !== 'string') {
+                throw new Error('translateFn expects a string translation');
+            }
+        }
+        return translatedText;
     }
 
     render() {

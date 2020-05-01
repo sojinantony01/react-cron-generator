@@ -17,8 +17,7 @@ class App extends Component {
         value={this.state.value}
         showResultText={true}
         showResultCron={true}
-        />
-                            
+        />                 
     </div>)
   }
 }
