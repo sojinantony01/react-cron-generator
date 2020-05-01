@@ -21,6 +21,10 @@ npm install react-cron-generator
 
 ![alt text](https://raw.githubusercontent.com/sojinantony01/react-cron-generator/master/public/images/Screenshot%20from%202019-06-08%2000-31-57.png)
 
+![alt text](https://raw.githubusercontent.com/wduvan/react-cron-generator/master/public/images/DailySelectDays.png)
+
+![alt text](https://raw.githubusercontent.com/wduvan/react-cron-generator/master/public/images/newTabCustom.png)
+
 
 ```
 import React, { Component } from 'react'
