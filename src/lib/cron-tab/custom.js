@@ -21,10 +21,10 @@ export default class CustomCron extends Component {
     }
 
     render() {
-        this.state.value = this.props.value
+        this.state.value = this.props.value;
         return (<div className="well">
             Script <input className="form-input" type="input" onChange={this.onChange.bind(this)}
                           value={this.state.value[1].split('/')[1]}/>
-        </div>)
+        </div>);
     }
 }
