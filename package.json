@@ -1,6 +1,6 @@
 {
-  "name": "react-cron-generator",
-  "version": "1.1.7",
+  "name": "react-cron-generator-custom",
+  "version": "1.8.1",
   "description": "Simple react component to generate cron expression",
   "keywords": [
     "React cron generator",
@@ -12,9 +12,10 @@
     "cron ui",
     "react cron ",
     "react cron editor",
-    "react cron creator"
+    "react cron creator",
+    "react cron expression"
   ],
-  "author": "Sojin antony",
+  "author": "Sojin antony | Duvan",
   "dependencies": {
     "cronstrue": "1.92.0"
   },
@@ -26,7 +27,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/sojinantony01/react-cron-generator.git"
+    "url": "https://github.com/wduvan/react-cron-generator.git"
   },
   "devDependencies": {
     "@babel/cli": "^7.4.4",
@@ -42,7 +43,7 @@
     "react": "^16.8.6",
     "react-dom": "^16.8.6"
   },
-  "homepage": "https://sojinantony01.github.io/react-cron-generator",
+  "homepage": "https://github.com/wduvan/react-cron-generator",
   "scripts": {
     "start": "react-scripts start",
     "build": "rm -rf dist && NODE_ENV=production babel src/lib --out-dir dist --copy-files --ignore __tests__,spec.js,test.js,__snapshots__",
