@@ -62,11 +62,14 @@ export default App;
 | showResultText | show in readable text format | false | No
 | showResultCron | show cron expression | false | No
 | translateFn | translate function callback | method | No
+| locale | locale for cronstrue | en | No
 | options | Options for Cron component, *Must pass a valid cron value for available headers | All available headers | No
 
 **translateFn**
 
-Expects a method. Use this prop for localization support. `react-cron-generator` will call this method for every key. List of keys are available here (https://github.com/sojinantony01/react-cron-generator/tree/master/src/lib/localization/translation.json)
+Expects a method. Use this prop for localization support. `react-cron-generator` will call this method for every key. List of keys are available [here](https://github.com/sojinantony01/react-cron-generator/tree/master/src/lib/localization/translation.json)
+
+`locale` option should be set for correct `ResultText` translation. Please visit [cronstrue](https://github.com/bradymholt/cRonstrue) for supported locales.
 
 ## Options
 

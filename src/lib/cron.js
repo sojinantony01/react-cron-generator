@@ -1,6 +1,6 @@
 /* eslint-disable react/no-direct-mutation-state */
 import React, { Component } from 'react';
-import cronstrue from 'cronstrue';
+import cronstrue from 'cronstrue/i18n';
 import { metadata, loadHeaders } from './meta';
 import './cron-builder.css';
 
@@ -10,6 +10,7 @@ export default class Cron extends Component {
         super(props);
         this.state = {
             headers: loadHeaders(this.props.options),
+            locale: this.props.locale ? this.props.locale : 'en'
         };
     }
 
@@ -34,6 +35,10 @@ export default class Cron extends Component {
             this.state.selectedTab = this.state.headers[4];
         } else {
             this.state.selectedTab = this.state.headers[0];
+        }
+        
+        if(this.props.translateFn && !this.props.locale) {
+            console.log('Warning !!! locale not set while using translateFn');
         }
     }
 
@@ -66,7 +71,7 @@ export default class Cron extends Component {
     }
 
     getVal() {
-        let val = cronstrue.toString(this.state.value.toString().replace(/,/g,' ').replace(/!/g, ','))
+        let val = cronstrue.toString(this.state.value.toString().replace(/,/g,' ').replace(/!/g, ','), { locale: this.state.locale })
         if(val.search('undefined') === -1) {
             return val;
         }
