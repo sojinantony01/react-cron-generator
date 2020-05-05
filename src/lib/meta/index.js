@@ -26,21 +26,27 @@ const HEADER_VALUES = {
 const defaultTabs = [HEADER_VALUES.MINUTES, HEADER_VALUES.HOURLY, HEADER_VALUES.DAILY, HEADER_VALUES.WEEKLY, HEADER_VALUES.MONTHLY, HEADER_VALUES.CUSTOM];
 
 export const metadata = [{
+    'componentName': 'MinutesCron',
     component: Minutes,
     initialCron: ['0', '0/1', '*', '*', '*', '?', '*']
 }, {
+    'componentName': 'HourlyCron',
     component: Hourly,
     initialCron: ['0', '0', '00', '1/1', '*', '?', '*']
 }, {
+    'componentName': 'DailyCron',
     component: Daily,
     initialCron: ['0', '0', '00', '*', '*', '?', '*']
 }, {
+    'componentName': 'WeeklyCron',
     component: Weekly,
     initialCron: ['0', '0', '00', '?', '*', '*', '*']
 }, {
+    'componentName': 'MonthlyCron',
     component: Monthly,
     initialCron: ['0', '0', '00', '1', '1/1', '?', '*']
 }, {
+    'componentName': 'CustomCron',
     component: Custom,
     initialCron: ['*', '*', '*', '*', '*', '*', '*']
 }];
