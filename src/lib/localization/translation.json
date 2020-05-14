@@ -17,5 +17,10 @@
     "Thursday": "Thursday",
     "Friday": "Friday",
     "Saturday": "Saturday",
-    "Sunday": "Sunday"
+    "Sunday": "Sunday",
+    "Minutes": "Minutes",
+    "Hourly": "Hourly",
+    "Daily": "Daily",
+    "Weekly": "Weekly",
+    "Monthly": "Monthly"
 }
