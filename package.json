@@ -30,44 +30,31 @@
     "url": "https://github.com/sojinantony01/react-cron-generator.git"
   },
   "devDependencies": {
-    "@babel/cli": "^7.8.4",
-    "@babel/core": "^7.8.7",
-    "@babel/plugin-proposal-class-properties": "^7.5.5",
-    "@babel/plugin-proposal-decorators": "^7.4.4",
-    "@babel/plugin-proposal-do-expressions": "^7.5.0",
-    "@babel/plugin-proposal-export-default-from": "^7.5.2",
-    "@babel/plugin-proposal-export-namespace-from": "^7.5.2",
-    "@babel/plugin-proposal-function-bind": "^7.2.0",
-    "@babel/plugin-proposal-function-sent": "^7.5.0",
-    "@babel/plugin-proposal-json-strings": "^7.2.0",
-    "@babel/plugin-proposal-logical-assignment-operators": "^7.2.0",
-    "@babel/plugin-proposal-nullish-coalescing-operator": "^7.4.4",
-    "@babel/plugin-proposal-numeric-separator": "^7.2.0",
-    "@babel/plugin-proposal-optional-chaining": "^7.2.0",
-    "@babel/plugin-proposal-pipeline-operator": "^7.5.0",
-    "@babel/plugin-proposal-throw-expressions": "^7.2.0",
-    "@babel/plugin-syntax-dynamic-import": "^7.2.0",
-    "@babel/plugin-syntax-import-meta": "^7.2.0",
-    "@babel/preset-env": "^7.5.5",
-    "@babel/preset-flow": "^7.0.0",
-    "@babel/preset-react": "^7.8.3",
-    "@babel/runtime": "^7.8.7",
-    "react": "^16.13.0",
-    "react-dom": "^16.13.0",
-    "react-scripts": "^3.4.0"
-  },
-  "peerDependencies": {
-    "cronstrue": "^1.72.0",
-    "react": "^16.8.6",
-    "react-dom": "^16.8.6"
+    "@types/node": "^12.12.35",
+    "@types/react": "^16.9.35",
+    "@types/reactstrap": "^8.4.2",
+    "@typescript-eslint/eslint-plugin": "^2.28.0",
+    "@typescript-eslint/eslint-plugin-tslint": "^2.28.0",
+    "@typescript-eslint/parser": "^2.28.0",
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.10.1",
+    "eslint-plugin-import": "^2.20.2",
+    "eslint-plugin-prettier": "^3.1.2",
+    "eslint-plugin-react": "^7.19.0",
+    "husky": "^4.2.5",
+    "prettier": "^2.0.4",
+    "pretty-quick": "^2.0.1",
+    "react": "^16.13.1",
+    "typescript": "^3.8.3"
   },
   "homepage": "https://sojinantony01.github.io/react-cron-generator",
   "scripts": {
-    "start": "react-scripts start",
-    "build": "rm -rf dist && NODE_ENV=production babel src/lib --out-dir dist --copy-files --ignore __tests__,spec.js,test.js,__snapshots__",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "deploy": "gh-pages -d build"
+    "build": "tsc",
+    "build:live": "tsc --watch",
+    "lint": "eslint . --ext .js,.ts,.tsx,.spec.ts --quiet",
+    "lint:fix": "eslint . --ext .js,.ts,.tsx,.spec.ts --quiet --fix",
+    "pretty-quick": "pretty-quick",
+    "pretty-quick:staged": "pretty-quick --staged"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -84,5 +71,10 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "tsc --noEmit && npm run pretty-quick:staged && npm run lint:fix && npm run build"
+    }
   }
 }

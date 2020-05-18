@@ -2,6 +2,7 @@
 import cronstrue from 'cronstrue';
 import React, { Component } from 'react';
 import { Container, Nav, NavItem, NavLink, Spinner } from 'reactstrap';
+
 // import { MINUTE_POSITION_INDEX, HOUR_POSITION_INDEX, DAY_POSITION_INDEX, DAY_OF_WEEK_POSITION_INDEX } from './const';
 import Daily, { DEFAULT_VALUE as DAILY_DEFAULT_VALUE, isDaily } from './daily';
 import Hourly, { DEFAULT_VALUE as HOURLY_DEFAULT_VALUE, isHourly } from './hourly';
@@ -9,23 +10,36 @@ import Minutes, { DEFAULT_VALUE as MINUTES_DEFAULT_VALUE, isMinutes } from './mi
 // import Monthly, { DEFAULT_VALUE as MONTHLY_DEFAULT_VALUE, isMonthly } from './monthly';
 import Weekly, { DEFAULT_VALUE as WEEKLY_DEFAULT_VALUE, isWeekly } from './weekly';
 // import Yearly, { DEFAULT_VALUE as YEARLY_DEFAULT_VALUE } from './yearly';
+
 const TAB_MINUTES = 'Minutes';
 const TAB_HOURLY = 'Hourly';
 const TAB_DAILY = 'Daily';
 const TAB_WEEKLY = 'Weekly';
 // const TAB_MONTHLY = 'Monthly';
 // const TAB_YEARLY = 'Yearly';
+
 const tabs = [TAB_MINUTES, TAB_HOURLY, TAB_DAILY, TAB_WEEKLY]; // , TAB_MONTHLY, TAB_YEARLY
-export default class Cron extends Component {
-  constructor() {
-    super(...arguments);
-    this.state = {
-      value: MINUTES_DEFAULT_VALUE,
-    };
-  }
+
+export interface Props {
+  value?: string;
+  onChange: (value: string) => void;
+}
+
+export interface State {
+  value: string[];
+  selectedTab?: string;
+}
+
+export default class Cron extends Component<Props, State> {
+  public readonly state: Readonly<State> = {
+    value: MINUTES_DEFAULT_VALUE,
+  };
+
   componentDidMount() {
     const value = this.props.value && this.props.value.split(' ').length === 5 ? this.props.value.split(' ') : MINUTES_DEFAULT_VALUE;
+
     let selectedTab;
+
     if (isMinutes(value)) {
       selectedTab = TAB_MINUTES;
     } else if (isHourly(value)) {
@@ -42,14 +56,16 @@ export default class Cron extends Component {
       value,
     });
   }
-  onValueChange(value) {
+
+  onValueChange(value: string[]) {
     if (!value || !value.length) {
       value = MINUTES_DEFAULT_VALUE;
     }
     this.setState({ value });
     this.props.onChange(value.join(' '));
   }
-  makeDefaultValueForTab(tab) {
+
+  makeDefaultValueForTab(tab: string): string[] {
     switch (tab) {
       case TAB_MINUTES:
         return MINUTES_DEFAULT_VALUE;
@@ -67,7 +83,8 @@ export default class Cron extends Component {
         throw new Error('Wrong tab!');
     }
   }
-  onTabSelect(selectedTab) {
+
+  onTabSelect(selectedTab: string) {
     const value = this.makeDefaultValueForTab(selectedTab);
     this.setState({
       selectedTab,
@@ -76,25 +93,27 @@ export default class Cron extends Component {
     // this.parentChange(this.defaultValue(tab))
     this.onValueChange(value);
   }
+
   getHeaders() {
-    return tabs.map((tab) =>
-      React.createElement(
-        NavItem,
-        { key: `tab-${tab}` },
-        React.createElement(NavLink, { href: '#', active: this.state.selectedTab === tab, onClick: this.onTabSelect.bind(this, tab) }, tab),
-      ),
-    );
+    return tabs.map((tab) => (
+      <NavItem key={`tab-${tab}`}>
+        <NavLink href="#" active={this.state.selectedTab === tab} onClick={this.onTabSelect.bind(this, tab)}>
+          {tab}
+        </NavLink>
+      </NavItem>
+    ));
   }
+
   getTabComponent() {
     switch (this.state.selectedTab) {
       case TAB_MINUTES:
-        return React.createElement(Minutes, { value: this.state.value, onChange: this.onValueChange.bind(this) });
+        return <Minutes value={this.state.value} onChange={this.onValueChange.bind(this)} />;
       case TAB_HOURLY:
-        return React.createElement(Hourly, { value: this.state.value, onChange: this.onValueChange.bind(this) });
+        return <Hourly value={this.state.value} onChange={this.onValueChange.bind(this)} />;
       case TAB_DAILY:
-        return React.createElement(Daily, { value: this.state.value, onChange: this.onValueChange.bind(this) });
+        return <Daily value={this.state.value} onChange={this.onValueChange.bind(this)} />;
       case TAB_WEEKLY:
-        return React.createElement(Weekly, { value: this.state.value, onChange: this.onValueChange.bind(this) });
+        return <Weekly value={this.state.value} onChange={this.onValueChange.bind(this)} />;
       // case TAB_MONTHLY:
       //   return <Monthly value={this.state.value} onChange={this.onValueChange.bind(this)} />;
       // case TAB_YEARLY:
@@ -103,23 +122,26 @@ export default class Cron extends Component {
         throw new Error('Unknown tab selected');
     }
   }
+
   getFooter() {
-    return React.createElement('div', null, cronstrue.toString(this.state.value.join(' ')));
+    return <div>{cronstrue.toString(this.state.value.join(' '))}</div>;
   }
+
   render() {
-    return React.createElement(
-      'div',
-      { className: 'react-cron-generator' },
-      this.state.selectedTab
-        ? React.createElement(
-            'div',
-            null,
-            React.createElement(Nav, { fill: true, pills: true }, this.getHeaders()),
-            React.createElement(Container, null, this.getTabComponent()),
-            React.createElement('div', { className: 'alert alert-info text-center' }, this.getFooter()),
-          )
-        : React.createElement(Spinner, { size: 'sm' }),
+    return (
+      <div className="react-cron-generator">
+        {this.state.selectedTab ? (
+          <div>
+            <Nav fill pills>
+              {this.getHeaders()}
+            </Nav>
+            <Container>{this.getTabComponent()}</Container>
+            <div className="alert alert-info text-center">{this.getFooter()}</div>
+          </div>
+        ) : (
+          <Spinner size="sm" />
+        )}
+      </div>
     );
   }
 }
-//# sourceMappingURL=index.js.map

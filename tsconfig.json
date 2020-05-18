@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "esModuleInterop": true,
+    "sourceMap": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "declaration": true,
+    "strict": true,
+    "target": "es2020",
+    "module": "esnext",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
+    "jsx": "react",
+    "outDir": "./dist"
+  },
+  "include": ["src/*.tsx", "src/*.css"],
+  "exclude": ["node_modules/", "**/*.spec.tsx"]
+}
