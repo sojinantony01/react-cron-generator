@@ -20,6 +20,6 @@
     "resolveJsonModule": true,
     "isolatedModules": true
   },
-  "include": ["src/*.tsx", "src/*.css"],
-  "exclude": ["dist/", "node_modules/", "**/*.spec.tsx"]
+  "include": ["src/*.tsx", "src/*.ts"],
+  "exclude": ["dist/", "node_modules/", "**/*.spec.tsx", "**/*.spec.ts"]
 }
