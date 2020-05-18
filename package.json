@@ -16,7 +16,7 @@
   ],
   "author": "Sojin antony",
   "dependencies": {
-    "cronstrue": "^1.91.0",
+    "cronstrue": "^1.94.0",
     "reactstrap": "^8.4.1"
   },
   "main": "dist/index.js",
