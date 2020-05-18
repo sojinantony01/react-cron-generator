@@ -7,7 +7,7 @@
     "declaration": true,
     "strict": true,
     "target": "es2020",
-    "module": "esnext",
+    "module": "commonjs",
     "lib": ["dom", "dom.iterable", "esnext"],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
