@@ -24,7 +24,7 @@ module.exports = {
     },
   },
   plugins: ['@typescript-eslint'],
-  ignorePatterns: ['build/', 'node_modules/', 'coverage/'],
+  ignorePatterns: ['dist/', 'node_modules/', 'coverage/'],
   rules: {
     'react/prop-types': 'off',
     'react/display-name': 'off',
