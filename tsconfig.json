@@ -7,12 +7,18 @@
     "declaration": true,
     "strict": true,
     "target": "es2020",
-    "module": "commonjs",
+    "module": "esnext",
     "lib": ["dom", "dom.iterable", "esnext"],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "jsx": "react",
-    "outDir": "./dist"
+    "outDir": "./dist",
+    "allowJs": true,
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true
   },
   "include": ["src/*.tsx", "src/*.css"],
   "exclude": ["dist/", "node_modules/", "**/*.spec.tsx"]
