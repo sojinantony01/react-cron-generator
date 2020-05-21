@@ -34,7 +34,6 @@ export default class extends BaseCronComponent<BaseTabProps, BaseTabState> {
       // Add selected day
       currentDaysOfWeek.push(selectedDay);
     }
-    // console.log(`currentDaysOfWeek => ${currentDaysOfWeek}`);
     const value = replaceElemAtPos(this.state.value, DAY_OF_WEEK_POSITION_INDEX, currentDaysOfWeek.toString());
     this.setState({ value });
     this.notifyOnChange(value);

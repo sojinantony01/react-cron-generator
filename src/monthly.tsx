@@ -26,10 +26,8 @@ export default class extends BaseCronComponent<BaseTabProps, BaseTabState> {
   }
 
   onDayChange(e: any) {
-    console.log(`e.target.value => ${e.target.value}`);
     if ((e.target.value > 0 && e.target.value <= 31) || e.target.value !== '') {
       const value = replaceElemAtPos(this.state.value, DAY_OF_MONTH_POSITION_INDEX, e.target.value);
-      console.log(`value => ${value}`);
       this.setState({ value });
       this.notifyOnChange(value);
     }
