@@ -2,14 +2,14 @@ import React from 'react';
 import { Row, Col, Form, FormGroup, Label, Input, FormText, CustomInput } from 'reactstrap';
 
 import { MINUTE_POSITION_INDEX, HOUR_POSITION_INDEX, DAY_OF_MONTH_POSITION_INDEX, DAY_OF_WEEK_POSITION_INDEX } from './const';
-import { replaceElemAtPos, BaseCronComponent, BaseTabProps, BaseTabState, DIGIT_REGEXP } from './helpers';
+import { replaceElemAtPos, BaseCronComponent, BaseTabProps, BaseTabState, isDigit } from './helpers';
 
 export const DEFAULT_VALUE = ['0', '0', '*/1', '*', '*'];
 
 const isEveryDay = (value: string[]) => {
   return (
-    new RegExp(DIGIT_REGEXP).exec(value[MINUTE_POSITION_INDEX]) !== null &&
-    new RegExp(DIGIT_REGEXP).exec(value[HOUR_POSITION_INDEX]) !== null &&
+    isDigit(value[MINUTE_POSITION_INDEX]) &&
+    isDigit(value[HOUR_POSITION_INDEX]) &&
     value[DAY_OF_MONTH_POSITION_INDEX].includes('/') &&
     value[DAY_OF_WEEK_POSITION_INDEX] === '*'
   );
@@ -17,8 +17,8 @@ const isEveryDay = (value: string[]) => {
 
 const isAtDayHour = (value: string[]) => {
   return (
-    new RegExp(DIGIT_REGEXP).exec(value[MINUTE_POSITION_INDEX]) !== null &&
-    new RegExp(DIGIT_REGEXP).exec(value[HOUR_POSITION_INDEX]) !== null &&
+    isDigit(value[MINUTE_POSITION_INDEX]) &&
+    isDigit(value[HOUR_POSITION_INDEX]) &&
     value[DAY_OF_MONTH_POSITION_INDEX].includes('*') &&
     value[DAY_OF_WEEK_POSITION_INDEX] === 'MON-FRI'
   );

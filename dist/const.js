@@ -1,5 +1,5 @@
-'use strict';
-Object.defineProperty(exports, '__esModule', { value: true });
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 exports.DAY_OF_WEEK_POSITION_INDEX = exports.MONTH_POSITION_INDEX = exports.DAY_OF_MONTH_POSITION_INDEX = exports.HOUR_POSITION_INDEX = exports.MINUTE_POSITION_INDEX = void 0;
 exports.MINUTE_POSITION_INDEX = 0;
 exports.HOUR_POSITION_INDEX = 1;

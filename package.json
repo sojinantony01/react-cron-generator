@@ -16,7 +16,9 @@
   ],
   "author": "Sojin antony",
   "dependencies": {
+    "cron-parser": "^2.14.0",
     "cronstrue": "^1.94.0",
+    "moment": "^2.26.0",
     "reactstrap": "^8.4.1"
   },
   "main": "dist/index.js",

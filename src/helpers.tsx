@@ -14,6 +14,8 @@ export const replaceElemAtPos = (array: string[], position: number, replacement:
   return array ? array.map((elem, index) => (index === position ? replacement : elem)) : array;
 };
 
+export const isDigit = (value: string) => new RegExp(DIGIT_REGEXP).exec(value) !== null;
+
 export interface BaseTabProps {
   value: string[];
   onChange: (value: string[]) => void;

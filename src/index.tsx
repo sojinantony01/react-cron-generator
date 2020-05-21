@@ -1,5 +1,7 @@
 // @ts-ignore
+import parser from 'cron-parser';
 import cronstrue from 'cronstrue';
+import moment from 'moment';
 import React, { Component } from 'react';
 import { Container, Nav, NavItem, NavLink, Spinner } from 'reactstrap';
 
@@ -7,7 +9,7 @@ import { Container, Nav, NavItem, NavLink, Spinner } from 'reactstrap';
 import Daily, { DEFAULT_VALUE as DAILY_DEFAULT_VALUE, isDaily } from './daily';
 import Hourly, { DEFAULT_VALUE as HOURLY_DEFAULT_VALUE, isHourly } from './hourly';
 import Minutes, { DEFAULT_VALUE as MINUTES_DEFAULT_VALUE, isMinutes } from './minutes';
-// import Monthly, { DEFAULT_VALUE as MONTHLY_DEFAULT_VALUE, isMonthly } from './monthly';
+import Monthly, { DEFAULT_VALUE as MONTHLY_DEFAULT_VALUE, isMonthly } from './monthly';
 import Weekly, { DEFAULT_VALUE as WEEKLY_DEFAULT_VALUE, isWeekly } from './weekly';
 // import Yearly, { DEFAULT_VALUE as YEARLY_DEFAULT_VALUE } from './yearly';
 
@@ -15,10 +17,10 @@ const TAB_MINUTES = 'Minutes';
 const TAB_HOURLY = 'Hourly';
 const TAB_DAILY = 'Daily';
 const TAB_WEEKLY = 'Weekly';
-// const TAB_MONTHLY = 'Monthly';
+const TAB_MONTHLY = 'Monthly';
 // const TAB_YEARLY = 'Yearly';
 
-const tabs = [TAB_MINUTES, TAB_HOURLY, TAB_DAILY, TAB_WEEKLY]; // , TAB_MONTHLY, TAB_YEARLY
+const tabs = [TAB_MINUTES, TAB_HOURLY, TAB_DAILY, TAB_WEEKLY, TAB_MONTHLY]; //, TAB_YEARLY
 
 export interface Props {
   value?: string;
@@ -48,8 +50,8 @@ export default class Cron extends Component<Props, State> {
       selectedTab = TAB_DAILY;
     } else if (isWeekly(value)) {
       selectedTab = TAB_WEEKLY;
-      // } else if (isMonthly(value)) {
-      //   selectedTab = TAB_MONTHLY;
+    } else if (isMonthly(value)) {
+      selectedTab = TAB_MONTHLY;
     }
     this.setState({
       selectedTab,
@@ -75,8 +77,8 @@ export default class Cron extends Component<Props, State> {
         return DAILY_DEFAULT_VALUE;
       case TAB_WEEKLY:
         return WEEKLY_DEFAULT_VALUE;
-      // case TAB_MONTHLY:
-      //   return MONTHLY_DEFAULT_VALUE;
+      case TAB_MONTHLY:
+        return MONTHLY_DEFAULT_VALUE;
       // case TAB_YEARLY:
       //   return YEARLY_DEFAULT_VALUE;
       default:
@@ -114,8 +116,8 @@ export default class Cron extends Component<Props, State> {
         return <Daily value={this.state.value} onChange={this.onValueChange.bind(this)} />;
       case TAB_WEEKLY:
         return <Weekly value={this.state.value} onChange={this.onValueChange.bind(this)} />;
-      // case TAB_MONTHLY:
-      //   return <Monthly value={this.state.value} onChange={this.onValueChange.bind(this)} />;
+      case TAB_MONTHLY:
+        return <Monthly value={this.state.value} onChange={this.onValueChange.bind(this)} />;
       // case TAB_YEARLY:
       //   return <Yearly value={this.state.value} onChange={this.onValueChange.bind(this)} />;
       default:
@@ -124,7 +126,20 @@ export default class Cron extends Component<Props, State> {
   }
 
   getFooter() {
-    return <div>{cronstrue.toString(this.state.value.join(' '))}</div>;
+    try {
+      const humanizedCronExpression = cronstrue.toString(this.state.value.join(' '));
+
+      const cronInterval = parser.parseExpression(this.state.value.join(' '));
+      const humanizedNextDate = moment(cronInterval.next().toDate()).fromNow();
+
+      return (
+        <div className="alert alert-info text-center">
+          {humanizedCronExpression} ({humanizedNextDate})
+        </div>
+      );
+    } catch (error) {
+      return <div className="alert alert-danger text-center">Cron expression is invalid {error.toString()}</div>;
+    }
   }
 
   render() {
@@ -136,7 +151,7 @@ export default class Cron extends Component<Props, State> {
               {this.getHeaders()}
             </Nav>
             <Container>{this.getTabComponent()}</Container>
-            <div className="alert alert-info text-center">{this.getFooter()}</div>
+            {this.getFooter()}
           </div>
         ) : (
           <Spinner size="sm" />
