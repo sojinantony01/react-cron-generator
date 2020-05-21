@@ -24,10 +24,8 @@ class default_1 extends helpers_1.BaseCronComponent {
         };
     }
     onDayChange(e) {
-        console.log(`e.target.value => ${e.target.value}`);
         if ((e.target.value > 0 && e.target.value <= 31) || e.target.value !== '') {
             const value = helpers_1.replaceElemAtPos(this.state.value, const_1.DAY_OF_MONTH_POSITION_INDEX, e.target.value);
-            console.log(`value => ${value}`);
             this.setState({ value });
             this.notifyOnChange(value);
         }

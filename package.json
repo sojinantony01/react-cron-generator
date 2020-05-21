@@ -76,7 +76,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "tsc --noEmit && npm run pretty-quick:staged && npm run lint:fix && npm run build"
+      "pre-commit": "tsc --noEmit && npm run pretty-quick:staged && npm run lint:fix && npm run build && git add ."
     }
   }
 }

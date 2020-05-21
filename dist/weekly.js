@@ -32,7 +32,6 @@ class default_1 extends helpers_1.BaseCronComponent {
             // Add selected day
             currentDaysOfWeek.push(selectedDay);
         }
-        // console.log(`currentDaysOfWeek => ${currentDaysOfWeek}`);
         const value = helpers_1.replaceElemAtPos(this.state.value, const_1.DAY_OF_WEEK_POSITION_INDEX, currentDaysOfWeek.toString());
         this.setState({ value });
         this.notifyOnChange(value);
