@@ -84,6 +84,21 @@ const options = {
 
 ```
 
+Added `ref` to the component now you can access state and functions using ref. You can change cron value from outside the component even after cron generator loaded, 
+
+add the new prop  ` onRef={ref => (this.cronGen = ref)} `
+
+```
+      <Cron
+        onRef={ref => (this.cronGen = ref)}  
+        onChange={(e)=> {this.setState({value:e}); console.log(e)}}
+        value={this.state.value}
+        showResultText={true}
+        showResultCron={true}
+        />
+```
+ Just call this.cronGen.setValue(/* Your new value */) to change the value when you need 
+
 [Sojin Antony](https://github.com/sojinantony01)
 
 ## Acknowledgments

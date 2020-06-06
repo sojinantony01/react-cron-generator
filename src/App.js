@@ -13,6 +13,7 @@ class App extends Component {
   render() {
     return (<div>
       <Cron
+        onRef={ref => (this.cronGen = ref)}
         onChange={(e)=> {this.setState({value:e}); console.log(e)}}
         value={this.state.value}
         showResultText={true}
