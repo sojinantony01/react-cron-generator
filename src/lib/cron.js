@@ -23,6 +23,11 @@ export default class Cron extends Component {
             this.props.onRef(this);
         }
     }
+    componentWillReceiveProps(nextProps) {
+        if(this.props.value !== nextProps.value) {
+            this.setValue(nextProps.value) 
+        }
+    }
 
     setValue(value) {
         let prevState = this.state;
@@ -47,7 +52,7 @@ export default class Cron extends Component {
         } else {
             prevState.selectedTab = prevState.headers[0];
         }
-        this.parentChange(prevState.value)
+        // this.parentChange(prevState.value)
         this.setState(prevState)
     }
     tabChanged(tab) {
