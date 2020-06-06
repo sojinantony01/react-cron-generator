@@ -84,6 +84,8 @@ const options = {
 
 ```
 
+## Ref
+
 Added `ref` to the component now you can access state and functions using ref. You can change cron value from outside the component even after cron generator loaded, 
 
 add the new prop  ` onRef={ref => (this.cronGen = ref)} `
