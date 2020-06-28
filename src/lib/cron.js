@@ -31,12 +31,16 @@ export default class Cron extends Component {
 
     setValue(value) {
         let prevState = this.state;
-        if(!value || value.split(' ').length !== 7 ) {
+        prevState.value = value;
+        if(prevState.value  && prevState.value.split(' ').length === 6) {
+            prevState.value += ' *'
+        }
+        if(!prevState.value  || prevState.value.split(' ').length !== 7) {
             prevState.value = ['0','0','00','1/1','*','?','*']
             prevState.selectedTab = prevState.headers[0];
             this.parentChange(prevState.value);
         } else  {
-            prevState.value = value.replace(/,/g, '!').split(' ');
+            prevState.value = prevState.value.replace(/,/g, '!').split(' ');
         }
         let val = prevState.value;
         if((val[1].search('/') !== -1) && (val[2] === '*') && (val[3] === '1/1')) {
