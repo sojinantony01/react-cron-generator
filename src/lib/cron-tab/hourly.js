@@ -54,9 +54,9 @@ export default class HourlyCron extends Component {
                         <span>{translateFn('hour(s)')}</span>
                     </div>
                     <div className="well df well-small margin-right-0 margin-left-0">
-                    <div className="col-md-offset-2 col-md-6 text_align_right">
+                    <div className="text_align_right row" style={{width:'100%'}}>
                         <input type="radio" onChange={(e) => {this.setState({ every: false }); this.props.onChange();}} checked={!this.state.every}/>
-                            <span className="margin-right-10 ">{translateFn('At')}</span>
+                        <span className="">{translateFn('At')}</span>
                         <Hour disabled={this.state.every} onChange={this.onAtHourChange} value={this.state.value[2]} />
                         <Minutes disabled={this.state.every} onChange={this.onAtMinuteChange} value={this.state.value[1]} />
                     </div>

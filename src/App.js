@@ -9,8 +9,9 @@ class App extends Component {
       this.state = {
       };
   }
-
+  
   render() {
+
     return (<div>
       <Cron
         onChange={(e)=> {this.setState({value:e}); console.log(e)}}

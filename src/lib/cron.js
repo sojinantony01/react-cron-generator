@@ -24,8 +24,13 @@ export default class Cron extends Component {
         }
     }
     componentWillReceiveProps(nextProps) {
-        if(this.props.value !== nextProps.value) {
-            this.setValue(nextProps.value) 
+        if(this.props.value !== nextProps.value && this.state.value) {
+            let newVal = '';
+            newVal = this.state.value.toString().replace(/,/g,' ');
+            newVal = newVal.replace(/!/g, ',');
+            if(nextProps.value !== newVal) {
+                this.setValue(nextProps.value) 
+            }
         }
     }
 
@@ -60,8 +65,7 @@ export default class Cron extends Component {
         this.setState(prevState)
     }
     tabChanged(tab) {
-        this.setState({selectedTab: tab, value:this.defaultValue(tab) }); 
-        this.parentChange(this.defaultValue(tab))
+        this.setState({selectedTab: tab, value:this.defaultValue(tab) }, ()=>this.parentChange(this.defaultValue(tab))); 
     }
 
     getHeaders() {
@@ -72,12 +76,12 @@ export default class Cron extends Component {
 
     onValueChange(val) {     
         if(val && val.length) {
-            this.setState({ value:val });
+            this.setState({ value:val }, ()=>this.parentChange(val));
         } else { 
-            this.setState({ value: ['0','0','00','1/1','*','?','*'] });
-            val = ['0','0','00','1/1','*','?','*'];
+            val = ['0','0','00','1/1','*','?','*']
+            this.setState({ value:  val}, ()=>this.parentChange(val));
+            // val = ['0','0','00','1/1','*','?','*'];
         }
-       this.parentChange(val)
     }
 
     parentChange(val) {
