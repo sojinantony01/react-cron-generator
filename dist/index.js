@@ -43,11 +43,12 @@ const TAB_MONTHLY = 'Monthly';
 // const TAB_YEARLY = 'Yearly';
 const tabs = [TAB_MINUTES, TAB_HOURLY, TAB_DAILY, TAB_WEEKLY, TAB_MONTHLY]; //, TAB_YEARLY
 class Cron extends react_1.Component {
-    constructor() {
-        super(...arguments);
+    constructor(props) {
+        super(props);
         this.state = {
             value: minutes_1.DEFAULT_VALUE,
         };
+        console.log('TIMEZONE GMT CRON', props);
     }
     componentDidMount() {
         const value = this.props.value && this.props.value.split(' ').length === 5 ? this.props.value.split(' ') : minutes_1.DEFAULT_VALUE;
@@ -72,12 +73,12 @@ class Cron extends react_1.Component {
             value,
         });
     }
-    onValueChange(value) {
+    onValueChange(value, timezone) {
         if (!value || !value.length) {
             value = minutes_1.DEFAULT_VALUE;
         }
         this.setState({ value });
-        this.props.onChange(value.join(' '));
+        this.props.onChange(value.join(' '), timezone);
     }
     makeDefaultValueForTab(tab) {
         switch (tab) {
@@ -115,13 +116,13 @@ class Cron extends react_1.Component {
             case TAB_MINUTES:
                 return react_1.default.createElement(minutes_1.default, { value: this.state.value, onChange: this.onValueChange.bind(this) });
             case TAB_HOURLY:
-                return react_1.default.createElement(hourly_1.default, { value: this.state.value, onChange: this.onValueChange.bind(this) });
+                return react_1.default.createElement(hourly_1.default, { defaultGMT: this.props.defaultGMT, value: this.state.value, onChange: this.onValueChange.bind(this) });
             case TAB_DAILY:
-                return react_1.default.createElement(daily_1.default, { value: this.state.value, onChange: this.onValueChange.bind(this) });
+                return react_1.default.createElement(daily_1.default, { defaultGMT: this.props.defaultGMT, value: this.state.value, onChange: this.onValueChange.bind(this) });
             case TAB_WEEKLY:
-                return react_1.default.createElement(weekly_1.default, { value: this.state.value, onChange: this.onValueChange.bind(this) });
+                return react_1.default.createElement(weekly_1.default, { defaultGMT: this.props.defaultGMT, value: this.state.value, onChange: this.onValueChange.bind(this) });
             case TAB_MONTHLY:
-                return react_1.default.createElement(monthly_1.default, { value: this.state.value, onChange: this.onValueChange.bind(this) });
+                return react_1.default.createElement(monthly_1.default, { defaultGMT: this.props.defaultGMT, value: this.state.value, onChange: this.onValueChange.bind(this) });
             // case TAB_YEARLY:
             //   return <Yearly value={this.state.value} onChange={this.onValueChange.bind(this)} />;
             default:
@@ -132,11 +133,14 @@ class Cron extends react_1.Component {
         try {
             const humanizedCronExpression = cronstrue_1.default.toString(this.state.value.join(' '));
             const cronInterval = cron_parser_1.default.parseExpression(this.state.value.join(' '));
-            const humanizedNextDate = moment_1.default(cronInterval.next().toDate()).fromNow();
+            const humanizedNextDate = moment_1.default(cronInterval.next().toDate())
+                .tz(this.props.defaultGMT ? this.props.defaultGMT : '00:00')
+                .fromNow();
             return (react_1.default.createElement("div", { className: "alert alert-info text-center" },
                 humanizedCronExpression,
                 " (",
                 humanizedNextDate,
+                this.props.defaultGMT ? ` GMT${this.props.defaultGMT}` : undefined,
                 ")"));
         }
         catch (error) {

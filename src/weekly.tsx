@@ -3,6 +3,7 @@ import { Container, Row, Col, Form, FormGroup, Label, Input, CustomInput } from 
 
 import { MINUTE_POSITION_INDEX, HOUR_POSITION_INDEX, DAY_OF_WEEK_POSITION_INDEX, DAY_OF_MONTH_POSITION_INDEX } from './const';
 import { replaceElemAtPos, BaseCronComponent, BaseTabProps, BaseTabState, DAY_OF_WEEK_REGEXP, isDigit } from './helpers';
+import { TzDropdown } from './tzDropdown';
 
 export const DEFAULT_VALUE = ['0', '0', '*', '*', 'MON,TUE,WED,THU,FRI'];
 
@@ -148,6 +149,7 @@ export default class extends BaseCronComponent<BaseTabProps, BaseTabState> {
                   >
                     {this.makeMinutesOptions()}
                   </Input>
+                  <TzDropdown defaultValue={this.state.timezone} id="weekly-dropdown" onChange={(tz) => console.log('TZCHANGE', tz)} />
                 </FormGroup>
               </Form>
             </Col>

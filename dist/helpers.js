@@ -18,8 +18,12 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.BaseCronComponent = exports.isDigit = exports.replaceElemAtPos = exports.DAY_OF_WEEK_REGEXP = exports.DIGIT_REGEXP = void 0;
+exports.timezoneToGMT = exports.BaseCronComponent = exports.isDigit = exports.replaceElemAtPos = exports.DAY_OF_WEEK_REGEXP = exports.DIGIT_REGEXP = void 0;
+const moment_timezone_1 = __importDefault(require("moment-timezone"));
 const react_1 = __importStar(require("react"));
 exports.DIGIT_REGEXP = /^\d+$/i;
 exports.DAY_OF_WEEK_REGEXP = /^(mon|tue|wed|thu|fri|sat|sun|,)+$/gi;
@@ -47,8 +51,8 @@ class BaseCronComponent extends react_1.Component {
             value: this.props.value,
         });
     }
-    notifyOnChange(value) {
-        this.props.onChange(value);
+    notifyOnChange(value, timezone) {
+        this.props.onChange(value, timezone);
     }
     makeHoursOptions() {
         const hours = [];
@@ -66,4 +70,7 @@ class BaseCronComponent extends react_1.Component {
     }
 }
 exports.BaseCronComponent = BaseCronComponent;
+exports.timezoneToGMT = (timezone) => {
+    return parseInt(moment_timezone_1.default.tz(timezone).format('Z').split(':')[0]);
+};
 //# sourceMappingURL=helpers.js.map

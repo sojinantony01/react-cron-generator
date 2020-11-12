@@ -3,6 +3,7 @@ import { Row, Col, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
 
 import { MINUTE_POSITION_INDEX, HOUR_POSITION_INDEX, DAY_OF_WEEK_POSITION_INDEX, DAY_OF_MONTH_POSITION_INDEX, MONTH_POSITION_INDEX } from './const';
 import { BaseCronComponent, BaseTabProps, replaceElemAtPos, BaseTabState, isDigit } from './helpers';
+import { TzDropdown } from './tzDropdown';
 
 export const DEFAULT_VALUE = ['0', '0', '1', '*', '*'];
 
@@ -93,6 +94,7 @@ export default class extends BaseCronComponent<BaseTabProps, BaseTabState> {
                   >
                     {this.makeMinutesOptions()}
                   </Input>
+                  <TzDropdown defaultValue={this.state.timezone} id="monthly-dropdown" onChange={(tz) => console.log('TZCHANGE', tz)} />
                 </FormGroup>
               </Form>
             </Col>

@@ -8,6 +8,7 @@ export default class extends BaseCronComponent<BaseTabProps, BaseTabState> {
     onEveryHourChange(e: any): void;
     onAtHourChange(e: any): void;
     onAtMinuteChange(e: any): void;
+    protected onTimezoneChange(timezone: string): void;
     toggleEvery(every: boolean): void;
     render(): JSX.Element;
 }

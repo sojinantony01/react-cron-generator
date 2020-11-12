@@ -1,8 +1,10 @@
+import moment from 'moment-timezone';
 import React from 'react';
 import { Row, Col, Form, FormGroup, Label, Input, FormText, CustomInput } from 'reactstrap';
 
 import { MINUTE_POSITION_INDEX, HOUR_POSITION_INDEX, DAY_OF_MONTH_POSITION_INDEX, DAY_OF_WEEK_POSITION_INDEX } from './const';
-import { replaceElemAtPos, BaseCronComponent, BaseTabProps, BaseTabState, isDigit } from './helpers';
+import { replaceElemAtPos, BaseCronComponent, BaseTabProps, BaseTabState, isDigit, timezoneToGMT } from './helpers';
+import { TzDropdown } from './tzDropdown';
 
 export const DEFAULT_VALUE = ['0', '0', '*/1', '*', '*'];
 
@@ -35,26 +37,46 @@ export default class extends BaseCronComponent<BaseTabProps, BaseTabState> {
 
   constructor(props: BaseTabProps) {
     super(props, DEFAULT_VALUE);
+    // this.setState({ timezone: props. });
+    if (props.defaultGMT) {
+      console.log('TIMEZONE GMT', moment.tz(props.defaultGMT).format('Z'));
+    }
   }
 
   protected onEveryDayChange(e: any) {
     if ((e.target.value > 0 && e.target.value < 24) || e.target.value === '') {
       const value = replaceElemAtPos(this.state.value, DAY_OF_MONTH_POSITION_INDEX, e.target.value === '' ? '*' : `*/${e.target.value}`);
       this.setState({ value });
-      this.notifyOnChange(value);
+      this.notifyOnChange(value, this.state.timezone);
     }
   }
 
   protected onAtHourChange(e: any) {
     const value = replaceElemAtPos(this.state.value, HOUR_POSITION_INDEX, e.target.value);
     this.setState({ value });
-    this.notifyOnChange(value);
+    this.notifyOnChange(value, this.state.timezone);
   }
 
   protected onAtMinuteChange(e: any) {
     const value = replaceElemAtPos(this.state.value, MINUTE_POSITION_INDEX, e.target.value);
     this.setState({ value });
-    this.notifyOnChange(value);
+    this.notifyOnChange(value, this.state.timezone);
+  }
+
+  protected onTimezoneChange(timezone: string) {
+    this.setState({ timezone });
+    const oldValue = this.state.value;
+    const currentHour = oldValue[HOUR_POSITION_INDEX];
+    let nextHour = parseInt(currentHour) + timezoneToGMT(timezone) * -1 + timezoneToGMT(this.props.defaultGMT ? this.props.defaultGMT : '00:00');
+    if (nextHour < 0) {
+      nextHour = Math.abs(nextHour);
+    } else if (nextHour > 23) {
+      nextHour = nextHour - 24;
+    }
+    const value = replaceElemAtPos(oldValue, HOUR_POSITION_INDEX, nextHour.toString());
+    this.setState({ value });
+    console.log('TIMEZONE GMT', currentHour, nextHour, value);
+    this.notifyOnChange(value, timezone);
   }
 
   protected toggleEvery(every: boolean) {
@@ -135,6 +157,12 @@ export default class extends BaseCronComponent<BaseTabProps, BaseTabState> {
                   >
                     {this.makeMinutesOptions()}
                   </Input>
+                  <TzDropdown
+                    defaultValue={this.state.timezone}
+                    disabled={isEveryDay(this.state.value)}
+                    id="daily-dropdown"
+                    onChange={this.onTimezoneChange.bind(this)}
+                  />
                 </FormGroup>
               </Form>
             </Col>
