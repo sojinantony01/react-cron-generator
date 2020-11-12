@@ -86,7 +86,6 @@ class Cron extends react_1.Component {
             const [hours, minutes] = helpers_1.getDifferenceHourMinutesTzToTz(this.props.serverTimezone || 'Etc/UTC', timezone, value[const_1.HOUR_POSITION_INDEX], value[const_1.MINUTE_POSITION_INDEX]).split(':');
             newValue = helpers_1.replaceElemAtPos(newValue, const_1.HOUR_POSITION_INDEX, hours);
             newValue = helpers_1.replaceElemAtPos(newValue, const_1.MINUTE_POSITION_INDEX, minutes);
-            console.log(`TIMEZONE GMT DIFF HOURS=${hours}, MINUTES=${minutes}, CRON=${newValue.join(' ')}`);
         }
         this.setState({ convertedValue: newValue, value });
         this.props.onChange(newValue.join(' '), timezone);

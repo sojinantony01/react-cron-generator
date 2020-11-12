@@ -38,7 +38,6 @@ export class BaseCronComponent<P extends BaseTabProps, S extends BaseTabState> e
   }
 
   componentDidUpdate() {
-    console.log('TIMEZONE GMT DEFAULT', this.props.defaultTimezone);
     this.setState({
       value: this.props.value,
       timezone: this.props.defaultTimezone,

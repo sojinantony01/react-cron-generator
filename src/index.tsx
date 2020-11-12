@@ -84,7 +84,6 @@ export default class Cron extends Component<Props, State> {
       ).split(':');
       newValue = replaceElemAtPos(newValue, HOUR_POSITION_INDEX, hours);
       newValue = replaceElemAtPos(newValue, MINUTE_POSITION_INDEX, minutes);
-      console.log(`TIMEZONE GMT DIFF HOURS=${hours}, MINUTES=${minutes}, CRON=${newValue.join(' ')}`);
     }
 
     this.setState({ convertedValue: newValue, value });

@@ -47,7 +47,6 @@ class BaseCronComponent extends react_1.Component {
         return nextProps.value !== nextState.value || this.state.value !== nextState.value;
     }
     componentDidUpdate() {
-        console.log('TIMEZONE GMT DEFAULT', this.props.defaultTimezone);
         this.setState({
             value: this.props.value,
             timezone: this.props.defaultTimezone,
