@@ -13,7 +13,7 @@ export declare const isDigit: (value: string) => boolean;
 export interface BaseTabProps {
     value: string[];
     onChange: (value: string[], timezone?: string) => void;
-    defaultGMT?: string;
+    defaultTimezone?: string;
 }
 export interface BaseTabState {
     value: string[];
@@ -29,3 +29,4 @@ export declare class BaseCronComponent<P extends BaseTabProps, S extends BaseTab
     makeMinutesOptions(): JSX.Element[];
 }
 export declare const timezoneToGMT: (timezone: string) => number;
+export declare const getDifferenceHourMinutesTzToTz: (tz1: string, tz2: string, hours: string, minutes: string) => string;

@@ -37,10 +37,6 @@ export default class extends BaseCronComponent<BaseTabProps, BaseTabState> {
 
   constructor(props: BaseTabProps) {
     super(props, DEFAULT_VALUE);
-    // this.setState({ timezone: props. });
-    if (props.defaultGMT) {
-      console.log('TIMEZONE GMT', moment.tz(props.defaultGMT).format('Z'));
-    }
   }
 
   protected onEveryDayChange(e: any) {
@@ -65,18 +61,7 @@ export default class extends BaseCronComponent<BaseTabProps, BaseTabState> {
 
   protected onTimezoneChange(timezone: string) {
     this.setState({ timezone });
-    const oldValue = this.state.value;
-    const currentHour = oldValue[HOUR_POSITION_INDEX];
-    let nextHour = parseInt(currentHour) + timezoneToGMT(timezone) * -1 + timezoneToGMT(this.props.defaultGMT ? this.props.defaultGMT : '00:00');
-    if (nextHour < 0) {
-      nextHour = Math.abs(nextHour);
-    } else if (nextHour > 23) {
-      nextHour = nextHour - 24;
-    }
-    const value = replaceElemAtPos(oldValue, HOUR_POSITION_INDEX, nextHour.toString());
-    this.setState({ value });
-    console.log('TIMEZONE GMT', currentHour, nextHour, value);
-    this.notifyOnChange(value, timezone);
+    this.notifyOnChange(this.state.value, timezone);
   }
 
   protected toggleEvery(every: boolean) {
@@ -86,7 +71,7 @@ export default class extends BaseCronComponent<BaseTabProps, BaseTabState> {
     this.setState({
       value,
     });
-    this.notifyOnChange(value);
+    this.notifyOnChange(value, this.state.timezone);
   }
 
   render() {
@@ -119,6 +104,12 @@ export default class extends BaseCronComponent<BaseTabProps, BaseTabState> {
                     onChange={(e) => this.onEveryDayChange.bind(this)(e)}
                   />
                   <FormText color="muted">Must be integer value (1 - 31).</FormText>
+                  <TzDropdown
+                    defaultValue={this.state.timezone}
+                    disabled={isAtDayHour(this.state.value)}
+                    id="daily-dropdown"
+                    onChange={this.onTimezoneChange.bind(this)}
+                  />
                 </FormGroup>
               </Form>
             </Col>

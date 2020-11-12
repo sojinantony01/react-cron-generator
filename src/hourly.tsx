@@ -67,7 +67,7 @@ export default class extends BaseCronComponent<BaseTabProps, BaseTabState> {
   toggleEvery(every: boolean) {
     const value = every ? DEFAULT_VALUE : replaceElemAtPos(DEFAULT_VALUE, HOUR_POSITION_INDEX, '0');
     this.setState({ value });
-    this.notifyOnChange(value);
+    this.notifyOnChange(value, this.state.timezone);
   }
 
   render() {

@@ -37,19 +37,24 @@ export default class extends BaseCronComponent<BaseTabProps, BaseTabState> {
     }
     const value = replaceElemAtPos(this.state.value, DAY_OF_WEEK_POSITION_INDEX, currentDaysOfWeek.toString());
     this.setState({ value });
-    this.notifyOnChange(value);
+    this.notifyOnChange(value, this.state.timezone);
   }
 
   onAtHourChange(e: any) {
     const value = replaceElemAtPos(this.state.value, HOUR_POSITION_INDEX, e.target.value);
     this.setState({ value });
-    this.notifyOnChange(value);
+    this.notifyOnChange(value, this.state.timezone);
   }
 
   onAtMinuteChange(e: any) {
     const value = replaceElemAtPos(this.state.value, MINUTE_POSITION_INDEX, e.target.value);
     this.setState({ value });
-    this.notifyOnChange(value);
+    this.notifyOnChange(value, this.state.timezone);
+  }
+
+  protected onTimezoneChange(timezone: string) {
+    this.setState({ timezone });
+    this.notifyOnChange(this.state.value, timezone);
   }
 
   render() {
@@ -149,7 +154,7 @@ export default class extends BaseCronComponent<BaseTabProps, BaseTabState> {
                   >
                     {this.makeMinutesOptions()}
                   </Input>
-                  <TzDropdown defaultValue={this.state.timezone} id="weekly-dropdown" onChange={(tz) => console.log('TZCHANGE', tz)} />
+                  <TzDropdown defaultValue={this.state.timezone} id="weekly-dropdown" onChange={this.onTimezoneChange.bind(this)} />
                 </FormGroup>
               </Form>
             </Col>

@@ -1,11 +1,13 @@
 import { Component } from 'react';
 export interface Props {
     value?: string;
+    timezone?: string;
     onChange: (value: string, timezone?: string) => void;
-    defaultGMT?: string;
+    serverTimezone?: string;
 }
 export interface State {
     value: string[];
+    convertedValue: string[];
     timezone?: string;
     selectedTab?: string;
 }

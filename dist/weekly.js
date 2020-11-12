@@ -35,17 +35,21 @@ class default_1 extends helpers_1.BaseCronComponent {
         }
         const value = helpers_1.replaceElemAtPos(this.state.value, const_1.DAY_OF_WEEK_POSITION_INDEX, currentDaysOfWeek.toString());
         this.setState({ value });
-        this.notifyOnChange(value);
+        this.notifyOnChange(value, this.state.timezone);
     }
     onAtHourChange(e) {
         const value = helpers_1.replaceElemAtPos(this.state.value, const_1.HOUR_POSITION_INDEX, e.target.value);
         this.setState({ value });
-        this.notifyOnChange(value);
+        this.notifyOnChange(value, this.state.timezone);
     }
     onAtMinuteChange(e) {
         const value = helpers_1.replaceElemAtPos(this.state.value, const_1.MINUTE_POSITION_INDEX, e.target.value);
         this.setState({ value });
-        this.notifyOnChange(value);
+        this.notifyOnChange(value, this.state.timezone);
+    }
+    onTimezoneChange(timezone) {
+        this.setState({ timezone });
+        this.notifyOnChange(this.state.value, timezone);
     }
     render() {
         return (react_1.default.createElement(reactstrap_1.Form, { className: "mt-sm-1 justify-content-center align-items-center panel-row", inline: true },
@@ -70,7 +74,7 @@ class default_1 extends helpers_1.BaseCronComponent {
                                 react_1.default.createElement(reactstrap_1.Label, { className: "mr-sm-1" }, "Start time"),
                                 react_1.default.createElement(reactstrap_1.Input, { className: "mr-sm-1 hours", type: "select", min: 0, max: 23, value: this.state.value[const_1.HOUR_POSITION_INDEX], onChange: (e) => this.onAtHourChange.bind(this)(e) }, this.makeHoursOptions()),
                                 react_1.default.createElement(reactstrap_1.Input, { className: "minutes", type: "select", min: 0, max: 59, value: this.state.value[const_1.MINUTE_POSITION_INDEX], onChange: (e) => this.onAtMinuteChange.bind(this)(e) }, this.makeMinutesOptions()),
-                                react_1.default.createElement(tzDropdown_1.TzDropdown, { defaultValue: this.state.timezone, id: "weekly-dropdown", onChange: (tz) => console.log('TZCHANGE', tz) }))))))));
+                                react_1.default.createElement(tzDropdown_1.TzDropdown, { defaultValue: this.state.timezone, id: "weekly-dropdown", onChange: this.onTimezoneChange.bind(this) }))))))));
     }
 }
 exports.default = default_1;

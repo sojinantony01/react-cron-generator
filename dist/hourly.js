@@ -58,7 +58,7 @@ class default_1 extends helpers_1.BaseCronComponent {
     toggleEvery(every) {
         const value = every ? exports.DEFAULT_VALUE : helpers_1.replaceElemAtPos(exports.DEFAULT_VALUE, const_1.HOUR_POSITION_INDEX, '0');
         this.setState({ value });
-        this.notifyOnChange(value);
+        this.notifyOnChange(value, this.state.timezone);
     }
     render() {
         return (react_1.default.createElement(reactstrap_1.Form, { className: "mt-sm-1 justify-content-center align-items-center panel-row", inline: true },

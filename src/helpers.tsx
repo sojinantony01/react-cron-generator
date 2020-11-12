@@ -20,7 +20,7 @@ export const isDigit = (value: string) => new RegExp(DIGIT_REGEXP).exec(value) !
 export interface BaseTabProps {
   value: string[];
   onChange: (value: string[], timezone?: string) => void;
-  defaultGMT?: string;
+  defaultTimezone?: string;
 }
 
 export interface BaseTabState {
@@ -38,8 +38,10 @@ export class BaseCronComponent<P extends BaseTabProps, S extends BaseTabState> e
   }
 
   componentDidUpdate() {
+    console.log('TIMEZONE GMT DEFAULT', this.props.defaultTimezone);
     this.setState({
       value: this.props.value,
+      timezone: this.props.defaultTimezone,
     });
   }
 
@@ -66,4 +68,11 @@ export class BaseCronComponent<P extends BaseTabProps, S extends BaseTabState> e
 
 export const timezoneToGMT = (timezone: string): number => {
   return parseInt(moment.tz(timezone).format('Z').split(':')[0]);
+};
+
+export const getDifferenceHourMinutesTzToTz = (tz1: string, tz2: string, hours: string, minutes: string) => {
+  const diff = moment(moment().tz(tz2).format('YYYY-MM-DD HH:mm')).diff(moment(moment().tz(tz1).format('YYYY-MM-DD HH:mm')), 'hours');
+  return moment(`${hours.padStart(2, '0')}:${minutes.padStart(2, '0')}`, 'HH:mm')
+    .subtract(diff, 'hours')
+    .format('HH:mm');
 };

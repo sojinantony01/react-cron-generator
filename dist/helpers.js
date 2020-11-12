@@ -22,7 +22,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.timezoneToGMT = exports.BaseCronComponent = exports.isDigit = exports.replaceElemAtPos = exports.DAY_OF_WEEK_REGEXP = exports.DIGIT_REGEXP = void 0;
+exports.getDifferenceHourMinutesTzToTz = exports.timezoneToGMT = exports.BaseCronComponent = exports.isDigit = exports.replaceElemAtPos = exports.DAY_OF_WEEK_REGEXP = exports.DIGIT_REGEXP = void 0;
 const moment_timezone_1 = __importDefault(require("moment-timezone"));
 const react_1 = __importStar(require("react"));
 exports.DIGIT_REGEXP = /^\d+$/i;
@@ -47,8 +47,10 @@ class BaseCronComponent extends react_1.Component {
         return nextProps.value !== nextState.value || this.state.value !== nextState.value;
     }
     componentDidUpdate() {
+        console.log('TIMEZONE GMT DEFAULT', this.props.defaultTimezone);
         this.setState({
             value: this.props.value,
+            timezone: this.props.defaultTimezone,
         });
     }
     notifyOnChange(value, timezone) {
@@ -72,5 +74,11 @@ class BaseCronComponent extends react_1.Component {
 exports.BaseCronComponent = BaseCronComponent;
 exports.timezoneToGMT = (timezone) => {
     return parseInt(moment_timezone_1.default.tz(timezone).format('Z').split(':')[0]);
+};
+exports.getDifferenceHourMinutesTzToTz = (tz1, tz2, hours, minutes) => {
+    const diff = moment_timezone_1.default(moment_timezone_1.default().tz(tz2).format('YYYY-MM-DD HH:mm')).diff(moment_timezone_1.default(moment_timezone_1.default().tz(tz1).format('YYYY-MM-DD HH:mm')), 'hours');
+    return moment_timezone_1.default(`${hours.padStart(2, '0')}:${minutes.padStart(2, '0')}`, 'HH:mm')
+        .subtract(diff, 'hours')
+        .format('HH:mm');
 };
 //# sourceMappingURL=helpers.js.map

@@ -8,5 +8,6 @@ export default class extends BaseCronComponent<BaseTabProps, BaseTabState> {
     onDayChange(e: any): void;
     protected onAtHourChange(e: any): void;
     protected onAtMinuteChange(e: any): void;
+    protected onTimezoneChange(timezone: string): void;
     render(): JSX.Element;
 }
