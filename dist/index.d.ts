@@ -1,13 +1,18 @@
 import { Component } from 'react';
+export interface CronOnChangeEvent {
+    serverCronString: string;
+    clientCronString?: string;
+    timezone?: string;
+}
 export interface Props {
     value?: string;
     timezone?: string;
-    onChange: (value: string, timezone?: string) => void;
+    onChange: (event: CronOnChangeEvent) => void;
     serverTimezone?: string;
 }
 export interface State {
-    value: string[];
-    convertedValue: string[];
+    clientCron: string[];
+    serverCron: string[];
     timezone?: string;
     selectedTab?: string;
 }

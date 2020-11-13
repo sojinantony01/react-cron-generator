@@ -22,17 +22,22 @@ const TAB_MONTHLY = 'Monthly';
 // const TAB_YEARLY = 'Yearly';
 
 const tabs = [TAB_MINUTES, TAB_HOURLY, TAB_DAILY, TAB_WEEKLY, TAB_MONTHLY]; //, TAB_YEARLY
+export interface CronOnChangeEvent {
+  serverCronString: string;
+  clientCronString?: string;
+  timezone?: string;
+}
 
 export interface Props {
   value?: string;
   timezone?: string;
-  onChange: (value: string, timezone?: string) => void;
+  onChange: (event: CronOnChangeEvent) => void;
   serverTimezone?: string;
 }
 
 export interface State {
-  value: string[];
-  convertedValue: string[];
+  clientCron: string[];
+  serverCron: string[];
   timezone?: string;
   selectedTab?: string;
 }
@@ -42,8 +47,8 @@ export default class Cron extends Component<Props, State> {
     super(props);
   }
   public readonly state: Readonly<State> = {
-    value: MINUTES_DEFAULT_VALUE,
-    convertedValue: MINUTES_DEFAULT_VALUE,
+    clientCron: MINUTES_DEFAULT_VALUE,
+    serverCron: MINUTES_DEFAULT_VALUE,
   };
 
   componentDidMount() {
@@ -62,10 +67,21 @@ export default class Cron extends Component<Props, State> {
     } else if (isMonthly(value)) {
       selectedTab = TAB_MONTHLY;
     }
+    let newValue = value;
+    if (this.props.timezone) {
+      const [hours, minutes] = getDifferenceHourMinutesTzToTz(
+        this.props.timezone,
+        this.props.serverTimezone || 'Etc/UTC',
+        value[HOUR_POSITION_INDEX],
+        value[MINUTE_POSITION_INDEX],
+      ).split(':');
+      newValue = replaceElemAtPos(newValue, HOUR_POSITION_INDEX, hours);
+      newValue = replaceElemAtPos(newValue, MINUTE_POSITION_INDEX, minutes);
+    }
     this.setState({
       selectedTab,
-      value,
-      convertedValue: value,
+      clientCron: newValue,
+      serverCron: value,
       timezone: this.props.timezone,
     });
   }
@@ -86,8 +102,12 @@ export default class Cron extends Component<Props, State> {
       newValue = replaceElemAtPos(newValue, MINUTE_POSITION_INDEX, minutes);
     }
 
-    this.setState({ convertedValue: newValue, value });
-    this.props.onChange(newValue.join(' '), timezone);
+    this.setState({ serverCron: newValue, clientCron: value, timezone });
+    this.props.onChange({
+      serverCronString: newValue.join(' '),
+      timezone,
+      clientCronString: value.join(' '),
+    });
   }
 
   makeDefaultValueForTab(tab: string): string[] {
@@ -113,9 +133,9 @@ export default class Cron extends Component<Props, State> {
     const value = this.makeDefaultValueForTab(selectedTab);
     this.setState({
       selectedTab,
-      value,
+      clientCron: value,
       timezone: undefined,
-      convertedValue: value,
+      serverCron: value,
     });
     // this.parentChange(this.defaultValue(tab))
     this.onValueChange(value);
@@ -134,15 +154,15 @@ export default class Cron extends Component<Props, State> {
   getTabComponent() {
     switch (this.state.selectedTab) {
       case TAB_MINUTES:
-        return <Minutes value={this.state.value} onChange={this.onValueChange.bind(this)} />;
+        return <Minutes value={this.state.clientCron} onChange={this.onValueChange.bind(this)} />;
       case TAB_HOURLY:
-        return <Hourly defaultTimezone={this.state.timezone} value={this.state.value} onChange={this.onValueChange.bind(this)} />;
+        return <Hourly defaultTimezone={this.state.timezone} value={this.state.clientCron} onChange={this.onValueChange.bind(this)} />;
       case TAB_DAILY:
-        return <Daily defaultTimezone={this.state.timezone} value={this.state.value} onChange={this.onValueChange.bind(this)} />;
+        return <Daily defaultTimezone={this.state.timezone} value={this.state.clientCron} onChange={this.onValueChange.bind(this)} />;
       case TAB_WEEKLY:
-        return <Weekly defaultTimezone={this.state.timezone} value={this.state.value} onChange={this.onValueChange.bind(this)} />;
+        return <Weekly defaultTimezone={this.state.timezone} value={this.state.clientCron} onChange={this.onValueChange.bind(this)} />;
       case TAB_MONTHLY:
-        return <Monthly defaultTimezone={this.state.timezone} value={this.state.value} onChange={this.onValueChange.bind(this)} />;
+        return <Monthly defaultTimezone={this.state.timezone} value={this.state.clientCron} onChange={this.onValueChange.bind(this)} />;
       // case TAB_YEARLY:
       //   return <Yearly value={this.state.value} onChange={this.onValueChange.bind(this)} />;
       default:
@@ -152,10 +172,13 @@ export default class Cron extends Component<Props, State> {
 
   getFooter() {
     try {
-      const humanizedCronExpression = cronstrue.toString(this.state.value.join(' '));
-
-      const cronInterval = parser.parseExpression(this.state.value.join(' '));
-      const humanizedNextDate = moment(cronInterval.next().toDate()).fromNow();
+      const humanizedCronExpression = cronstrue.toString(this.state.clientCron.join(' '));
+      const cronInterval = parser.parseExpression(this.state.clientCron.join(' '));
+      const cronDate = cronInterval.next().toDate();
+      let humanizedNextDate = moment(cronDate).fromNow();
+      if (this.state.timezone) {
+        humanizedNextDate = moment(cronDate).tz(this.state.timezone, true).fromNow();
+      }
 
       return (
         <div className="alert alert-info text-center">
