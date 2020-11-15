@@ -1,4 +1,5 @@
 import { Component } from 'react';
+export declare const getClientCronFromServerCron: (clientCron: string, timezone: string, serverTimezone: string) => string;
 export interface CronOnChangeEvent {
     serverCronString: string;
     clientCronString?: string;

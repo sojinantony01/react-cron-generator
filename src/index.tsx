@@ -22,6 +22,21 @@ const TAB_MONTHLY = 'Monthly';
 // const TAB_YEARLY = 'Yearly';
 
 const tabs = [TAB_MINUTES, TAB_HOURLY, TAB_DAILY, TAB_WEEKLY, TAB_MONTHLY]; //, TAB_YEARLY
+
+export const getClientCronFromServerCron = (clientCron: string, timezone: string, serverTimezone: string): string => {
+  let newValue = clientCron.split(' ');
+  const [hours, minutes] = getDifferenceHourMinutesTzToTz(
+    timezone,
+    serverTimezone || 'Etc/UTC',
+    newValue[HOUR_POSITION_INDEX],
+    newValue[MINUTE_POSITION_INDEX],
+  ).split(':');
+  newValue = replaceElemAtPos(newValue, HOUR_POSITION_INDEX, hours);
+  newValue = replaceElemAtPos(newValue, MINUTE_POSITION_INDEX, minutes);
+
+  return newValue.join(' ');
+};
+
 export interface CronOnChangeEvent {
   serverCronString: string;
   clientCronString?: string;

@@ -22,6 +22,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.getClientCronFromServerCron = void 0;
 // @ts-ignore
 const cron_parser_1 = __importDefault(require("cron-parser"));
 const cronstrue_1 = __importDefault(require("cronstrue"));
@@ -43,6 +44,13 @@ const TAB_WEEKLY = 'Weekly';
 const TAB_MONTHLY = 'Monthly';
 // const TAB_YEARLY = 'Yearly';
 const tabs = [TAB_MINUTES, TAB_HOURLY, TAB_DAILY, TAB_WEEKLY, TAB_MONTHLY]; //, TAB_YEARLY
+exports.getClientCronFromServerCron = (clientCron, timezone, serverTimezone) => {
+    let newValue = clientCron.split(' ');
+    const [hours, minutes] = helpers_1.getDifferenceHourMinutesTzToTz(timezone, serverTimezone || 'Etc/UTC', newValue[const_1.HOUR_POSITION_INDEX], newValue[const_1.MINUTE_POSITION_INDEX]).split(':');
+    newValue = helpers_1.replaceElemAtPos(newValue, const_1.HOUR_POSITION_INDEX, hours);
+    newValue = helpers_1.replaceElemAtPos(newValue, const_1.MINUTE_POSITION_INDEX, minutes);
+    return newValue.join(' ');
+};
 class Cron extends react_1.Component {
     constructor(props) {
         super(props);
