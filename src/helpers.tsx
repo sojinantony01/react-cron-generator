@@ -1,3 +1,4 @@
+import moment from 'moment-timezone';
 import React, { Component } from 'react';
 
 export const DIGIT_REGEXP = /^\d+$/i;
@@ -18,11 +19,13 @@ export const isDigit = (value: string) => new RegExp(DIGIT_REGEXP).exec(value) !
 
 export interface BaseTabProps {
   value: string[];
-  onChange: (value: string[]) => void;
+  onChange: (value: string[], timezone?: string) => void;
+  defaultTimezone?: string;
 }
 
 export interface BaseTabState {
   value: string[];
+  timezone?: string;
 }
 
 export class BaseCronComponent<P extends BaseTabProps, S extends BaseTabState> extends Component<P, S> {
@@ -37,11 +40,12 @@ export class BaseCronComponent<P extends BaseTabProps, S extends BaseTabState> e
   componentDidUpdate() {
     this.setState({
       value: this.props.value,
+      timezone: this.props.defaultTimezone,
     });
   }
 
-  notifyOnChange(value: string[]) {
-    this.props.onChange(value);
+  notifyOnChange(value: string[], timezone?: string) {
+    this.props.onChange(value, timezone);
   }
 
   makeHoursOptions() {
@@ -60,3 +64,14 @@ export class BaseCronComponent<P extends BaseTabProps, S extends BaseTabState> e
     return minutes;
   }
 }
+
+export const timezoneToGMT = (timezone: string): number => {
+  return parseInt(moment.tz(timezone).format('Z').split(':')[0]);
+};
+
+export const getDifferenceHourMinutesTzToTz = (tz1: string, tz2: string, hours: string, minutes: string) => {
+  const diff = moment(moment().tz(tz2).format('YYYY-MM-DD HH:mm')).diff(moment(moment().tz(tz1).format('YYYY-MM-DD HH:mm')), 'hours');
+  return moment(`${hours.padStart(2, '0')}:${minutes.padStart(2, '0')}`, 'HH:mm')
+    .subtract(diff, 'hours')
+    .format('HH:mm');
+};

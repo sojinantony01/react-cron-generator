@@ -1,16 +1,27 @@
 import { Component } from 'react';
+export declare const getClientCronFromServerCron: (clientCron: string, timezone: string, serverTimezone: string) => string;
+export interface CronOnChangeEvent {
+    serverCronString: string;
+    clientCronString?: string;
+    timezone?: string;
+}
 export interface Props {
     value?: string;
-    onChange: (value: string) => void;
+    timezone?: string;
+    onChange: (event: CronOnChangeEvent) => void;
+    serverTimezone?: string;
 }
 export interface State {
-    value: string[];
+    clientCron: string[];
+    serverCron: string[];
+    timezone?: string;
     selectedTab?: string;
 }
 export default class Cron extends Component<Props, State> {
+    constructor(props: Props);
     readonly state: Readonly<State>;
     componentDidMount(): void;
-    onValueChange(value: string[]): void;
+    onValueChange(value: string[], timezone?: string): void;
     makeDefaultValueForTab(tab: string): string[];
     onTabSelect(selectedTab: string): void;
     getHeaders(): JSX.Element[];

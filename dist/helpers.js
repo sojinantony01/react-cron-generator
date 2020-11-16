@@ -18,8 +18,12 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.BaseCronComponent = exports.isDigit = exports.replaceElemAtPos = exports.DAY_OF_WEEK_REGEXP = exports.DIGIT_REGEXP = void 0;
+exports.getDifferenceHourMinutesTzToTz = exports.timezoneToGMT = exports.BaseCronComponent = exports.isDigit = exports.replaceElemAtPos = exports.DAY_OF_WEEK_REGEXP = exports.DIGIT_REGEXP = void 0;
+const moment_timezone_1 = __importDefault(require("moment-timezone"));
 const react_1 = __importStar(require("react"));
 exports.DIGIT_REGEXP = /^\d+$/i;
 exports.DAY_OF_WEEK_REGEXP = /^(mon|tue|wed|thu|fri|sat|sun|,)+$/gi;
@@ -45,10 +49,11 @@ class BaseCronComponent extends react_1.Component {
     componentDidUpdate() {
         this.setState({
             value: this.props.value,
+            timezone: this.props.defaultTimezone,
         });
     }
-    notifyOnChange(value) {
-        this.props.onChange(value);
+    notifyOnChange(value, timezone) {
+        this.props.onChange(value, timezone);
     }
     makeHoursOptions() {
         const hours = [];
@@ -66,4 +71,13 @@ class BaseCronComponent extends react_1.Component {
     }
 }
 exports.BaseCronComponent = BaseCronComponent;
+exports.timezoneToGMT = (timezone) => {
+    return parseInt(moment_timezone_1.default.tz(timezone).format('Z').split(':')[0]);
+};
+exports.getDifferenceHourMinutesTzToTz = (tz1, tz2, hours, minutes) => {
+    const diff = moment_timezone_1.default(moment_timezone_1.default().tz(tz2).format('YYYY-MM-DD HH:mm')).diff(moment_timezone_1.default(moment_timezone_1.default().tz(tz1).format('YYYY-MM-DD HH:mm')), 'hours');
+    return moment_timezone_1.default(`${hours.padStart(2, '0')}:${minutes.padStart(2, '0')}`, 'HH:mm')
+        .subtract(diff, 'hours')
+        .format('HH:mm');
+};
 //# sourceMappingURL=helpers.js.map

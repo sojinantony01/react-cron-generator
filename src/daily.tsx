@@ -1,8 +1,10 @@
+import moment from 'moment-timezone';
 import React from 'react';
 import { Row, Col, Form, FormGroup, Label, Input, FormText, CustomInput } from 'reactstrap';
 
 import { MINUTE_POSITION_INDEX, HOUR_POSITION_INDEX, DAY_OF_MONTH_POSITION_INDEX, DAY_OF_WEEK_POSITION_INDEX } from './const';
-import { replaceElemAtPos, BaseCronComponent, BaseTabProps, BaseTabState, isDigit } from './helpers';
+import { replaceElemAtPos, BaseCronComponent, BaseTabProps, BaseTabState, isDigit, timezoneToGMT } from './helpers';
+import { TzDropdown } from './tzDropdown';
 
 export const DEFAULT_VALUE = ['0', '0', '*/1', '*', '*'];
 
@@ -41,20 +43,25 @@ export default class extends BaseCronComponent<BaseTabProps, BaseTabState> {
     if ((e.target.value > 0 && e.target.value < 24) || e.target.value === '') {
       const value = replaceElemAtPos(this.state.value, DAY_OF_MONTH_POSITION_INDEX, e.target.value === '' ? '*' : `*/${e.target.value}`);
       this.setState({ value });
-      this.notifyOnChange(value);
+      this.notifyOnChange(value, this.state.timezone);
     }
   }
 
   protected onAtHourChange(e: any) {
     const value = replaceElemAtPos(this.state.value, HOUR_POSITION_INDEX, e.target.value);
     this.setState({ value });
-    this.notifyOnChange(value);
+    this.notifyOnChange(value, this.state.timezone);
   }
 
   protected onAtMinuteChange(e: any) {
     const value = replaceElemAtPos(this.state.value, MINUTE_POSITION_INDEX, e.target.value);
     this.setState({ value });
-    this.notifyOnChange(value);
+    this.notifyOnChange(value, this.state.timezone);
+  }
+
+  protected onTimezoneChange(timezone: string) {
+    this.setState({ timezone });
+    this.notifyOnChange(this.state.value, timezone);
   }
 
   protected toggleEvery(every: boolean) {
@@ -64,7 +71,7 @@ export default class extends BaseCronComponent<BaseTabProps, BaseTabState> {
     this.setState({
       value,
     });
-    this.notifyOnChange(value);
+    this.notifyOnChange(value, this.state.timezone);
   }
 
   render() {
@@ -97,6 +104,12 @@ export default class extends BaseCronComponent<BaseTabProps, BaseTabState> {
                     onChange={(e) => this.onEveryDayChange.bind(this)(e)}
                   />
                   <FormText color="muted">Must be integer value (1 - 31).</FormText>
+                  <TzDropdown
+                    defaultValue={this.state.timezone}
+                    disabled={isAtDayHour(this.state.value)}
+                    id="daily-dropdown"
+                    onChange={this.onTimezoneChange.bind(this)}
+                  />
                 </FormGroup>
               </Form>
             </Col>
@@ -135,6 +148,12 @@ export default class extends BaseCronComponent<BaseTabProps, BaseTabState> {
                   >
                     {this.makeMinutesOptions()}
                   </Input>
+                  <TzDropdown
+                    defaultValue={this.state.timezone}
+                    disabled={isEveryDay(this.state.value)}
+                    id="daily-dropdown"
+                    onChange={this.onTimezoneChange.bind(this)}
+                  />
                 </FormGroup>
               </Form>
             </Col>

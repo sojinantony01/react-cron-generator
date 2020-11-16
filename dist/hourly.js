@@ -8,6 +8,7 @@ const react_1 = __importDefault(require("react"));
 const reactstrap_1 = require("reactstrap");
 const const_1 = require("./const");
 const helpers_1 = require("./helpers");
+const tzDropdown_1 = require("./tzDropdown");
 exports.DEFAULT_VALUE = ['0', '*/1', '*', '*', '*'];
 const isEveryHour = (value) => {
     return (helpers_1.isDigit(value[const_1.MINUTE_POSITION_INDEX]) &&
@@ -37,23 +38,27 @@ class default_1 extends helpers_1.BaseCronComponent {
         if ((e.target.value > 0 && e.target.value < 24) || e.target.value === '') {
             const value = helpers_1.replaceElemAtPos(this.state.value, const_1.HOUR_POSITION_INDEX, e.target.value === '' ? '*' : `*/${e.target.value}`);
             this.setState({ value });
-            this.notifyOnChange(value);
+            this.notifyOnChange(value, this.state.timezone);
         }
     }
     onAtHourChange(e) {
         const value = helpers_1.replaceElemAtPos(this.state.value, const_1.HOUR_POSITION_INDEX, e.target.value);
         this.setState({ value });
-        this.notifyOnChange(value);
+        this.notifyOnChange(value, this.state.timezone);
     }
     onAtMinuteChange(e) {
         const value = helpers_1.replaceElemAtPos(this.state.value, const_1.MINUTE_POSITION_INDEX, e.target.value);
         this.setState({ value });
-        this.notifyOnChange(value);
+        this.notifyOnChange(value, this.state.timezone);
+    }
+    onTimezoneChange(timezone) {
+        this.setState({ timezone });
+        this.notifyOnChange(this.state.value, timezone);
     }
     toggleEvery(every) {
         const value = every ? exports.DEFAULT_VALUE : helpers_1.replaceElemAtPos(exports.DEFAULT_VALUE, const_1.HOUR_POSITION_INDEX, '0');
         this.setState({ value });
-        this.notifyOnChange(value);
+        this.notifyOnChange(value, this.state.timezone);
     }
     render() {
         return (react_1.default.createElement(reactstrap_1.Form, { className: "mt-sm-1 justify-content-center align-items-center panel-row", inline: true },
@@ -75,7 +80,8 @@ class default_1 extends helpers_1.BaseCronComponent {
                                     react_1.default.createElement(reactstrap_1.CustomInput, { id: "variant-selector-at", type: "radio", name: "variantSelector", checked: isAtHour(this.state.value), onClick: () => this.toggleEvery(false) }),
                                     "At"),
                                 react_1.default.createElement(reactstrap_1.Input, { className: "mr-sm-1 hours", type: "select", disabled: isEveryHour(this.state.value), onChange: (e) => this.onAtHourChange.bind(this)(e), value: this.state.value[const_1.HOUR_POSITION_INDEX] }, this.makeHoursOptions()),
-                                react_1.default.createElement(reactstrap_1.Input, { type: "select", className: "mr-sm-1 minutes", disabled: isEveryHour(this.state.value), onChange: (e) => this.onAtMinuteChange.bind(this)(e), value: this.state.value[const_1.MINUTE_POSITION_INDEX] }, this.makeMinutesOptions()))))))));
+                                react_1.default.createElement(reactstrap_1.Input, { type: "select", className: "mr-sm-1 minutes", disabled: isEveryHour(this.state.value), onChange: (e) => this.onAtMinuteChange.bind(this)(e), value: this.state.value[const_1.MINUTE_POSITION_INDEX] }, this.makeMinutesOptions()),
+                                react_1.default.createElement(tzDropdown_1.TzDropdown, { defaultValue: this.state.timezone, disabled: isEveryHour(this.state.value), id: "hourly-dropdown", onChange: this.onTimezoneChange.bind(this) }))))))));
     }
 }
 exports.default = default_1;

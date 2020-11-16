@@ -3,6 +3,7 @@ import { Container, Row, Col, Form, FormGroup, Label, Input, CustomInput } from 
 
 import { MINUTE_POSITION_INDEX, HOUR_POSITION_INDEX, DAY_OF_WEEK_POSITION_INDEX, DAY_OF_MONTH_POSITION_INDEX } from './const';
 import { replaceElemAtPos, BaseCronComponent, BaseTabProps, BaseTabState, DAY_OF_WEEK_REGEXP, isDigit } from './helpers';
+import { TzDropdown } from './tzDropdown';
 
 export const DEFAULT_VALUE = ['0', '0', '*', '*', 'MON,TUE,WED,THU,FRI'];
 
@@ -36,19 +37,24 @@ export default class extends BaseCronComponent<BaseTabProps, BaseTabState> {
     }
     const value = replaceElemAtPos(this.state.value, DAY_OF_WEEK_POSITION_INDEX, currentDaysOfWeek.toString());
     this.setState({ value });
-    this.notifyOnChange(value);
+    this.notifyOnChange(value, this.state.timezone);
   }
 
   onAtHourChange(e: any) {
     const value = replaceElemAtPos(this.state.value, HOUR_POSITION_INDEX, e.target.value);
     this.setState({ value });
-    this.notifyOnChange(value);
+    this.notifyOnChange(value, this.state.timezone);
   }
 
   onAtMinuteChange(e: any) {
     const value = replaceElemAtPos(this.state.value, MINUTE_POSITION_INDEX, e.target.value);
     this.setState({ value });
-    this.notifyOnChange(value);
+    this.notifyOnChange(value, this.state.timezone);
+  }
+
+  protected onTimezoneChange(timezone: string) {
+    this.setState({ timezone });
+    this.notifyOnChange(this.state.value, timezone);
   }
 
   render() {
@@ -148,6 +154,7 @@ export default class extends BaseCronComponent<BaseTabProps, BaseTabState> {
                   >
                     {this.makeMinutesOptions()}
                   </Input>
+                  <TzDropdown defaultValue={this.state.timezone} id="weekly-dropdown" onChange={this.onTimezoneChange.bind(this)} />
                 </FormGroup>
               </Form>
             </Col>

@@ -3,6 +3,7 @@ import { Row, Col, Form, FormGroup, Label, Input, FormText, CustomInput } from '
 
 import { MINUTE_POSITION_INDEX, HOUR_POSITION_INDEX, DAY_OF_WEEK_POSITION_INDEX, DAY_OF_MONTH_POSITION_INDEX, MONTH_POSITION_INDEX } from './const';
 import { replaceElemAtPos, BaseCronComponent, BaseTabProps, BaseTabState, isDigit } from './helpers';
+import { TzDropdown } from './tzDropdown';
 
 export const DEFAULT_VALUE = ['0', '*/1', '*', '*', '*'];
 
@@ -43,26 +44,30 @@ export default class extends BaseCronComponent<BaseTabProps, BaseTabState> {
     if ((e.target.value > 0 && e.target.value < 24) || e.target.value === '') {
       const value = replaceElemAtPos(this.state.value, HOUR_POSITION_INDEX, e.target.value === '' ? '*' : `*/${e.target.value}`);
       this.setState({ value });
-      this.notifyOnChange(value);
+      this.notifyOnChange(value, this.state.timezone);
     }
   }
 
   onAtHourChange(e: any) {
     const value = replaceElemAtPos(this.state.value, HOUR_POSITION_INDEX, e.target.value);
     this.setState({ value });
-    this.notifyOnChange(value);
+    this.notifyOnChange(value, this.state.timezone);
   }
 
   onAtMinuteChange(e: any) {
     const value = replaceElemAtPos(this.state.value, MINUTE_POSITION_INDEX, e.target.value);
     this.setState({ value });
-    this.notifyOnChange(value);
+    this.notifyOnChange(value, this.state.timezone);
+  }
+  protected onTimezoneChange(timezone: string) {
+    this.setState({ timezone });
+    this.notifyOnChange(this.state.value, timezone);
   }
 
   toggleEvery(every: boolean) {
     const value = every ? DEFAULT_VALUE : replaceElemAtPos(DEFAULT_VALUE, HOUR_POSITION_INDEX, '0');
     this.setState({ value });
-    this.notifyOnChange(value);
+    this.notifyOnChange(value, this.state.timezone);
   }
 
   render() {
@@ -130,6 +135,12 @@ export default class extends BaseCronComponent<BaseTabProps, BaseTabState> {
                   >
                     {this.makeMinutesOptions()}
                   </Input>
+                  <TzDropdown
+                    defaultValue={this.state.timezone}
+                    disabled={isEveryHour(this.state.value)}
+                    id="hourly-dropdown"
+                    onChange={this.onTimezoneChange.bind(this)}
+                  />
                 </FormGroup>
               </Form>
             </Col>

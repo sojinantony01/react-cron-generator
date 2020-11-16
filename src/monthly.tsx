@@ -3,6 +3,7 @@ import { Row, Col, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
 
 import { MINUTE_POSITION_INDEX, HOUR_POSITION_INDEX, DAY_OF_WEEK_POSITION_INDEX, DAY_OF_MONTH_POSITION_INDEX, MONTH_POSITION_INDEX } from './const';
 import { BaseCronComponent, BaseTabProps, replaceElemAtPos, BaseTabState, isDigit } from './helpers';
+import { TzDropdown } from './tzDropdown';
 
 export const DEFAULT_VALUE = ['0', '0', '1', '*', '*'];
 
@@ -29,20 +30,25 @@ export default class extends BaseCronComponent<BaseTabProps, BaseTabState> {
     if ((e.target.value > 0 && e.target.value <= 31) || e.target.value !== '') {
       const value = replaceElemAtPos(this.state.value, DAY_OF_MONTH_POSITION_INDEX, e.target.value);
       this.setState({ value });
-      this.notifyOnChange(value);
+      this.notifyOnChange(value, this.state.timezone);
     }
   }
 
   protected onAtHourChange(e: any) {
     const value = replaceElemAtPos(this.state.value, HOUR_POSITION_INDEX, e.target.value);
     this.setState({ value });
-    this.notifyOnChange(value);
+    this.notifyOnChange(value, this.state.timezone);
   }
 
   protected onAtMinuteChange(e: any) {
     const value = replaceElemAtPos(this.state.value, MINUTE_POSITION_INDEX, e.target.value);
     this.setState({ value });
-    this.notifyOnChange(value);
+    this.notifyOnChange(value, this.state.timezone);
+  }
+
+  protected onTimezoneChange(timezone: string) {
+    this.setState({ timezone });
+    this.notifyOnChange(this.state.value, timezone);
   }
 
   render() {
@@ -93,6 +99,7 @@ export default class extends BaseCronComponent<BaseTabProps, BaseTabState> {
                   >
                     {this.makeMinutesOptions()}
                   </Input>
+                  <TzDropdown defaultValue={this.state.timezone} id="monthly-dropdown" onChange={this.onTimezoneChange.bind(this)} />
                 </FormGroup>
               </Form>
             </Col>

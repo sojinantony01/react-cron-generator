@@ -12,17 +12,21 @@ export declare const replaceElemAtPos: (array: string[], position: number, repla
 export declare const isDigit: (value: string) => boolean;
 export interface BaseTabProps {
     value: string[];
-    onChange: (value: string[]) => void;
+    onChange: (value: string[], timezone?: string) => void;
+    defaultTimezone?: string;
 }
 export interface BaseTabState {
     value: string[];
+    timezone?: string;
 }
 export declare class BaseCronComponent<P extends BaseTabProps, S extends BaseTabState> extends Component<P, S> {
     protected readonly defaultValue: string[];
     constructor(props: P, defaultValue: string[]);
     shouldComponentUpdate(nextProps: BaseTabProps, nextState: BaseTabState): boolean;
     componentDidUpdate(): void;
-    notifyOnChange(value: string[]): void;
+    notifyOnChange(value: string[], timezone?: string): void;
     makeHoursOptions(): JSX.Element[];
     makeMinutesOptions(): JSX.Element[];
 }
+export declare const timezoneToGMT: (timezone: string) => number;
+export declare const getDifferenceHourMinutesTzToTz: (tz1: string, tz2: string, hours: string, minutes: string) => string;
