@@ -1,7 +1,7 @@
 /* eslint-disable react/no-direct-mutation-state */
 import React, { Component } from 'react';
 import cronstrue from 'cronstrue/i18n';
-import { metadata, loadHeaders } from './meta';
+import { metadata, loadHeaders, loadMonthlyOptions, loadDailyOptions } from './meta';
 import './cron-builder.css';
 
 export default class Cron extends Component {
@@ -10,6 +10,8 @@ export default class Cron extends Component {
         super(props);
         this.state = {
             headers: loadHeaders(this.props.options),
+            enable_monthly_options: loadMonthlyOptions(this.props.options),
+            enable_daily_options: loadDailyOptions(this.props.options),
             locale: this.props.locale ? this.props.locale : 'en'
         };
     }
@@ -120,7 +122,8 @@ export default class Cron extends Component {
             throw new Error('Value does not match any available headers.');
         }
         const CronComponent = selectedMetaData.component;
-        return <CronComponent translate={this.translate.bind(this)} value={this.state.value} onChange={this.onValueChange.bind(this)} />;
+        return <CronComponent translate={this.translate.bind(this)} value={this.state.value} onChange={this.onValueChange.bind(this)}
+                              enable_monthly_options={this.state.enable_monthly_options} enable_daily_options={this.state.enable_daily_options} />;
     }
 
     translate(key) {

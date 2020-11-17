@@ -53,17 +53,26 @@ export default class DailyCron extends Component {
     render() {
         const translateFn = this.props.translate;
         this.state.value = this.props.value;
+        let enable_daily_options = this.props.enable_daily_options;
+
+        let days = <div>
+                <span>{translateFn('Every')}</span>
+                <input disabled={!this.state.every} type="Number" maxLength="2" onChange={this.onDayChange} value={this.state.value[3].split('/')[1] ? this.state.value[3].split('/')[1] :''} />
+                <span>{translateFn('day(s)')}</span>
+            </div>;
+        let daily_options = enable_daily_options ? <div>
+            <div className="well well-small">
+                <input type="radio" onChange={(e) => {this.setState({ every:true }); this.props.onChange();}} value="1" name="DailyRadio" checked={this.state.every} />
+                {days}
+                </div>
+                <div className="well well-small">
+                    <input onChange={(e) => {this.setState({ every:false }); this.props.onChange(['0', this.state.value[1], this.state.value[2],'?','*', 'MON-FRI','*'])}} type="radio" value="2" name="DailyRadio" checked={!this.state.every}/>
+                    <span>{translateFn('Every week day')}</span>
+                </div>
+            </div> : days;
+
         return (<div className="tab-pane" >
-                    <div className="well well-small">
-                        <input type="radio" onChange={(e) => {this.setState({ every:true }); this.props.onChange();}} value="1" name="DailyRadio" checked={this.state.every} />
-                        <span>{translateFn('Every')}</span>
-                        <input disabled={!this.state.every} type="Number" maxLength="2" onChange={this.onDayChange} value={this.state.value[3].split('/')[1] ? this.state.value[3].split('/')[1] :''} />
-                        <span>{translateFn('day(s)')}</span>
-                    </div>
-                    <div className="well well-small">
-                        <input onChange={(e) => {this.setState({ every:false }); this.props.onChange(['0', this.state.value[1], this.state.value[2],'?','*', 'MON-FRI','*'])}} type="radio" value="2" name="DailyRadio" checked={!this.state.every}/>
-                        <span>{translateFn('Every week day')}</span>
-                    </div>
+                    {daily_options}
                     <span>{translateFn('Start time')}</span>
                     <Hour onChange={this.onAtHourChange} value={this.state.value[2]} />
                     <Minutes onChange={this.onAtMinuteChange} value={this.state.value[1]} />

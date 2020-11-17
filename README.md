@@ -84,6 +84,22 @@ const options = {
 
 ```
 
+**options.enable_monthly_options**
+
+```
+const options = {
+  enable_monthly_options: false
+};
+```
+
+**options.enable_daily_options**
+
+```
+const options = {
+  enable_daily_options: false
+};
+```
+
 ## Ref
 
 Added `ref` to the component now you can access state and functions using ref.

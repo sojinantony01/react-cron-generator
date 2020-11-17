@@ -67,3 +67,35 @@ export const loadHeaders = (options) => {
     }
     return defaultTabs;
 };
+
+/**
+ * Validate and load enable_monthly_options
+ * @param {*} options
+ */
+export const loadMonthlyOptions = (options) => {
+    if(options) {
+        if(options.hasOwnProperty('enable_monthly_options')) {
+            if(typeof options.enable_monthly_options !== "boolean") {
+                throw new Error('enable_monthly_options must be true or false.');
+            }
+            return options.enable_monthly_options;
+        }
+    }
+    return true;
+};
+
+/**
+ * Validate and load enable_daily_options
+ * @param {*} options
+ */
+export const loadDailyOptions = (options) => {
+    if(options) {
+        if(options.hasOwnProperty('enable_daily_options')) {
+            if(typeof options.enable_daily_options !== "boolean") {
+                throw new Error('enable_daily_options must be true or false.');
+            }
+            return options.enable_daily_options;
+        }
+    }
+    return true;
+};
