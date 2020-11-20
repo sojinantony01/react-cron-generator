@@ -1,6 +1,7 @@
 {
-  "name": "react-cron-generator",
+  "name": "@serverfarm/react-cron-generator",
   "version": "1.1.5",
+  "private": true,
   "description": "Simple react component to generate cron expression",
   "keywords": [
     "React cron generator",
@@ -60,7 +61,8 @@
     "lint": "eslint . --ext .js,.ts,.tsx,.spec.ts --quiet",
     "lint:fix": "eslint . --ext .js,.ts,.tsx,.spec.ts --quiet --fix",
     "pretty-quick": "pretty-quick",
-    "pretty-quick:staged": "pretty-quick --staged"
+    "pretty-quick:staged": "pretty-quick --staged",
+    "prepublishOnly": "npm run build"
   },
   "eslintConfig": {
     "extends": "react-app"
