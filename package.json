@@ -31,7 +31,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/sojinantony01/react-cron-generator.git"
+    "url": "https://github.com/serverfarm/react-cron-generator.git"
   },
   "devDependencies": {
     "@types/node": "^12.12.35",
@@ -53,7 +53,7 @@
     "react-dom": "^16.13.1",
     "typescript": "^3.8.3"
   },
-  "homepage": "https://sojinantony01.github.io/react-cron-generator",
+  "homepage": "https://serverfarm.github.io/react-cron-generator",
   "scripts": {
     "build": "tsc",
     "build:live": "tsc --watch",
