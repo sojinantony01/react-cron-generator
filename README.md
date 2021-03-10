@@ -7,7 +7,6 @@ Simple react component to generate cron expression
 Package helps to build linux scheduler cron expression.
 Make sure you have include bootstrap in your project
 
-Support both 6 value and 7 value crons
 
 ```
 data = '* * * * * * *'
@@ -66,7 +65,7 @@ export default App;
 | translateFn | translate function callback | method | No
 | locale | locale for cronstrue | en | No
 | options | Options for Cron component, *Must pass a valid cron value for available headers | All available headers | No
-| sixValueCron | specify 6 or 7 value crons(true -> 6 value, false -> 7 value) | false | No 
+
 
 **translateFn**
 

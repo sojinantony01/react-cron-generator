@@ -24,16 +24,12 @@ export default class Cron extends Component {
         }
     }
     componentWillReceiveProps(nextProps) {
-        let nextVal = nextProps.value;
-        if(nextVal && nextVal.split(' ').length === 6) {
-            nextVal += ' *'
-        }
-        if(this.props.value !== nextVal && this.state.value) {
+        if(this.props.value !== nextProps.value && this.state.value) {
             let newVal = '';
             newVal = this.state.value.toString().replace(/,/g,' ');
             newVal = newVal.replace(/!/g, ',');
-            if(nextVal !== newVal) {
-                this.setValue(nextVal) 
+            if(nextProps.value !== newVal) {
+                this.setValue(nextProps.value) 
             }
         }
     }
@@ -89,12 +85,8 @@ export default class Cron extends Component {
     }
 
     parentChange(val) {
-        let value = val;
         let newVal = '';
-        if(this.props.sixValueCron) {
-            let yearVal = value.pop();
-        }
-        newVal = value.toString().replace(/,/g,' ');
+        newVal = val.toString().replace(/,/g,' ');
         newVal = newVal.replace(/!/g, ',');
         this.props.onChange(newVal) 
     }
