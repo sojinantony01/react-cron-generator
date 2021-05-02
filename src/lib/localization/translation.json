@@ -22,5 +22,7 @@
     "Hourly": "Hourly",
     "Daily": "Daily",
     "Weekly": "Weekly",
-    "Monthly": "Monthly"
+    "Monthly": "Monthly",
+    "Custom": "Custom",
+    "Expression": "Expression"
 }
