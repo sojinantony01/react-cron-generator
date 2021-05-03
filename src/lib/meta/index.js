@@ -3,13 +3,15 @@ import Daily from '../cron-tab/daily';
 import Hourly from '../cron-tab/hourly';
 import Weekly from '../cron-tab/weekly';
 import Monthly from '../cron-tab/monthly';
+import Custom from '../cron-tab/custom';
 
 export const HEADER = {
     MINUTES: 'MINUTES',
     HOURLY: 'HOURLY',
     DAILY: 'DAILY',
     WEEKLY: 'WEEKLY',
-    MONTHLY: 'MONTHLY'
+    MONTHLY: 'MONTHLY',
+    CUSTOM: 'CUSTOM'
 };
 
 const HEADER_VALUES = {
@@ -17,10 +19,11 @@ const HEADER_VALUES = {
     HOURLY: 'Hourly',
     DAILY: 'Daily',
     WEEKLY: 'Weekly',
-    MONTHLY: 'Monthly'
+    MONTHLY: 'Monthly',
+    CUSTOM: 'Custom'
 };
 
-const defaultTabs = [HEADER_VALUES.MINUTES, HEADER_VALUES.HOURLY, HEADER_VALUES.DAILY, HEADER_VALUES.WEEKLY, HEADER_VALUES.MONTHLY];
+const defaultTabs = [HEADER_VALUES.MINUTES, HEADER_VALUES.HOURLY, HEADER_VALUES.DAILY, HEADER_VALUES.WEEKLY, HEADER_VALUES.MONTHLY, HEADER_VALUES.CUSTOM];
 
 export const metadata = [{
     component: Minutes,
@@ -37,6 +40,9 @@ export const metadata = [{
 }, {
     component: Monthly,
     initialCron: ['0','0','00','1','1/1','?','*']
+}, {
+    component: Custom,
+    initialCron: ['*','*','*','*','*','*','*']
 }];
 
 const validateHeaders = (headers) => {

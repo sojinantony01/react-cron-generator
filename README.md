@@ -81,7 +81,7 @@ Expects a method. Use this prop for localization support. `react-cron-generator`
 import { HEADER } from 'react-cron-generator';
 
 const options = {
-  headers: [HEADER.MONTHLY, HEADER.WEEKLY, HEADER.MINUTES, HEADER.HOURLY, HEADER.DAILY]
+  headers: [HEADER.MONTHLY, HEADER.WEEKLY, HEADER.MINUTES, HEADER.HOURLY, HEADER.DAILY, HEADER.CUSTOM]
 };
 
 ```
