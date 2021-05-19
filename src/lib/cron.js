@@ -112,7 +112,7 @@ export default class Cron extends Component {
         if(metadata[index] === -1) {
             return;
         }
-        let selectedMetaData = metadata.find(data => data.component.name === (tab + 'Cron'))
+        let selectedMetaData = metadata.find(data => data.name === tab);
         if(!selectedMetaData) {
             selectedMetaData = metadata[index];
         }

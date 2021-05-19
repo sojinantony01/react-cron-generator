@@ -27,21 +27,27 @@ const defaultTabs = [HEADER_VALUES.MINUTES, HEADER_VALUES.HOURLY, HEADER_VALUES.
 
 export const metadata = [{
     component: Minutes,
+    name: HEADER_VALUES.MINUTES,
     initialCron: ['0','0/1','*','*','*','?','*']
 }, {
     component: Hourly,
+    name: HEADER_VALUES.HOURLY,
     initialCron: ['0','0','00','1/1','*','?','*']
 }, {
     component: Daily,
+    name: HEADER_VALUES.DAILY,
     initialCron: ['0','0','00','1/1','*','?','*']
 }, {
     component: Weekly,
+    name: HEADER_VALUES.WEEKLY,
     initialCron: ['0','0','00','?','*','*','*']
 }, {
     component: Monthly,
+    name: HEADER_VALUES.MONTHLY,
     initialCron: ['0','0','00','1','1/1','?','*']
 }, {
     component: Custom,
+    name: HEADER_VALUES.CUSTOM,
     initialCron: ['*','*','*','*','*','*','*']
 }];
 
