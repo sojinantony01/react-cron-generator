@@ -65,7 +65,9 @@ export default class Cron extends Component {
         this.setState(prevState)
     }
     tabChanged(tab) {
-        this.setState({selectedTab: tab, value:this.defaultValue(tab) }, ()=>this.parentChange(this.defaultValue(tab))); 
+        if(this.state.selectedTab !== tab) {
+            this.setState({selectedTab: tab, value:this.defaultValue(tab) }, ()=>this.parentChange(this.defaultValue(tab))); 
+        }
     }
 
     getHeaders() {
@@ -100,11 +102,11 @@ export default class Cron extends Component {
     }
 
     defaultValue(tab) {
-        const index = this.state.headers.indexOf(tab);
-        if(metadata[index] === -1) {
+        let defaultValCron = metadata.find(m => m.name == tab)
+        if(!defaultValCron || !defaultValCron.initialCron) {
             return;
         }
-        return metadata[index].initialCron;
+        return defaultValCron.initialCron;
     }
 
     getComponent(tab) {

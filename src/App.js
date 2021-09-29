@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import Cron from './lib';
-
-
+import { HEADER } from './lib';
+// const cronOptions = {
+//   headers: [ HEADER.DAILY, HEADER.WEEKLY, HEADER.MONTHLY],
+// };
 class App extends Component {
 
   constructor(props) {
@@ -9,7 +11,7 @@ class App extends Component {
       this.state = {
       };
   }
-  
+
   render() {
 
     return (<div>
@@ -18,6 +20,7 @@ class App extends Component {
         value={this.state.value}
         showResultText={true}
         showResultCron={true}
+        // options={cronOptions}
         />                 
     </div>)
   }
