@@ -62,7 +62,7 @@ export default App;
 | Prop | Description | Default | Mandatory
 | --- | --- | -- | -- |
 | value | cron expression  |  |  No |
-| onChange |  |  | Yes
+| onChange | have 2 arguments, 1st is cron value and 2nd is cron result text from cronstrue  |  | Yes
 | showResultText | show in readable text format | false | No
 | showResultCron | show cron expression | false | No
 | translateFn | translate function callback | method | No

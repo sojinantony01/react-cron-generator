@@ -90,7 +90,7 @@ export default class Cron extends Component {
         let newVal = '';
         newVal = val.toString().replace(/,/g,' ');
         newVal = newVal.replace(/!/g, ',');
-        this.props.onChange(newVal) 
+        this.props.onChange(newVal, this.getVal()) 
     }
 
     getVal() {

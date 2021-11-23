@@ -22,7 +22,7 @@ class App extends Component {
       </div>
       <div>
         <Cron
-          onChange={(e)=> {this.setState({value:e}); console.log(e)}}
+          onChange={(e, text)=> {this.setState({value:e}); console.log(e, text)}}
           value={this.state.value}
           showResultText={true}
           showResultCron={true}
