@@ -14,7 +14,7 @@ export default class Cron extends Component {
         };
     }
 
-    componentWillMount() {
+    UNSAFE_componentWillMount() {
         this.setValue(this.props.value) 
         if(this.props.translateFn && !this.props.locale) {
             console.log('Warning !!! locale not set while using translateFn');
@@ -23,7 +23,7 @@ export default class Cron extends Component {
             this.props.onRef(this);
         }
     }
-    componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) {
         if(this.props.value !== nextProps.value && this.state.value) {
             let newVal = '';
             newVal = this.state.value.toString().replace(/,/g,' ');

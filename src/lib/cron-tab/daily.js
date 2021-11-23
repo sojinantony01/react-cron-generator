@@ -16,7 +16,7 @@ export default class DailyCron extends Component {
         this.onAtMinuteChange = this.onAtMinuteChange.bind(this);
     }
 
-    componentWillMount() {
+    UNSAFE_componentWillMount() {
         this.state.value = this.props.value;
         this.state.every=  this.props.value[3] !== '?';
     }

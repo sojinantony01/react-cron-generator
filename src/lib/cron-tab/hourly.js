@@ -13,7 +13,7 @@ export default class HourlyCron extends Component {
         this.onAtMinuteChange = this.onAtMinuteChange.bind(this);
     }
 
-    componentWillMount() {
+    UNSAFE_componentWillMount() {
         this.state.value = this.props.value;
         if(this.state.value[2].split('/')[1] || this.state.value[2] === '*') {
             this.state.every = true;
