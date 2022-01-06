@@ -79,7 +79,7 @@ export default class MonthlyCron extends Component {
                     <div className="well well-small">
                         <input type="radio"  onChange={(e) => {this.setState({every:e.target.value});  this.props.onChange(['0',this.state.value[1] === '*' ? '0' : this.state.value[1], this.state.value[2] === '*' ? '0': this.state.value[2],`L-${1}`,'*', '?','*']) }} value="4" name="MonthlyRadio" checked={this.state.every === "4" ? true : false} />
                        
-                        <input readOnly={this.state.every !== "4"} type="number" value={this.state.value[3].split('-')[1]} onChange={this.onLastDayChange}/>
+                        <input readOnly={this.state.every !== "4"} type="number" value={this.state.value[3].split('-').length && this.state.value[3].split('-')[1] ? this.state.value[3].split('-')[1] : ''} onChange={this.onLastDayChange}/>
                         {translateFn('day(s) before the end of the month')}
                     </div>
                     {translateFn('Start time')} 
