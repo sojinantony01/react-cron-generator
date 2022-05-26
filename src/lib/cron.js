@@ -37,29 +37,33 @@ export default class Cron extends Component {
     setValue(value) {
         let prevState = this.state;
         prevState.value = value;
+        const allHeaders = loadHeaders();
         if(prevState.value  && prevState.value.split(' ').length === 6) {
             prevState.value += ' *'
         }
         if(!prevState.value  || prevState.value.split(' ').length !== 7) {
             prevState.value = ['0','0','00','1/1','*','?','*']
-            prevState.selectedTab = prevState.headers[0];
+            prevState.selectedTab = allHeaders[0];
             this.parentChange(prevState.value);
         } else  {
             prevState.value = prevState.value.replace(/,/g, '!').split(' ');
         }
         let val = prevState.value;
         if((val[1].search('/') !== -1) && (val[2] === '*') && (val[3] === '1/1')) {
-            prevState.selectedTab = prevState.headers[0];
+            prevState.selectedTab = allHeaders[0];
         } else if((val[3] === '1/1')) {
             prevState.selectedTab = prevState.headers[1];
         } else if((val[3].search('/') !== -1) || (val[5] === 'MON-FRI')) {
-            prevState.selectedTab = prevState.headers[2];
+            prevState.selectedTab = allHeaders[2];
         } else if (val[3] === '?') {
-            prevState.selectedTab = prevState.headers[3];
+            prevState.selectedTab = allHeaders[3];
         } else if (val[3].startsWith('L') || val[4] === '1/1') {
-            prevState.selectedTab = prevState.headers[4];
+            prevState.selectedTab = allHeaders[4];
         } else {
-            prevState.selectedTab = prevState.headers[0];
+            prevState.selectedTab = allHeaders[0];
+        }
+        if(!prevState.headers.includes(prevState.selectedTab)) {
+            prevState.selectedTab = prevState.headers[0]
         }
         // this.parentChange(prevState.value)
         this.setState(prevState)
@@ -142,7 +146,7 @@ export default class Cron extends Component {
             <ul className="nav nav-tabs" >
                 {this.getHeaders()}
             </ul>
-            <div className="cron_builder_bordering">{this.getComponent(this.state.selectedTab)}</div>
+            <div className="cron_builder_bordering">{this.state.selectedTab ? this.getComponent(this.state.selectedTab) : "Select a header"}</div>
             {this.props.showResultText && <div className="cron-builder-bg">{this.getVal()}</div>}
             {this.props.showResultCron && <div className="cron-builder-bg">{this.state.value.toString().replace(/,/g,' ').replace(/!/g, ',')}</div>}       
         </div>)
