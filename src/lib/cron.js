@@ -52,7 +52,7 @@ export default class Cron extends Component {
         if((val[1].search('/') !== -1) && (val[2] === '*') && (val[3] === '1/1')) {
             prevState.selectedTab = allHeaders[0];
         } else if((val[3] === '1/1')) {
-            prevState.selectedTab = prevState.headers[1];
+            prevState.selectedTab = allHeaders[1];
         } else if((val[3].search('/') !== -1) || (val[5] === 'MON-FRI')) {
             prevState.selectedTab = allHeaders[2];
         } else if (val[3] === '?') {
@@ -65,7 +65,6 @@ export default class Cron extends Component {
         if(!prevState.headers.includes(prevState.selectedTab)) {
             prevState.selectedTab = prevState.headers[0]
         }
-        // this.parentChange(prevState.value)
         this.setState(prevState)
     }
     tabChanged(tab) {
