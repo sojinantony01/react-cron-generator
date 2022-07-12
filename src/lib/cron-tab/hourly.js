@@ -31,7 +31,7 @@ export default class HourlyCron extends Component {
         } 
     }
     onMinuteChange(e) {
-        if(this.state.every && ((e.target.value > 0 && e.target.value < 24) || e.target.value === '')) {
+        if(this.state.every && ((e.target.value > 0 && e.target.value < 60) || e.target.value === '')) {
             let val = ['0','0','*','*','*','?','*'];
             val[1] = e.target.value
             val[2] = this.state.value[2];
