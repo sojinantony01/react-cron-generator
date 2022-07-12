@@ -11,6 +11,7 @@ export default class HourlyCron extends Component {
         this.onHourChange = this.onHourChange.bind(this);
         this.onAtHourChange = this.onAtHourChange.bind(this);
         this.onAtMinuteChange = this.onAtMinuteChange.bind(this);
+        this.onMinuteChange = this.onMinuteChange.bind(this);
     }
 
     UNSAFE_componentWillMount() {
@@ -23,7 +24,17 @@ export default class HourlyCron extends Component {
     onHourChange(e) {
         if(this.state.every && ((e.target.value > 0 && e.target.value < 24) || e.target.value === '')) {
             let val = ['0','0','*','*','*','?','*'];
+            val[1] = this.state.value[1];
             val[2] = e.target.value ? `0/${e.target.value}` : e.target.value;
+            val[3] = '1/1';
+            this.props.onChange(val);
+        } 
+    }
+    onMinuteChange(e) {
+        if(this.state.every && ((e.target.value > 0 && e.target.value < 24) || e.target.value === '')) {
+            let val = ['0','0','*','*','*','?','*'];
+            val[1] = e.target.value
+            val[2] = this.state.value[2];
             val[3] = '1/1';
             this.props.onChange(val);
         } 
@@ -51,7 +62,9 @@ export default class HourlyCron extends Component {
                         <input type="radio" onChange={(e) => {this.setState({ every:true }) ; this.props.onChange(['0','0','0/1','1/1','*','?','*'])}} checked={this.state.every} />
                         <span>{translateFn('Every')} </span>
                         <input disabled={!this.state.every} type="Number" onChange={this.onHourChange} value={this.state.value[2].split('/')[1] ? this.state.value[2].split('/')[1] : ''}  />
-                        <span>{translateFn('hour(s)')}</span>
+                        <span>{translateFn('hour')}</span>
+                        <input disabled={!this.state.every} type="Number" onChange={this.onMinuteChange} value={this.state.value[1]}  />
+                        <span>{translateFn('minutes(s)')}</span>
                     </div>
                     <div className="well well-small margin-right-0 margin-left-0">
                     <div className="text_align_right" style={{width:'100%'}}>
