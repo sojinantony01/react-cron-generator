@@ -3,6 +3,7 @@ import Daily from '../cron-tab/daily';
 import Hourly from '../cron-tab/hourly';
 import Weekly from '../cron-tab/weekly';
 import Monthly from '../cron-tab/monthly';
+import Yearly from '../cron-tab/yearly';
 import Custom from '../cron-tab/custom';
 
 export const HEADER = {
@@ -11,6 +12,7 @@ export const HEADER = {
     DAILY: 'DAILY',
     WEEKLY: 'WEEKLY',
     MONTHLY: 'MONTHLY',
+    YEARLY: 'YEARLY',
     CUSTOM: 'CUSTOM'
 };
 
@@ -20,10 +22,11 @@ const HEADER_VALUES = {
     DAILY: 'Daily',
     WEEKLY: 'Weekly',
     MONTHLY: 'Monthly',
+    YEARLY: 'Yearly',
     CUSTOM: 'Custom'
 };
 
-const defaultTabs = [HEADER_VALUES.MINUTES, HEADER_VALUES.HOURLY, HEADER_VALUES.DAILY, HEADER_VALUES.WEEKLY, HEADER_VALUES.MONTHLY, HEADER_VALUES.CUSTOM];
+const defaultTabs = [HEADER_VALUES.MINUTES, HEADER_VALUES.HOURLY, HEADER_VALUES.DAILY, HEADER_VALUES.WEEKLY, HEADER_VALUES.MONTHLY, HEADER_VALUES.YEARLY, HEADER_VALUES.CUSTOM];
 
 export const metadata = [{
     component: Minutes,
@@ -45,6 +48,10 @@ export const metadata = [{
     component: Monthly,
     name: HEADER_VALUES.MONTHLY,
     initialCron: ['0','0','00','1','1/1','?','*']
+}, {
+    component: Yearly,
+    name: HEADER_VALUES.YEARLY,
+    initialCron: ['0','0','00','1','1','?', `${new Date().getFullYear()}/1`]
 }, {
     component: Custom,
     name: HEADER_VALUES.CUSTOM,
