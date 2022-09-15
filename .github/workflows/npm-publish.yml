@@ -15,7 +15,6 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: 14
-      - run: npm run build
 
   publish-npm:
     needs: build
@@ -26,6 +25,7 @@ jobs:
         with:
           node-version: 14
           registry-url: https://registry.npmjs.org/
+      - run: npm install
       - run: npm run build
       - run: npm publish
         env:
@@ -43,6 +43,7 @@ jobs:
         with:
           node-version: 14
           registry-url: https://npm.pkg.github.com/
+      - run: npm install
       - run: npm run build
       - run: npm publish
         env:
