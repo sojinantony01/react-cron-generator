@@ -45,6 +45,8 @@ jobs:
         with:
           node-version: 14
           registry-url: https://npm.pkg.github.com/
+          scope: "@sojinantony01"
+      - run: node gpr-hack.js
       - run: npm install
       - run: npm run build
       - run: npm publish
