@@ -6,10 +6,6 @@ Simple react component to generate cron expression
 
 Package helps to build linux scheduler cron expression.
 
-Make sure you have include bootstrap(4.x) in your project. 
-
-For old bootstrap(3.x) version support, please use cron generator version "1.2.12"
-
 
 ```
 data = '* * * * * * *'
@@ -89,22 +85,11 @@ const options = {
 
 ```
 
-## Ref
 
-Added `ref` to the component now you can access state and functions using ref.
-
-add the new prop  ` onRef={ref => (this.cronGen = ref)} `
-
-```
-      <Cron
-        onRef={ref => (this.cronGen = ref)}  
-        onChange={(e)=> {this.setState({value:e}); console.log(e)}}
-        value={this.state.value}
-        showResultText={true}
-        showResultCron={true}
-        />
-```
-
+## Release notes 2.x.x
+1. Build Procedure updated
+2. Updated to latest react(18)
+3. Migrated to hooks and typescript
 
 [Sojin Antony](https://github.com/sojinantony01)
 
