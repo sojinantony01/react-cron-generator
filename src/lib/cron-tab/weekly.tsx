@@ -63,17 +63,17 @@ const WeeklyCron: FunctionComponent<WeeklyCronProp> = (props) => {
         <div className="well well-small row">
             <div className="span6 col-sm-6">
                 <div className="text_align_left">
-                    <input type="checkbox" value="MON" onChange={onCheck} checked={(props.value[5].search('MON') !== -1 ) ? true : false} />{translateFn('Monday')}<br/>
-                    <input type="checkbox" value="WED" onChange={onCheck} checked={props.value[5].search('WED') !== -1 ? true : false}  />{translateFn('Wednesday')}<br/>
-                    <input type="checkbox" value="FRI" onChange={onCheck} checked={(props.value[5].search('FRI') !== -1 ) ? true : false}/>{translateFn('Friday')}<br/>
-                    <input type="checkbox" value="SUN" onChange={onCheck} checked={props.value[5].search('SUN') !== -1 ? true : false}/>{translateFn('Sunday')}
+                    <input className='min_height_auto' type="checkbox" value="MON" onChange={onCheck} checked={(props.value[5].search('MON') !== -1 ) ? true : false} />{translateFn('Monday')}<br/>
+                    <input className='min_height_auto' type="checkbox" value="WED" onChange={onCheck} checked={props.value[5].search('WED') !== -1 ? true : false}  />{translateFn('Wednesday')}<br/>
+                    <input className='min_height_auto' type="checkbox" value="FRI" onChange={onCheck} checked={(props.value[5].search('FRI') !== -1 ) ? true : false}/>{translateFn('Friday')}<br/>
+                    <input className='min_height_auto' type="checkbox" value="SUN" onChange={onCheck} checked={props.value[5].search('SUN') !== -1 ? true : false}/>{translateFn('Sunday')}
                 </div>
             </div>
             <div className="span6 col-sm-6">
                 <div className="text_align_left">
-                    <input type="checkbox" value="TUE" onChange={onCheck} checked={props.value[5].search('TUE') !== -1 ? true : false}/>{translateFn('Tuesday')}<br />
-                    <input type="checkbox" value="THU" onChange={onCheck} checked={props.value[5].search('THU') !== -1 ? true : false}/>{translateFn('Thursday')}<br />
-                    <input type="checkbox" value="SAT" onChange={onCheck} checked={props.value[5].search('SAT') !== -1 ? true : false}/>{translateFn('Saturday')}
+                    <input className='min_height_auto' type="checkbox" value="TUE" onChange={onCheck} checked={props.value[5].search('TUE') !== -1 ? true : false}/>{translateFn('Tuesday')}<br />
+                    <input className='min_height_auto' type="checkbox" value="THU" onChange={onCheck} checked={props.value[5].search('THU') !== -1 ? true : false}/>{translateFn('Thursday')}<br />
+                    <input className='min_height_auto' type="checkbox" value="SAT" onChange={onCheck} checked={props.value[5].search('SAT') !== -1 ? true : false}/>{translateFn('Saturday')}
                 </div><br /><br />
             </div>
         </div>
