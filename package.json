@@ -1,6 +1,6 @@
 {
   "name": "react-cron-generator",
-  "version": "1.3.13",
+  "version": "2.0.0",
   "description": "Simple react component to generate cron expression",
   "keywords": [
     "React cron generator",
@@ -16,7 +16,7 @@
   ],
   "author": "Sojin antony",
   "dependencies": {
-    "cronstrue": "^2.11.0"
+    "cronstrue": "^2.12.0"
   },
   "main": "dist/index.js",
   "module": "dist/index.js",
@@ -28,26 +28,46 @@
     "type": "git",
     "url": "https://github.com/sojinantony01/react-cron-generator.git"
   },
-  "devDependencies": {
-    "@babel/cli": "^7.4.4",
-    "@babel/core": "^7.4.4",
-    "@babel/preset-react": "^7.0.0",
-    "@babel/runtime": "^7.5.1",
-    "react": "^16.8.6",
-    "react-dom": "^16.8.6",
-    "react-scripts": "^3.0.0"
+  "peerDependencies": {
+    "react": ">=16.8.0",
+    "react-dom": ">=16.8.0"
   },
-  "homepage": "https://sojinantony01.github.io/react-cron-generator",
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^22.0.2",
+    "@rollup/plugin-json": "^4.1.0",
+    "@rollup/plugin-node-resolve": "^14.1.0",
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^13.5.0",
+    "@types/jest": "^27.5.2",
+    "@types/node": "^16.11.59",
+    "@types/react": "^18.0.20",
+    "@types/react-dom": "^18.0.6",
+    "postcss": "^8.4.16",
+    "react-scripts": "5.0.1",
+    "rollup": "^2.79.0",
+    "rollup-plugin-peer-deps-external": "^2.2.4",
+    "rollup-plugin-postcss": "^4.0.2",
+    "rollup-plugin-typescript2": "^0.34.0",
+    "sass": "^1.54.9",
+    "typescript": "^4.8.3",
+    "web-vitals": "^2.1.4"
+  },
   "scripts": {
     "start": "react-scripts start",
-    "build": "rm -rf dist && NODE_ENV=production babel src/lib --out-dir dist --copy-files --ignore __tests__,spec.js,test.js,__snapshots__",
+    "build": "rm -rf build && rollup -c",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "deploy": "gh-pages -d build",
-    "react-build": "CI=false && react-scripts build"
+    "react-build": "CI=false && react-scripts build",
+    "prepublishOnly": "npm run build"
   },
+  "homepage": "https://sojinantony01.github.io/react-cron-generator",
   "eslintConfig": {
-    "extends": "react-app"
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
   },
   "license": "ISC",
   "browserslist": {
