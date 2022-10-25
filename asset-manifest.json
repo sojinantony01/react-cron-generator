@@ -1,22 +1,15 @@
 {
   "files": {
-    "main.css": "/react-cron-generator/static/css/main.fce5fdc3.chunk.css",
-    "main.js": "/react-cron-generator/static/js/main.8cf786fd.chunk.js",
-    "main.js.map": "/react-cron-generator/static/js/main.8cf786fd.chunk.js.map",
-    "runtime-main.js": "/react-cron-generator/static/js/runtime-main.23415a9f.js",
-    "runtime-main.js.map": "/react-cron-generator/static/js/runtime-main.23415a9f.js.map",
-    "static/js/2.3905961f.chunk.js": "/react-cron-generator/static/js/2.3905961f.chunk.js",
-    "static/js/2.3905961f.chunk.js.map": "/react-cron-generator/static/js/2.3905961f.chunk.js.map",
+    "main.css": "/react-cron-generator/static/css/main.97cff5f9.css",
+    "main.js": "/react-cron-generator/static/js/main.34730c86.js",
+    "static/js/787.8b0031a4.chunk.js": "/react-cron-generator/static/js/787.8b0031a4.chunk.js",
     "index.html": "/react-cron-generator/index.html",
-    "precache-manifest.b294b7358a6796affee6d6eaf118b5a8.js": "/react-cron-generator/precache-manifest.b294b7358a6796affee6d6eaf118b5a8.js",
-    "service-worker.js": "/react-cron-generator/service-worker.js",
-    "static/css/main.fce5fdc3.chunk.css.map": "/react-cron-generator/static/css/main.fce5fdc3.chunk.css.map",
-    "static/js/2.3905961f.chunk.js.LICENSE.txt": "/react-cron-generator/static/js/2.3905961f.chunk.js.LICENSE.txt"
+    "main.97cff5f9.css.map": "/react-cron-generator/static/css/main.97cff5f9.css.map",
+    "main.34730c86.js.map": "/react-cron-generator/static/js/main.34730c86.js.map",
+    "787.8b0031a4.chunk.js.map": "/react-cron-generator/static/js/787.8b0031a4.chunk.js.map"
   },
   "entrypoints": [
-    "static/js/runtime-main.23415a9f.js",
-    "static/js/2.3905961f.chunk.js",
-    "static/css/main.fce5fdc3.chunk.css",
-    "static/js/main.8cf786fd.chunk.js"
+    "static/css/main.97cff5f9.css",
+    "static/js/main.34730c86.js"
   ]
 }
