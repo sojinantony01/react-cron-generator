@@ -1,6 +1,6 @@
 {
   "name": "react-cron-generator",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Simple react component to generate cron expression",
   "keywords": [
     "React cron generator",
@@ -18,10 +18,10 @@
   "dependencies": {
     "cronstrue": "^2.12.0"
   },
-  "main": "dist/index.js",
-  "module": "dist/index.js",
+  "main": "build/index.js",
+  "module": "build/index.js",
   "files": [
-    "dist",
+    "build",
     "README.md"
   ],
   "repository": {
