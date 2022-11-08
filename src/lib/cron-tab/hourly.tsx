@@ -60,7 +60,7 @@ const HourlyCron: FunctionComponent<HourlyCronProp> = (props) => {
                     <input disabled={!state.every} type="Number" onChange={onHourChange} value={props.value[2].split('/')[1] ? props.value[2].split('/')[1] : ''}  />
                     <span>{translateFn('hour')}</span>
                     <input disabled={!state.every} type="Number" onChange={onMinuteChange} value={props.value[1]}  />
-                    <span>{translateFn('minutes(s)')}</span>
+                    <span>{translateFn('minute(s)')}</span>
                 </div>
                 <div className="well well-small margin-right-0 margin-left-0">
                 <div className="text_align_right" style={{width:'100%'}}>
