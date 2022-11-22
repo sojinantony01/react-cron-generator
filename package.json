@@ -45,7 +45,7 @@
     "@types/react-dom": "^18.0.6",
     "postcss": "^8.4.16",
     "react-scripts": "5.0.1",
-    "rollup": "^2.79.0",
+    "rollup": "2.79.0",
     "rollup-plugin-peer-deps-external": "^2.2.4",
     "rollup-plugin-postcss": "^4.0.2",
     "rollup-plugin-typescript2": "^0.34.0",
