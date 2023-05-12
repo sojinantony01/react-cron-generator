@@ -41,7 +41,7 @@ const Cron: React.FunctionComponent<CronProp>  = (props) => {
     const setValue = (value: string) => {
         let prevState = state;
         prevState.value = value.replace(/,/g, '!').split(' ');;
-        const allHeaders = props.options.headers || loadHeaders();
+        const allHeaders = loadHeaders();
         if(value && value.split(' ').length === 6) {
             prevState.value.push('*')
         }
