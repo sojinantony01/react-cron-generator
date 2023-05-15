@@ -54,7 +54,7 @@ const Cron: React.FunctionComponent<CronProp>  = (props) => {
             prevState.value = value.replace(/,/g, '!').split(' ');
         }
         let val = prevState.value;
-        // check if a default tab is selected.
+        // check if a default tab is selected
         if (props.defaultTab) {
             prevState.selectedTab = allHeaders[props.defaultTab];
         } else if((val[1].search('/') !== -1) && (val[2] === '*') && (val[3] === '1/1')) {
