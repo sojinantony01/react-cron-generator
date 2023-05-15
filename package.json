@@ -1,7 +1,7 @@
 {
-  "name": "react-cron-generator",
-  "version": "2.0.8",
-  "description": "Simple react component to generate cron expression",
+  "name": "react-cron-generator-ica",
+  "version": "2.0.8.1",
+  "description": "Simple react component to generate cron expression with default tab selection",
   "keywords": [
     "React cron generator",
     "cron builder",
@@ -26,7 +26,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/sojinantony01/react-cron-generator.git"
+    "url": "https://github.com/ParaWoschino/react-cron-generator-ica.git"
   },
   "peerDependencies": {
     "react": ">=16.8.0",
