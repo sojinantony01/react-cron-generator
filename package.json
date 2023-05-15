@@ -1,7 +1,7 @@
 {
   "name": "react-cron-generator-ica",
   "version": "2.0.8",
-  "description": "Simple react component to generate cron expression with default tab selection.",
+  "description": "Simple react component to generate cron expression",
   "keywords": [
     "React cron generator",
     "cron builder",
