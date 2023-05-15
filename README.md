@@ -11,7 +11,7 @@ Package helps to build linux scheduler cron expression.
 data = '* * * * * * *'
 ```
 ```
-npm install react-cron-generator
+npm install react-cron-generator-ica
 
 ```
 ## demo
