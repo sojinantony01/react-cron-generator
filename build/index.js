@@ -6,7 +6,7 @@ var cronstrueI18n = {exports: {}};
 (function (module, exports) {
 	(function webpackUniversalModuleDefinition(root, factory) {
 		module.exports = factory();
-	})(globalThis, function() {
+	})(globalThis, () => {
 	return /******/ (() => { // webpackBootstrap
 	/******/ 	var __webpack_modules__ = ({
 
@@ -407,31 +407,18 @@ var cronstrueI18n = {exports: {}};
 	            description = this.getSegmentDescription(this.expressionParts[5], this.i18n.commaEveryDay(), function (s, form) {
 	                var exp = s;
 	                if (s.indexOf("#") > -1) {
-	                    exp = s.substr(0, s.indexOf("#"));
+	                    exp = s.substring(0, s.indexOf("#"));
 	                }
 	                else if (s.indexOf("L") > -1) {
 	                    exp = exp.replace("L", "");
 	                }
-	                return _this.i18n.daysOfTheWeekInCase
+	                var description = _this.i18n.daysOfTheWeekInCase
 	                    ? _this.i18n.daysOfTheWeekInCase(form)[parseInt(exp)]
 	                    : daysOfWeekNames[parseInt(exp)];
-	            }, function (s) {
-	                if (parseInt(s) == 1) {
-	                    return "";
-	                }
-	                else {
-	                    return stringUtilities_1.StringUtilities.format(_this.i18n.commaEveryX0DaysOfTheWeek(s), s);
-	                }
-	            }, function (s) {
-	                var beginFrom = s.substring(0, s.indexOf("-"));
-	                var domSpecified = _this.expressionParts[3] != "*";
-	                return domSpecified ? _this.i18n.commaAndX0ThroughX1(beginFrom) : _this.i18n.commaX0ThroughX1(beginFrom);
-	            }, function (s) {
-	                var format = null;
 	                if (s.indexOf("#") > -1) {
+	                    var dayOfWeekOfMonthDescription = null;
 	                    var dayOfWeekOfMonthNumber = s.substring(s.indexOf("#") + 1);
 	                    var dayOfWeekNumber = s.substring(0, s.indexOf("#"));
-	                    var dayOfWeekOfMonthDescription = null;
 	                    switch (dayOfWeekOfMonthNumber) {
 	                        case "1":
 	                            dayOfWeekOfMonthDescription = _this.i18n.first(dayOfWeekNumber);
@@ -449,10 +436,25 @@ var cronstrueI18n = {exports: {}};
 	                            dayOfWeekOfMonthDescription = _this.i18n.fifth(dayOfWeekNumber);
 	                            break;
 	                    }
-	                    format =
-	                        _this.i18n.commaOnThe(dayOfWeekOfMonthNumber) +
-	                            dayOfWeekOfMonthDescription +
-	                            _this.i18n.spaceX0OfTheMonth();
+	                    description = dayOfWeekOfMonthDescription + " " + description;
+	                }
+	                return description;
+	            }, function (s) {
+	                if (parseInt(s) == 1) {
+	                    return "";
+	                }
+	                else {
+	                    return stringUtilities_1.StringUtilities.format(_this.i18n.commaEveryX0DaysOfTheWeek(s), s);
+	                }
+	            }, function (s) {
+	                var beginFrom = s.substring(0, s.indexOf("-"));
+	                var domSpecified = _this.expressionParts[3] != "*";
+	                return domSpecified ? _this.i18n.commaAndX0ThroughX1(beginFrom) : _this.i18n.commaX0ThroughX1(beginFrom);
+	            }, function (s) {
+	                var format = null;
+	                if (s.indexOf("#") > -1) {
+	                    var dayOfWeekOfMonthNumber = s.substring(s.indexOf("#") + 1);
+	                    format = _this.i18n.commaOnThe(dayOfWeekOfMonthNumber).trim() + _this.i18n.spaceX0OfTheMonth();
 	                }
 	                else if (s.indexOf("L") > -1) {
 	                    format = _this.i18n.commaOnTheLastX0OfTheMonth(s.replace("L", ""));
@@ -2842,7 +2844,7 @@ var cronstrueI18n = {exports: {}};
 	        return null;
 	    };
 	    fr.prototype.use24HourTimeFormatByDefault = function () {
-	        return false;
+	        return true;
 	    };
 	    fr.prototype.everyMinute = function () {
 	        return "toutes les minutes";
@@ -6960,7 +6962,7 @@ var cronstrueI18n = {exports: {}};
 	        return null;
 	    };
 	    zh_TW.prototype.commaYearX0ThroughYearX1 = function () {
-	        return ", 从%s年至%s年";
+	        return ", 從 %s 年至 %s 年";
 	    };
 	    zh_TW.prototype.use24HourTimeFormatByDefault = function () {
 	        return false;
@@ -6972,7 +6974,7 @@ var cronstrueI18n = {exports: {}};
 	        return "每小時";
 	    };
 	    zh_TW.prototype.anErrorOccuredWhenGeneratingTheExpressionD = function () {
-	        return "產生正規表達式描述時發生了錯誤，請檢查 cron 表達式語法。";
+	        return "產生表達式描述時發生了錯誤，請檢查 cron 表達式語法。";
 	    };
 	    zh_TW.prototype.atSpace = function () {
 	        return "在 ";
@@ -7068,7 +7070,7 @@ var cronstrueI18n = {exports: {}};
 	        return ", 僅在 %s";
 	    };
 	    zh_TW.prototype.commaOnlyInMonthX0 = function () {
-	        return ", 僅在%s";
+	        return ", 僅在 %s";
 	    };
 	    zh_TW.prototype.commaOnlyInYearX0 = function () {
 	        return ", 僅在 %s 年";
@@ -7338,7 +7340,8 @@ const DailyCron = (props) => {
         props.onChange(val);
     };
     const translateFn = props.translate;
-    return (jsxs("div", Object.assign({ className: "tab-pane" }, { children: [jsxs("div", Object.assign({ className: "well well-small" }, { children: [jsx("input", { type: "radio", onChange: (e) => { setState(Object.assign(Object.assign({}, state), { every: true })); props.onChange(); }, value: "1", name: "DailyRadio", checked: state.every }), jsx("span", { children: translateFn('Every') }), jsx("input", { disabled: !state.every, type: "Number", maxLength: 2, onChange: onDayChange, value: props.value[3].split('/')[1] ? props.value[3].split('/')[1] : '' }), jsx("span", { children: translateFn('day(s)') })] })), jsxs("div", Object.assign({ className: "well well-small" }, { children: [jsx("input", { onChange: (e) => { setState(Object.assign(Object.assign({}, state), { every: false })); props.onChange(['0', props.value[1], props.value[2], '?', '*', 'MON-FRI', '*']); }, type: "radio", value: "2", name: "DailyRadio", checked: !state.every }), jsx("span", { children: translateFn('Every week day') })] })), jsx("span", { children: translateFn('Start time') }), jsx(HourSelect, { onChange: onAtHourChange, value: props.value[2] }), jsx(MinutesSelect, { onChange: onAtMinuteChange, value: props.value[1] })] })));
+    console.log('state', state);
+    return (jsxs("div", Object.assign({ className: "tab-pane", id: "daily" }, { children: [jsxs("div", Object.assign({ className: `well well-small ${!state.every ? 'active' : ''}` }, { children: [jsx("input", { onChange: (e) => { setState(Object.assign(Object.assign({}, state), { every: false })); props.onChange(['0', props.value[1], props.value[2], '?', '*', 'MON-FRI', '*']); }, type: "radio", value: "2", name: "DailyRadio", checked: !state.every }), jsx("span", { children: translateFn('Every week day') })] })), jsxs("div", Object.assign({ className: `well well-small ${state.every ? 'active' : ''}` }, { children: [jsx("input", { type: "radio", onChange: (e) => { setState(Object.assign(Object.assign({}, state), { every: true })); props.onChange(); }, value: "1", name: "DailyRadio", checked: state.every }), jsx("span", { children: translateFn('Every') }), jsx("input", { disabled: !state.every, type: "Number", maxLength: 2, onChange: onDayChange, value: props.value[3].split('/')[1] ? props.value[3].split('/')[1] : '' }), jsx("span", { children: translateFn('day(s)') })] })), jsx("span", { children: translateFn('Start time') }), jsx(HourSelect, { onChange: onAtHourChange, value: props.value[2] }), jsx(MinutesSelect, { onChange: onAtMinuteChange, value: props.value[1] })] })));
 };
 
 const HourlyCron = (props) => {
@@ -7377,7 +7380,7 @@ const HourlyCron = (props) => {
         props.onChange(val);
     };
     const translateFn = props.translate;
-    return (jsx("div", Object.assign({ className: "tab-content" }, { children: jsxs("div", Object.assign({ className: "tab-pane active" }, { children: [jsxs("div", Object.assign({ className: "well well-small" }, { children: [jsx("input", { type: "radio", onChange: (e) => { setState(Object.assign(Object.assign({}, state), { every: true })); props.onChange(['0', '0', '0/1', '1/1', '*', '?', '*']); }, checked: state.every }), jsxs("span", { children: [translateFn('Every'), " "] }), jsx("input", { disabled: !state.every, type: "Number", onChange: onHourChange, value: props.value[2].split('/')[1] ? props.value[2].split('/')[1] : '' }), jsx("span", { children: translateFn('hour') }), jsx("input", { disabled: !state.every, type: "Number", onChange: onMinuteChange, value: props.value[1] }), jsx("span", { children: translateFn('minute(s)') })] })), jsx("div", Object.assign({ className: "well well-small margin-right-0 margin-left-0" }, { children: jsxs("div", Object.assign({ className: "text_align_right", style: { width: '100%' } }, { children: [jsx("input", { type: "radio", onChange: (e) => { setState({ every: false }); props.onChange(); }, checked: !state.every }), jsx("span", Object.assign({ className: "" }, { children: translateFn('At') })), jsx(HourSelect, { disabled: state.every, onChange: onAtHourChange, value: props.value[2] }), jsx(MinutesSelect, { disabled: state.every, onChange: onAtMinuteChange, value: props.value[1] })] })) }))] })) })));
+    return (jsx("div", Object.assign({ className: "tab-content" }, { children: jsxs("div", Object.assign({ className: "tab-pane active", id: "hourly" }, { children: [jsxs("div", Object.assign({ className: `well well-small ${state.every ? 'active' : ''}` }, { children: [jsx("input", { type: "radio", onChange: (e) => { setState(Object.assign(Object.assign({}, state), { every: true })); props.onChange(['0', '0', '0/1', '1/1', '*', '?', '*']); }, checked: state.every }), jsxs("span", { children: [translateFn('Every'), " "] }), jsx("input", { disabled: !state.every, type: "Number", onChange: onHourChange, value: props.value[2].split('/')[1] ? props.value[2].split('/')[1] : '' }), jsx("span", { children: translateFn('hour') }), jsx("input", { disabled: !state.every, type: "Number", onChange: onMinuteChange, value: props.value[1] }), jsx("span", { children: translateFn('minute(s)') })] })), jsx("div", Object.assign({ className: `well well-small margin-right-0 margin-left-0 ${!state.every ? 'active' : ''}` }, { children: jsxs("div", Object.assign({ className: "text_align_right", style: { width: '100%' } }, { children: [jsx("input", { type: "radio", onChange: (e) => { setState({ every: false }); props.onChange(); }, checked: !state.every }), jsx("span", Object.assign({ className: "" }, { children: translateFn('At') })), jsx(HourSelect, { disabled: state.every, onChange: onAtHourChange, value: props.value[2] }), jsx(MinutesSelect, { disabled: state.every, onChange: onAtMinuteChange, value: props.value[1] })] })) }))] })) })));
 };
 
 const WeeklyCron = (props) => {
@@ -7478,7 +7481,7 @@ const MonthlyCron = (props) => {
         props.onChange(val);
     };
     const translateFn = props.translate;
-    return (jsxs("div", Object.assign({ className: "tab-pane" }, { children: [jsxs("div", Object.assign({ className: "well well-small" }, { children: [jsx("input", { type: "radio", onChange: (e) => { setState(Object.assign(Object.assign({}, state), { every: e.target.value })); props.onChange(['0', props.value[1] === '*' ? '0' : props.value[1], props.value[2] === '*' ? '0' : props.value[2], '1', '1/1', '?', '*']); }, value: "1", name: "MonthlyRadio", checked: state.every === "1" ? true : false }), translateFn('Day'), jsx("input", { readOnly: state.every !== "1", type: "number", value: props.value[3], onChange: onDayChange }), translateFn('of every month(s)')] })), jsxs("div", Object.assign({ className: "well well-small" }, { children: [jsx("input", { onChange: (e) => { setState(Object.assign(Object.assign({}, state), { every: e.target.value })); props.onChange(['0', props.value[1] === '*' ? '0' : props.value[1], props.value[2] === '*' ? '0' : props.value[2], 'L', '*', '?', '*']); }, type: "radio", value: "2", name: "DailyRadio", checked: state.every === "2" ? true : false }), translateFn('Last day of every month')] })), jsxs("div", Object.assign({ className: "well well-small" }, { children: [jsx("input", { onChange: (e) => { setState(Object.assign(Object.assign({}, state), { every: e.target.value })); props.onChange(['0', props.value[1] === '*' ? '0' : props.value[1], props.value[2] === '*' ? '0' : props.value[2], 'LW', '*', '?', '*']); }, type: "radio", value: "3", name: "DailyRadio", checked: state.every === "3" ? true : false }), translateFn('On the last weekday of every month')] })), jsxs("div", Object.assign({ className: "well well-small" }, { children: [jsx("input", { type: "radio", onChange: (e) => { setState(Object.assign(Object.assign({}, state), { every: e.target.value })); props.onChange(['0', props.value[1] === '*' ? '0' : props.value[1], props.value[2] === '*' ? '0' : props.value[2], `L-${1}`, '*', '?', '*']); }, value: "4", name: "MonthlyRadio", checked: state.every === "4" ? true : false }), jsx("input", { readOnly: state.every !== "4", type: "number", value: props.value[3].split('-').length && props.value[3].split('-')[1] ? props.value[3].split('-')[1] : '', onChange: onLastDayChange }), translateFn('day(s) before the end of the month')] })), translateFn('Start time'), jsx(HourSelect, { onChange: onAtHourChange, value: props.value[2] }), jsx(MinutesSelect, { onChange: onAtMinuteChange, value: props.value[1] })] })));
+    return (jsxs("div", Object.assign({ className: "tab-pane", id: "monthly" }, { children: [jsxs("div", Object.assign({ className: `well well-small ${state.every === "1" ? 'active' : ''}` }, { children: [jsx("input", { type: "radio", onChange: (e) => { setState(Object.assign(Object.assign({}, state), { every: e.target.value })); props.onChange(['0', props.value[1] === '*' ? '0' : props.value[1], props.value[2] === '*' ? '0' : props.value[2], '1', '1/1', '?', '*']); }, value: "1", name: "MonthlyRadio", checked: state.every === "1" ? true : false }), translateFn('Day'), jsx("input", { readOnly: state.every !== "1", type: "number", value: props.value[3], onChange: onDayChange }), translateFn('of every month(s)')] })), jsxs("div", Object.assign({ className: `well well-small ${state.every === "2" ? 'active' : ''}` }, { children: [jsx("input", { onChange: (e) => { setState(Object.assign(Object.assign({}, state), { every: e.target.value })); props.onChange(['0', props.value[1] === '*' ? '0' : props.value[1], props.value[2] === '*' ? '0' : props.value[2], 'L', '*', '?', '*']); }, type: "radio", value: "2", name: "DailyRadio", checked: state.every === "2" ? true : false }), translateFn('Last day of every month')] })), jsxs("div", Object.assign({ className: `well well-small ${state.every === "3" ? 'active' : ''}` }, { children: [jsx("input", { onChange: (e) => { setState(Object.assign(Object.assign({}, state), { every: e.target.value })); props.onChange(['0', props.value[1] === '*' ? '0' : props.value[1], props.value[2] === '*' ? '0' : props.value[2], 'LW', '*', '?', '*']); }, type: "radio", value: "3", name: "DailyRadio", checked: state.every === "3" ? true : false }), translateFn('On the last weekday of every month')] })), jsxs("div", Object.assign({ className: `well well-small ${state.every === "4" ? 'active' : ''}` }, { children: [jsx("input", { type: "radio", onChange: (e) => { setState(Object.assign(Object.assign({}, state), { every: e.target.value })); props.onChange(['0', props.value[1] === '*' ? '0' : props.value[1], props.value[2] === '*' ? '0' : props.value[2], `L-${1}`, '*', '?', '*']); }, value: "4", name: "MonthlyRadio", checked: state.every === "4" ? true : false }), jsx("input", { readOnly: state.every !== "4", type: "number", value: props.value[3].split('-').length && props.value[3].split('-')[1] ? props.value[3].split('-')[1] : '', onChange: onLastDayChange }), translateFn('day(s) before the end of the month')] })), translateFn('Start time'), jsx(HourSelect, { onChange: onAtHourChange, value: props.value[2] }), jsx(MinutesSelect, { onChange: onAtMinuteChange, value: props.value[1] })] })));
 };
 
 const CustomCron = (props) => {
@@ -7487,7 +7490,8 @@ const CustomCron = (props) => {
     };
     const translateFn = props.translate;
     let val = props.value.toString().replace(/,/g, ' ').replace(/!/g, ',');
-    return (jsxs("div", Object.assign({ id: "custom-cron", className: "well" }, { children: [translateFn('Expression'), " ", jsx("input", { id: "custom-cron-input", type: "text", onChange: onChange, value: val })] })));
+    console.log('props', props.value);
+    return (jsxs("div", Object.assign({ id: "custom-cron", className: "well" }, { children: [translateFn('Expression'), " ", jsx("input", { id: "custom-cron-input", placeholder: 'Enter Expression', type: "text", onChange: onChange, value: val })] })));
 };
 
 const HEADER = {
@@ -7595,7 +7599,7 @@ function styleInject(css, ref) {
   }
 }
 
-var css_248z = ".cron_builder_bordering {\n    border: 1px solid #ddd;\n    border-top: none;\n    text-align: center;\n    padding: 10px;\n    background: #fff;\n}\n.cron_builder_bordering input, .cron_builder_bordering select {\n    width: 100px;\n    margin-right: 10px;\n    margin-left: 10px;\n    border: 1px solid #ddd;\n    border-radius: 4px;\n    outline: none;\n    padding: 0px 5px;\n    min-height: 28px;\n}\n.df {\n    display: flex;\n}\n.cron-builder-bg {\n    background-color: #086090;\n    color: white;\n    text-align: center;\n    margin-bottom: 4px;\n    padding: 8px 0px;\n}\n.cron_builder_bordering select {\n    background-color: white;\n    width: 75px;\n    cursor: pointer;\n    padding: 4px 2px;\n    border-radius: 4px;\n}\n.cron_builder_bordering select option:hover {\n    background-color: #086090;\n}\n.well-small input {\n    width: auto !important;\n}\n.cron_builder_bordering  input[type='radio'] {\n    margin-top: 0px;\n    vertical-align: middle;\n}\n.cron_builder {\n    border: 1px solid #d0cbcb;\n    padding: 5px;\n    background-color: #dddef13d;\n    width: 100%;\n    max-width: 600px;\n}\n.text_align_left {\n    text-align: left;\n}\n.cron_builder .nav li {\n    cursor: pointer;\n    flex: 1 1 10px;\n    text-align: center;\n    width: 10px;\n    display: flex;\n    padding: 0px 1px;\n}\n.cron_builder .nav li a {\n    color:#337ab7;\n    width: 100%;\n    padding: 10px;\n    display: inline-block;\n    border-radius: 4px 4px 0px 0px;\n}\n.cron_builder .nav-tabs .nav-link:focus, .cron_builder .nav-tabs .nav-link:hover {\n    border-color: transparent transparent transparent;\n    background-color: #eeeeee;\n}\n.cron_builder .nav-tabs .nav-item.show .nav-link, .cron_builder .nav-tabs .nav-link.active {\n    border-color: #dee2e6 #dee2e6 #fff;\n    background-color: #ffffff;\n}\n.cron_builder { \n    font-size: 14px;\n}\n.cron_builder .well {\n    min-height: 20px;\n    padding: 19px;\n    margin-bottom: 20px;\n    background-color: #f5f5f5;\n    border: 1px solid #e3e3e3;\n    border-radius: 4px;\n    -webkit-box-shadow: inset 0 1px 1px rgb(0 0 0 / 5%);\n    box-shadow: inset 0 1px 1px rgb(0 0 0 / 5%);\n}\n@media screen and (max-width:767px) {\n    .cron_builder .nav li {\n        cursor: pointer;\n        flex: 0 0 65px;\n        text-align: center;\n    }\n}\n\n/* ---- boostrap ----- */\n.nav.nav-tabs {\n    list-style: none;\n    display: flex;\n    margin: 0 0;\n    padding-left: 0;\n}\n.row {\n    display: flex;\n}\n.col-sm-6 {\n    flex: 0 0 50%;\n}\n.min_height_auto {\n    min-height: auto !important;\n}\nbody {\n    font-family: -apple-system,BlinkMacSystemFont,\"Segoe UI\",Roboto,\"Helvetica Neue\",Arial,\"Noto Sans\",sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\",\"Noto Color Emoji\";\n}";
+var css_248z = ".cron_builder_bordering {\r\n    border: 1px solid #ddd;\r\n    border-top: none;\r\n    text-align: center;\r\n    padding: 10px;\r\n    background: #fff;\r\n}\r\n.cron_builder_bordering input, .cron_builder_bordering select {\r\n    width: 100px;\r\n    margin-right: 10px;\r\n    margin-left: 10px;\r\n    border: 1px solid #ddd;\r\n    border-radius: 4px;\r\n    outline: none;\r\n    padding: 0px 5px;\r\n    min-height: 28px;\r\n}\r\n.df {\r\n    display: flex;\r\n}\r\n.cron-builder-bg {\r\n    background-color: #086090;\r\n    color: white;\r\n    text-align: center;\r\n    margin-bottom: 4px;\r\n    padding: 8px 0px;\r\n}\r\n.cron_builder_bordering select {\r\n    background-color: white;\r\n    width: 75px;\r\n    cursor: pointer;\r\n    padding: 4px 2px;\r\n    border-radius: 4px;\r\n}\r\n.cron_builder_bordering select option:hover {\r\n    background-color: #086090;\r\n}\r\n.well-small input {\r\n    width: auto !important;\r\n}\r\n.cron_builder_bordering  input[type='radio'] {\r\n    margin-top: 0px;\r\n    vertical-align: middle;\r\n}\r\n.cron_builder {\r\n    border: 1px solid #d0cbcb;\r\n    padding: 5px;\r\n    background-color: #dddef13d;\r\n    width: 100%;\r\n    max-width: 600px;\r\n}\r\n.text_align_left {\r\n    text-align: left;\r\n}\r\n.cron_builder .nav li {\r\n    cursor: pointer;\r\n    flex: 1 1 10px;\r\n    text-align: center;\r\n    width: 10px;\r\n    display: flex;\r\n    padding: 0px 1px;\r\n}\r\n.cron_builder .nav li a {\r\n    color:#337ab7;\r\n    width: 100%;\r\n    padding: 10px;\r\n    display: inline-block;\r\n    border-radius: 4px 4px 0px 0px;\r\n}\r\n.cron_builder .nav-tabs .nav-link:focus, .cron_builder .nav-tabs .nav-link:hover {\r\n    border-color: transparent transparent transparent;\r\n    background-color: #eeeeee;\r\n}\r\n.cron_builder .nav-tabs .nav-item.show .nav-link, .cron_builder .nav-tabs .nav-link.active {\r\n    border-color: #dee2e6 #dee2e6 #fff;\r\n    background-color: #ffffff;\r\n}\r\n.cron_builder { \r\n    font-size: 14px;\r\n}\r\n.cron_builder .well {\r\n    min-height: 20px;\r\n    padding: 19px;\r\n    margin-bottom: 20px;\r\n    background-color: #f5f5f5;\r\n    /* border: 1px solid #e3e3e3; */\r\n    border-radius: 4px;\r\n    -webkit-box-shadow: inset 0 1px 1px rgb(0 0 0 / 5%);\r\n    box-shadow: inset 0 1px 1px rgb(0 0 0 / 5%);\r\n}\r\n@media screen and (max-width:767px) {\r\n    .cron_builder .nav li {\r\n        cursor: pointer;\r\n        flex: 0 0 65px;\r\n        text-align: center;\r\n    }\r\n}\r\n\r\n/* ---- boostrap ----- */\r\n.nav.nav-tabs {\r\n    list-style: none;\r\n    display: flex;\r\n    margin: 0 0;\r\n    padding-left: 0;\r\n}\r\n.row {\r\n    display: flex;\r\n}\r\n.col-sm-6 {\r\n    flex: 0 0 50%;\r\n}\r\n.min_height_auto {\r\n    min-height: auto !important;\r\n}\r\nbody {\r\n    font-family: -apple-system,BlinkMacSystemFont,\"Segoe UI\",Roboto,\"Helvetica Neue\",Arial,\"Noto Sans\",sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\",\"Noto Color Emoji\";\r\n}\r\n";
 styleInject(css_248z);
 
 const defaultCron = '0 0 00 1/1 * ? *';

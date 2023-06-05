@@ -1,6 +1,6 @@
 {
   "name": "react-cron-generator",
-  "version": "2.0.8",
+  "version": "2.0.9",
   "description": "Simple react component to generate cron expression",
   "keywords": [
     "React cron generator",
@@ -55,7 +55,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "rm -rf build && rollup -c",
+    "build": "rollup -c",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "deploy": "gh-pages -d build",
