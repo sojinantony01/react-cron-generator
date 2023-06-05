@@ -14,7 +14,7 @@ interface State {
 }
 const MonthlyCron: FunctionComponent<MonthlyCronProp> = (props) => {
     const [state, setState] = useState<State>({hour:0, minute:0, every: ""})
-    
+   
     useEffect(() => {
         let every;
         if(props.value[3] === 'L'){
@@ -57,23 +57,23 @@ const MonthlyCron: FunctionComponent<MonthlyCronProp> = (props) => {
         props.onChange(val)
     }
     const translateFn = props.translate;
-    return (<div className="tab-pane" >
-                <div className="well well-small">
+    return (<div className="tab-pane" id="monthly" >
+                <div   className={`well well-small ${state.every==="1"?'active':''}`}>
                     <input type="radio" onChange={(e) => {setState({...state, every: e.target.value}); props.onChange(['0',props.value[1] === '*' ? '0' : props.value[1], props.value[2] === '*' ? '0': props.value[2],'1','1/1', '?','*'])}} value="1" name="MonthlyRadio" checked={state.every === "1" ? true : false} />
                     {translateFn('Day')}
                     <input readOnly={state.every !== "1"} type="number" value={props.value[3]} onChange={onDayChange}/>
                     {translateFn('of every month(s)')}
                 </div>
 
-                <div className="well well-small">
+                <div className={`well well-small ${state.every==="2"?'active':''}`}>
                     <input onChange={(e) => {setState({...state, every:e.target.value}); props.onChange(['0',props.value[1] === '*' ? '0' : props.value[1], props.value[2] === '*' ? '0': props.value[2],'L','*', '?','*'])}} type="radio" value="2" name="DailyRadio" checked={state.every === "2" ? true : false}/>
                     {translateFn('Last day of every month')}
                 </div>
-                <div className="well well-small">
+                <div className={`well well-small ${state.every==="3"?'active':''}`}>
                     <input onChange={(e) => {setState({...state, every:e.target.value}); props.onChange(['0',props.value[1] === '*' ? '0' : props.value[1], props.value[2] === '*' ? '0': props.value[2] ,'LW','*', '?','*'])}} type="radio" value="3" name="DailyRadio" checked={state.every === "3" ? true : false}/>
                     {translateFn('On the last weekday of every month')}
                 </div>
-                <div className="well well-small">
+                <div className={`well well-small ${state.every==="4"?'active':''}`}>
                     <input type="radio"  onChange={(e) => {setState({...state, every:e.target.value});  props.onChange(['0',props.value[1] === '*' ? '0' : props.value[1], props.value[2] === '*' ? '0': props.value[2],`L-${1}`,'*', '?','*']) }} value="4" name="MonthlyRadio" checked={state.every === "4" ? true : false} />
                     
                     <input readOnly={state.every !== "4"} type="number" value={props.value[3].split('-').length && props.value[3].split('-')[1] ? props.value[3].split('-')[1] : ''} onChange={onLastDayChange}/>

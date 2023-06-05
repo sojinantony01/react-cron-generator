@@ -49,18 +49,20 @@ const DailyCron: FunctionComponent<DailyCronProp> = (props) => {
     }
 
     const translateFn = props.translate;
+    console.log('state',state)
     return (
-        <div className="tab-pane" >
-            <div className="well well-small">
+        <div className="tab-pane" id="daily">
+             <div className={`well well-small ${!state.every?'active':''}`}>
+                <input onChange={(e) => {setState({ ...state, every:false }); props.onChange(['0', props.value[1], props.value[2],'?','*', 'MON-FRI','*'])}} type="radio" value="2" name="DailyRadio" checked={!state.every}/>
+                <span>{translateFn('Every week day')}</span>
+            </div>
+            <div className={`well well-small ${state.every?'active':''}`}>
                 <input type="radio" onChange={(e) => {setState({ ...state, every:true }); props.onChange();}} value="1" name="DailyRadio" checked={state.every} />
                 <span>{translateFn('Every')}</span>
                 <input disabled={!state.every} type="Number" maxLength={2} onChange={onDayChange} value={props.value[3].split('/')[1] ? props.value[3].split('/')[1] :''} />
                 <span>{translateFn('day(s)')}</span>
             </div>
-            <div className="well well-small">
-                <input onChange={(e) => {setState({ ...state, every:false }); props.onChange(['0', props.value[1], props.value[2],'?','*', 'MON-FRI','*'])}} type="radio" value="2" name="DailyRadio" checked={!state.every}/>
-                <span>{translateFn('Every week day')}</span>
-            </div>
+           
             <span>{translateFn('Start time')}</span>
             <Hour onChange={onAtHourChange} value={props.value[2]} />
             <Minutes onChange={onAtMinuteChange} value={props.value[1]} />

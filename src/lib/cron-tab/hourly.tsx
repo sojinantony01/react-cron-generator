@@ -53,8 +53,8 @@ const HourlyCron: FunctionComponent<HourlyCronProp> = (props) => {
     const translateFn = props.translate;
     return (   
         <div className="tab-content">              
-            <div className="tab-pane active">
-                <div className="well well-small">
+            <div className="tab-pane active" id="hourly">
+                <div className={`well well-small ${state.every?'active':''}`}>
                     <input type="radio" onChange={(e) => {setState({ ...state, every:true }) ; props.onChange(['0','0','0/1','1/1','*','?','*'])}} checked={state.every} />
                     <span>{translateFn('Every')} </span>
                     <input disabled={!state.every} type="Number" onChange={onHourChange} value={props.value[2].split('/')[1] ? props.value[2].split('/')[1] : ''}  />
@@ -62,7 +62,7 @@ const HourlyCron: FunctionComponent<HourlyCronProp> = (props) => {
                     <input disabled={!state.every} type="Number" onChange={onMinuteChange} value={props.value[1]}  />
                     <span>{translateFn('minute(s)')}</span>
                 </div>
-                <div className="well well-small margin-right-0 margin-left-0">
+                <div  className={`well well-small margin-right-0 margin-left-0 ${!state.every?'active':''}`}>
                 <div className="text_align_right" style={{width:'100%'}}>
                     <input type="radio" onChange={(e) => {setState({ every: false }); props.onChange();}} checked={!state.every}/>
                     <span className="">{translateFn('At')}</span>
