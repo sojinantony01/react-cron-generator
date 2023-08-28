@@ -27,9 +27,10 @@ jobs:
     - name: install gh pages separately  
       run: npm install gh-pages react@18.2.0 react-dom@18.2.0
 
-
-    - name: Upload coverage to Codecov
-      uses: codecov/codecov-action@v1
+    - name: Upload coverage reports to Codecov
+      uses: codecov/codecov-action@v3
+      env:
+        CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
     - name: Build
       run: npm run react-build
