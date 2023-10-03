@@ -7,10 +7,9 @@ Simple react component to generate cron expression
 Package helps to build linux scheduler cron expression.
 
 [![npm version](https://badge.fury.io/js/react-cron-generator.svg)](https://badge.fury.io/js/react-cron-generator) ![Downloads](https://img.shields.io/npm/dm/react-cron-generator.svg)
- 
-  <a href="https://github.com/sojinantony01/react-spread-sheet/blob/main/LICENSE">
-    <img src="https://img.shields.io/npm/l/react-cron-generator.svg" alt="license">
-  </a>
+<a href="https://github.com/sojinantony01/react-spread-sheet/blob/main/LICENSE">
+  <img src="https://img.shields.io/npm/l/react-cron-generator.svg" alt="license">
+</a>
 
 ```
 data = '* * * * * * *'
