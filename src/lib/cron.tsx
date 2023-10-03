@@ -20,15 +20,6 @@ interface State {
 const defaultCron = '0 0 00 1/1 * ? *';
 const Cron: React.FunctionComponent<CronProp>  = (props) => {
     const [state, setState] = useState<State>({value:[], headers: loadHeaders(props.options), locale: props.locale ? props.locale : 'en'})
-    useEffect(()=> {
-        setValue(props.value ? props.value : "") 
-        if(props.translateFn && !props.locale) {
-            console.log('Warning !!! locale not set while using translateFn');
-        }
-        // if(this.props.onRef) {
-        //     this.props.onRef(this);
-        // }
-    }, [])
     useEffect(() => {
         let newVal = '';
         newVal = state.value.toString().replace(/,/g,' ');
@@ -36,12 +27,15 @@ const Cron: React.FunctionComponent<CronProp>  = (props) => {
         if(props.value !== newVal) {
             setValue(props.value ? props.value : "") 
         }
+        if(props.translateFn && !props.locale) {
+            console.warn('Warning !!! locale not set while using translateFn');
+        }
     }, [props.value])
     useEffect(() => {
-        parentChange(state.value)
+        state.value && state.value.length && parentChange(state.value)
     }, [state.value])
     const setValue = (value: string) => {
-        let prevState = state;
+        let prevState = {...state};
         prevState.value = value.replace(/,/g, '!').split(' ');;
         const allHeaders = loadHeaders();
         if(value && value.split(' ').length === 6) {
@@ -100,7 +94,7 @@ const Cron: React.FunctionComponent<CronProp>  = (props) => {
     }
     const getVal = () => {
         let val = cronstrue.toString(state.value.toString().replace(/,/g,' ').replace(/!/g, ','), { throwExceptionOnParseError: false, locale: state.locale })
-        if(val.search('undefined') === -1) {
+        if(val.search('undefined') === -1 && state.value && state.value.length) {
             return val;
         }
         return '-';   
