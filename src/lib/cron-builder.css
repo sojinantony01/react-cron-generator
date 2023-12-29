@@ -32,6 +32,10 @@
     padding: 4px 2px;
     border-radius: 4px;
 }
+.cron_builder_bordering select:disabled{
+    background-color: #f5f5f5;
+    cursor: not-allowed;
+}
 .cron_builder_bordering select option:hover {
     background-color: #086090;
 }
@@ -74,6 +78,12 @@
 .cron_builder .nav-tabs .nav-item.show .nav-link, .cron_builder .nav-tabs .nav-link.active {
     border-color: #dee2e6 #dee2e6 #fff;
     background-color: #ffffff;
+}
+.cron_builder .nav-tabs .nav-item.show .nav-link, .cron_builder .nav-tabs .nav-link.disabled {
+    color: #6c757d;
+    background-color: #ffffff;
+    border-color: transparent transparent #ffffff;
+    cursor: not-allowed;
 }
 .cron_builder { 
     font-size: 14px;

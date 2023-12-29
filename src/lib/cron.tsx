@@ -10,6 +10,7 @@ interface CronProp {
     translateFn?(key: string): string
     locale?: string
     options?: {headers: HeaderKeyType[] }
+    isDisabled?: boolean
 }
 interface State {
     value: string[]
@@ -69,13 +70,13 @@ const Cron: React.FunctionComponent<CronProp>  = (props) => {
         setState(prevState)
     }
     const tabChanged = (tab: HeaderValType) => {
-        if(state.selectedTab !== tab) {
+        if(state.selectedTab !== tab && props.isDisabled !== true) {
             setState({...state, selectedTab: tab, value: defaultValue(tab)})
         }
     }
     const getHeaders = () => {
         return state.headers.map((d, index) => {
-            return <li className="nav-item" key={index} ><a className={`nav-link ${state.selectedTab === d ? 'active' : ''}`} onClick={()=> tabChanged(d)}>{translate(d)}</a></li>
+            return <li className="nav-item" key={index} ><a className={`nav-link ${state.selectedTab === d ? 'active' : ''} ${props.isDisabled===true ? "disabled" : ""}`} onClick={()=> tabChanged(d)}>{translate(d)}</a></li>
         })
     }
     const onValueChange = (val: string[]) => {     
@@ -117,7 +118,7 @@ const Cron: React.FunctionComponent<CronProp>  = (props) => {
             throw new Error('Value does not match any available headers.');
         }
         const CronComponent = selectedMetaData.component;
-        return <CronComponent translate={translate} value={state.value} onChange={onValueChange} />;
+        return <CronComponent translate={translate} value={state.value} onChange={onValueChange} isDisabled={props.isDisabled}/>;
     }
     const translate = (key: string): string => {
         let translatedText = key;

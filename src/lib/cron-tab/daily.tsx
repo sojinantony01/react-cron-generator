@@ -6,6 +6,7 @@ interface DailyCronProp {
     onChange(e?: string[]): void
     value: string[]
     translate(e: string): string
+    isDisabled?: boolean
 }
 interface State {
     hour: number
@@ -20,6 +21,7 @@ const DailyCron: FunctionComponent<DailyCronProp> = (props) => {
     }, [])
 
     const onDayChange = (e: {target: { value: string}}) => {
+        if(props.isDisabled === true) { return }
         if(!e.target.value || (parseInt(e.target.value) > 0 && parseInt(e.target.value) < 32 )) {
             // props.value = ['0', getValueByIndex(1), getValueByIndex(1),'*','*','?','*'];
             onValueChange(3, (e.target.value ? `1/${e.target.value}` : e.target.value));
@@ -35,10 +37,12 @@ const DailyCron: FunctionComponent<DailyCronProp> = (props) => {
     }
 
     const onAtHourChange = (e: {target: { value: string}}) => {
+        if(props.isDisabled === true) { return }
         onValueChange(2, e.target.value);
     }
 
     const onAtMinuteChange = (e: {target: { value: string}}) =>  {
+        if(props.isDisabled === true) { return }
         onValueChange(1, e.target.value);
     }
 
@@ -52,18 +56,18 @@ const DailyCron: FunctionComponent<DailyCronProp> = (props) => {
     return (
         <div className="tab-pane" >
             <div className="well well-small">
-                <input type="radio" onChange={(e) => {setState({ ...state, every:true }); props.onChange();}} value="1" name="DailyRadio" checked={state.every} />
+                <input type="radio" onChange={(e) => { if (props.isDisabled === true) { return}setState({ ...state, every:true }); props.onChange();}} value="1" name="DailyRadio" checked={state.every} disabled={props.isDisabled} />
                 <span>{translateFn('Every')}</span>
-                <input disabled={!state.every} type="Number" maxLength={2} onChange={onDayChange} value={props.value[3].split('/')[1] ? props.value[3].split('/')[1] :''} />
+                <input disabled={!state.every || props.isDisabled} type="Number" maxLength={2} onChange={onDayChange} value={props.value[3].split('/')[1] ? props.value[3].split('/')[1] :''} />
                 <span>{translateFn('day(s)')}</span>
             </div>
             <div className="well well-small">
-                <input onChange={(e) => {setState({ ...state, every:false }); props.onChange(['0', props.value[1], props.value[2],'?','*', 'MON-FRI','*'])}} type="radio" value="2" name="DailyRadio" checked={!state.every}/>
+                <input onChange={(e) => {if (props.isDisabled === true) { return}setState({ ...state, every:false }); props.onChange(['0', props.value[1], props.value[2],'?','*', 'MON-FRI','*'])}} type="radio" value="2" name="DailyRadio" checked={!state.every} disabled={props.isDisabled}/>
                 <span>{translateFn('Every week day')}</span>
             </div>
             <span>{translateFn('Start time')}</span>
-            <Hour onChange={onAtHourChange} value={props.value[2]} />
-            <Minutes onChange={onAtMinuteChange} value={props.value[1]} />
+            <Hour onChange={onAtHourChange} value={props.value[2]} disabled={props.isDisabled}/>
+            <Minutes onChange={onAtMinuteChange} value={props.value[1]} disabled={props.isDisabled}/>
         </div>)
 }
 export default DailyCron;
