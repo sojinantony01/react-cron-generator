@@ -6,13 +6,13 @@ interface WeeklyCronProp {
     onChange(e?: string[]): void
     value: string[]
     translate(e: string): string,
-    isDisabled?: boolean
+    disabled?: boolean
 }
 
 const WeeklyCron: FunctionComponent<WeeklyCronProp> = (props) => {
     
     const onAtHourChange = (e: { target: { value: string; }; }) => {
-        if(props.isDisabled === true) { return }
+        if(props.disabled) { return }
         let val = props.value;
         val[0] = '0';
         val[2] = `${e.target.value}`;
@@ -20,7 +20,7 @@ const WeeklyCron: FunctionComponent<WeeklyCronProp> = (props) => {
     }
 
     const onAtMinuteChange = (e: { target: { value: string; }; }) => {
-        if(props.isDisabled === true) { return }
+        if(props.disabled) { return }
         let val = props.value;
         val[0] = '0';
         val[1] = `${e.target.value}`;
@@ -28,7 +28,7 @@ const WeeklyCron: FunctionComponent<WeeklyCronProp> = (props) => {
     }
 
     const onCheck = (e: { target: { checked: boolean, value: string; }; }) => {
-        if(props.isDisabled === true) { return }
+        if(props.disabled) { return }
         let val = props.value;
         val[0] = '0';
         if(e.target.checked) {
@@ -67,23 +67,23 @@ const WeeklyCron: FunctionComponent<WeeklyCronProp> = (props) => {
         <div className="well well-small row">
             <div className="span6 col-sm-6">
                 <div className="text_align_left">
-                    <input className='min_height_auto' type="checkbox" value="MON" onChange={onCheck} checked={(props.value[5].search('MON') !== -1 ) ? true : false}  disabled={props.isDisabled}/>{translateFn('Monday')}<br/>
-                    <input className='min_height_auto' type="checkbox" value="WED" onChange={onCheck} checked={props.value[5].search('WED') !== -1 ? true : false}   disabled={props.isDisabled}/>{translateFn('Wednesday')}<br/>
-                    <input className='min_height_auto' type="checkbox" value="FRI" onChange={onCheck} checked={(props.value[5].search('FRI') !== -1 ) ? true : false} disabled={props.isDisabled}/>{translateFn('Friday')}<br/>
-                    <input className='min_height_auto' type="checkbox" value="SUN" onChange={onCheck} checked={props.value[5].search('SUN') !== -1 ? true : false} disabled={props.isDisabled}/>{translateFn('Sunday')}
+                    <input className='min_height_auto' type="checkbox" value="MON" onChange={onCheck} checked={(props.value[5].search('MON') !== -1 ) ? true : false}  disabled={props.disabled}/>{translateFn('Monday')}<br/>
+                    <input className='min_height_auto' type="checkbox" value="WED" onChange={onCheck} checked={props.value[5].search('WED') !== -1 ? true : false}   disabled={props.disabled}/>{translateFn('Wednesday')}<br/>
+                    <input className='min_height_auto' type="checkbox" value="FRI" onChange={onCheck} checked={(props.value[5].search('FRI') !== -1 ) ? true : false} disabled={props.disabled}/>{translateFn('Friday')}<br/>
+                    <input className='min_height_auto' type="checkbox" value="SUN" onChange={onCheck} checked={props.value[5].search('SUN') !== -1 ? true : false} disabled={props.disabled}/>{translateFn('Sunday')}
                 </div>
             </div>
             <div className="span6 col-sm-6">
                 <div className="text_align_left">
-                    <input className='min_height_auto' type="checkbox" value="TUE" onChange={onCheck} checked={props.value[5].search('TUE') !== -1 ? true : false} disabled={props.isDisabled}/>{translateFn('Tuesday')}<br />
-                    <input className='min_height_auto' type="checkbox" value="THU" onChange={onCheck} checked={props.value[5].search('THU') !== -1 ? true : false} disabled={props.isDisabled}/>{translateFn('Thursday')}<br />
-                    <input className='min_height_auto' type="checkbox" value="SAT" onChange={onCheck} checked={props.value[5].search('SAT') !== -1 ? true : false} disabled={props.isDisabled}/>{translateFn('Saturday')}
+                    <input className='min_height_auto' type="checkbox" value="TUE" onChange={onCheck} checked={props.value[5].search('TUE') !== -1 ? true : false} disabled={props.disabled}/>{translateFn('Tuesday')}<br />
+                    <input className='min_height_auto' type="checkbox" value="THU" onChange={onCheck} checked={props.value[5].search('THU') !== -1 ? true : false} disabled={props.disabled}/>{translateFn('Thursday')}<br />
+                    <input className='min_height_auto' type="checkbox" value="SAT" onChange={onCheck} checked={props.value[5].search('SAT') !== -1 ? true : false} disabled={props.disabled}/>{translateFn('Saturday')}
                 </div><br /><br />
             </div>
         </div>
         {translateFn('Start time')}
-        <Hour onChange={onAtHourChange} value={props.value[2]}  disabled={props.isDisabled}/>
-        <Minutes onChange={onAtMinuteChange} value={props.value[1]} disabled={props.isDisabled}/>
+        <Hour onChange={onAtHourChange} value={props.value[2]}  disabled={props.disabled}/>
+        <Minutes onChange={onAtMinuteChange} value={props.value[1]} disabled={props.disabled}/>
     </div>)
 }
 

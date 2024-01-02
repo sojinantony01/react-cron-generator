@@ -34,7 +34,7 @@
 }
 .cron_builder_bordering select:disabled{
     background-color: #f5f5f5;
-    cursor: not-allowed;
+    cursor: default;
 }
 .cron_builder_bordering select option:hover {
     background-color: #086090;

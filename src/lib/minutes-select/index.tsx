@@ -12,7 +12,7 @@ const MinutesSelect: FunctionComponent<MinutesSelectProp>  = (props) => {
         }
         return options;
     }
-     return (<select disabled={props.disabled === true ? true : false} className="minutes" onChange={props.onChange} value={props.value} >
+     return (<select disabled={props.disabled} className="minutes" onChange={props.onChange} value={props.value} >
             {buildOptions()}
         </select>)
     
