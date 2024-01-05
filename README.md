@@ -68,6 +68,7 @@ export default App;
 | translateFn | translate function callback | method | No
 | locale | locale for cronstrue | en | No
 | options | Options for Cron component, *Must pass a valid cron value for available headers | All available headers | No
+| disabled | Disable cron selector | false | No
 
 
 **translateFn**
