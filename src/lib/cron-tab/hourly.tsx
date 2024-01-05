@@ -5,7 +5,8 @@ import Hour from '../hour-select';
 interface HourlyCronProp {
     onChange(e?: string[]): void
     value: string[]
-    translate(e: string): string
+    translate(e: string): string,
+    disabled?: boolean
 }
 interface State {
     every: boolean
@@ -21,7 +22,7 @@ const HourlyCron: FunctionComponent<HourlyCronProp> = (props) => {
 
 
     const onHourChange = (e: {target: { value: string}}) => {
-        if(state.every && ((parseInt(e.target.value) > 0 && parseInt(e.target.value) < 24) || e.target.value === '')) {
+        if(!props.disabled && state.every && ((parseInt(e.target.value) > 0 && parseInt(e.target.value) < 24) || e.target.value === '')) {
             let val = ['0','0','*','*','*','?','*'];
             val[1] = props.value[1];
             val[2] = e.target.value ? `0/${e.target.value}` : e.target.value;
@@ -30,7 +31,7 @@ const HourlyCron: FunctionComponent<HourlyCronProp> = (props) => {
         } 
     }
     const onMinuteChange = (e: {target: { value: string}}) => {
-        if(state.every && ((parseInt(e.target.value) > 0 && parseInt(e.target.value) < 60) || e.target.value === '')) {
+        if(!props.disabled && state.every && ((parseInt(e.target.value) > 0 && parseInt(e.target.value) < 60) || e.target.value === '')) {
             let val = ['0','0','*','*','*','?','*'];
             val[1] = e.target.value
             val[2] = props.value[2];
@@ -39,13 +40,15 @@ const HourlyCron: FunctionComponent<HourlyCronProp> = (props) => {
         } 
     }
 
-    const onAtHourChange = (e: {target: { value: string}}) => {
+    const onAtHourChange = (e: { target: { value: string; }; }) => {
+        if(props.disabled) { return }
         let val = ['0',props.value[1],'*','1/1','*','?','*']
         val[2] = `${e.target.value}`;
         props.onChange(val)
     }
 
-    const onAtMinuteChange = (e: {target: { value: string}}) => {
+    const onAtMinuteChange = (e: { target: { value: string; }; }) => {
+        if(props.disabled) { return }
         let val = ['0','*', props.value[2],'1/1','*','?','*']
         val[1] = `${e.target.value}`;
         props.onChange(val)
@@ -55,19 +58,19 @@ const HourlyCron: FunctionComponent<HourlyCronProp> = (props) => {
         <div className="tab-content">              
             <div className="tab-pane active">
                 <div className="well well-small">
-                    <input type="radio" onChange={(e) => {setState({ ...state, every:true }) ; props.onChange(['0','0','0/1','1/1','*','?','*'])}} checked={state.every} />
+                    <input type="radio" onChange={(e) => { if (props.disabled) { return}setState({ ...state, every:true }) ; props.onChange(['0','0','0/1','1/1','*','?','*'])}} checked={state.every} disabled={props.disabled} />
                     <span>{translateFn('Every')} </span>
-                    <input disabled={!state.every} type="Number" onChange={onHourChange} value={props.value[2].split('/')[1] ? props.value[2].split('/')[1] : ''}  />
+                    <input disabled={!state.every || props.disabled} type="Number" onChange={onHourChange} value={props.value[2].split('/')[1] ? props.value[2].split('/')[1] : ''}  />
                     <span>{translateFn('hour')}</span>
-                    <input disabled={!state.every} type="Number" onChange={onMinuteChange} value={props.value[1]}  />
+                    <input disabled={!state.every || props.disabled} type="Number" onChange={onMinuteChange} value={props.value[1]}  />
                     <span>{translateFn('minute(s)')}</span>
                 </div>
                 <div className="well well-small margin-right-0 margin-left-0">
                 <div className="text_align_right" style={{width:'100%'}}>
-                    <input type="radio" onChange={(e) => {setState({ every: false }); props.onChange();}} checked={!state.every}/>
+                    <input type="radio" onChange={(e) => {if (props.disabled) { return}setState({ every: false }); props.onChange();}} checked={!state.every} disabled={props.disabled}/>
                     <span className="">{translateFn('At')}</span>
-                    <Hour disabled={state.every} onChange={onAtHourChange} value={props.value[2]} />
-                    <Minutes disabled={state.every} onChange={onAtMinuteChange} value={props.value[1]} />
+                    <Hour disabled={state.every || props.disabled} onChange={onAtHourChange} value={props.value[2]} />
+                    <Minutes disabled={state.every || props.disabled} onChange={onAtMinuteChange} value={props.value[1]} />
                 </div>
                 </div>
             </div>

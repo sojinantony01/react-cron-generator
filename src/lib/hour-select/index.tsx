@@ -14,7 +14,7 @@ const HourSelect: React.FunctionComponent<HourSelectProp>  = (props) => {
         return options;
     }
 
-    return (<select disabled={props.disabled === true ? true : false} className="hours" onChange={props.onChange} value={props.value} >
+    return (<select disabled={props.disabled} className="hours" onChange={props.onChange} value={props.value} >
         {buildOptions()}
     </select>)
 }
