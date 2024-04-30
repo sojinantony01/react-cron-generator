@@ -30,11 +30,11 @@ jobs:
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v1
 
-    - name: Start App
-      run: npm start
-      
-    - name: e2e
-      run: npm run cy:run
+      - name: Cypress run
+        uses: cypress-io/github-action@v6
+        with:
+          build: npm run build
+          start: npm start
 
     - name: Build
       run: npm run react-build
