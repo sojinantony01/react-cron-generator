@@ -107,21 +107,21 @@
 }
 
 /* ---- boostrap ----- */
-.nav.nav-tabs {
+.cron_builder .nav.nav-tabs {
     list-style: none;
     display: flex;
     margin: 0 0;
     padding-left: 0;
 }
-.row {
+.cron_builder .row {
     display: flex;
 }
-.col-sm-6 {
+.cron_builder .col-sm-6 {
     flex: 0 0 50%;
 }
-.min_height_auto {
+.cron_builder .min_height_auto {
     min-height: auto !important;
 }
-body {
+.cron_builder {
     font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
 }
