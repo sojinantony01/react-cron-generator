@@ -29,32 +29,25 @@ npm install react-cron-generator
 
 
 ```
-import React, { Component } from 'react'
+import React, { useState } from 'react'
 import Cron from 'react-cron-generator'
 import 'react-cron-generator/dist/cron-builder.css'
 
 
-class App extends Component {
+const App = () => {
+  const [state, setState] = useState<State>({});
 
-  constructor(props) {
-      super(props);
-      this.state = {
-       
-      };
-  }
-
-  render() {
-    return (<div>
-      <Cron
-        onChange={(e)=> {this.setState({value:e});}}
-        value={this.state.value}
-        showResultText={true}
-        showResultCron={true}
-        />
-                            
-    </div>)
-  }
-}
+  return (
+    <Cron
+      onChange={(e, text) => {
+        setState({ value: e });
+      }}
+      value={state.value}
+      showResultText={true}
+      showResultCron={true}
+    />
+  );
+};
 
 export default App;
 
