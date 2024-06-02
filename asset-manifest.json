@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/react-cron-generator/static/css/main.3134f6cd.css",
-    "main.js": "/react-cron-generator/static/js/main.f24e5f7d.js",
+    "main.css": "/react-cron-generator/static/css/main.86d93bb8.css",
+    "main.js": "/react-cron-generator/static/js/main.775a1aaa.js",
     "static/js/453.e9f9329d.chunk.js": "/react-cron-generator/static/js/453.e9f9329d.chunk.js",
     "index.html": "/react-cron-generator/index.html",
-    "main.3134f6cd.css.map": "/react-cron-generator/static/css/main.3134f6cd.css.map",
-    "main.f24e5f7d.js.map": "/react-cron-generator/static/js/main.f24e5f7d.js.map",
+    "main.86d93bb8.css.map": "/react-cron-generator/static/css/main.86d93bb8.css.map",
+    "main.775a1aaa.js.map": "/react-cron-generator/static/js/main.775a1aaa.js.map",
     "453.e9f9329d.chunk.js.map": "/react-cron-generator/static/js/453.e9f9329d.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.3134f6cd.css",
-    "static/js/main.f24e5f7d.js"
+    "static/css/main.86d93bb8.css",
+    "static/js/main.775a1aaa.js"
   ]
 }
