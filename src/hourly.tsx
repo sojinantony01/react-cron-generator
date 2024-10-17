@@ -48,6 +48,14 @@ export default class extends BaseCronComponent<BaseTabProps, BaseTabState> {
     }
   }
 
+  onEveryMinuteChange(e: any) {
+    if ((e.target.value > 0 && e.target.value < 60) || e.target.value === '') {
+      const value = replaceElemAtPos(this.state.value, MINUTE_POSITION_INDEX, e.target.value === '' ? '*' : `${e.target.value}`);
+      this.setState({ value });
+      this.notifyOnChange(value, this.state.timezone);
+    }
+  }
+
   onAtHourChange(e: any) {
     const value = replaceElemAtPos(this.state.value, HOUR_POSITION_INDEX, e.target.value);
     this.setState({ value });
@@ -98,7 +106,22 @@ export default class extends BaseCronComponent<BaseTabProps, BaseTabState> {
                     value={this.state.value[HOUR_POSITION_INDEX].includes('/') ? this.state.value[HOUR_POSITION_INDEX].split('/')[1] : '1'}
                     onChange={(e) => this.onEveryHourChange.bind(this)(e)}
                   />
-                  <FormText color="muted">Must be integer value (1 - 23).</FormText>
+                  <Label for="minute" className="ml-sm-2">
+                    Hour (1 - 23)
+                  </Label>
+                  <Input
+                    id="minute"
+                    className="mx-sm-1"
+                    type="number"
+                    disabled={isAtHour(this.state.value)}
+                    min={1}
+                    max={59}
+                    value={this.state.value[MINUTE_POSITION_INDEX] ? this.state.value[MINUTE_POSITION_INDEX] : '0'}
+                    onChange={(e) => this.onEveryMinuteChange.bind(this)(e)}
+                  />
+                  <Label for="minute" className="ml-sm-2">
+                    Minute (1 - 59)
+                  </Label>
                 </FormGroup>
               </Form>
             </Col>
