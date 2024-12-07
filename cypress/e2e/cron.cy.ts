@@ -72,8 +72,11 @@ describe("Cron gen", () => {
     cy.get(".cron_builder > :nth-child(4)").should("have.text", "0 05 04 L-1 * ? *");
 
     cy.get(':nth-child(4) > [type="number"]').clear().type("4");
-
     cy.get(".cron_builder > :nth-child(4)").should("have.text", "0 05 04 L-4 1/1 ? *");
+
+    cy.get(':nth-child(5) > [type="radio"]').check();
+    cy.get(':nth-child(5) > [type="text"]').clear().type("1,2,4,5");
+    cy.get(".cron_builder > :nth-child(4)").should("have.text", "0 05 04 1,2,4,5 1/1 ? *");
   });
 
   it("Custom passes", () => {
