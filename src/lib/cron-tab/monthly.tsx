@@ -70,7 +70,7 @@ const MonthlyCron: FunctionComponent<MonthlyCronProp> = (props) => {
         "?",
         "*",
       ];
-      val[3] = `${e.target.value.split(",").map(d => d.trim()).join().replaceAll(",", "!")}`;
+      val[3] = `${e.target.value.replaceAll(",", "!")}`;
       props.onChange(val);
     }
   };
@@ -262,7 +262,7 @@ const MonthlyCron: FunctionComponent<MonthlyCronProp> = (props) => {
           onChange={onMultiDayChange}
           disabled={props.disabled}
         />
-        {translateFn("Days of every month(s) (coma separated dates)")}
+        {translateFn("Days of every month (coma separated dates)")}
       </div>
 
       {translateFn("Start time")}
