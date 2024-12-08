@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import cronstrue from 'cronstrue/i18n';
 import { metadata, loadHeaders, HeaderKeyType, HeaderValType } from './meta';
+import translations from "../lib/localization/translation.json"
 import './cron-builder.css';
 interface CronProp {
     value?: string
@@ -18,6 +19,9 @@ interface State {
     headers: HeaderValType[]
     locale: string
 }
+interface Dic {
+    [key: string]: string
+} 
 const defaultCron = '0 0 00 1/1 * ? *';
 const Cron: React.FunctionComponent<CronProp>  = (props) => {
     const [state, setState] = useState<State>({value:[], headers: loadHeaders(props.options), locale: props.locale ? props.locale : 'en'})
@@ -127,6 +131,8 @@ const Cron: React.FunctionComponent<CronProp>  = (props) => {
             if(typeof translatedText !== 'string') {
                 throw new Error('translateFn expects a string translation');
             }
+        } else if ((translations as Dic)[translatedText]) {
+          return (translations as Dic)[translatedText];
         }
         return translatedText;
     }
