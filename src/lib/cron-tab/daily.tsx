@@ -52,17 +52,33 @@ const DailyCron: FunctionComponent<DailyCronProp> = (props) => {
         props.onChange(val);
     }
 
+    const onClickEveryWeekDay = () => {
+        if (props.disabled) {
+            return
+        }
+        setState({ ...state, every: false });
+        props.onChange(['0', props.value[1], props.value[2], '?', '*', 'MON-FRI', '*'])
+    }
+
+    const onClickDailyRadio = () => {
+        if (props.disabled) {
+            return
+        }
+        setState({ ...state, every: true });
+        props.onChange();
+    }
+
     const translateFn = props.translate;
     return (
-        <div className="tab-pane" >
-            <div className="well well-small">
-                <input type="radio" onChange={(e) => { if (props.disabled) { return}setState({ ...state, every:true }); props.onChange();}} value="1" name="DailyRadio" checked={state.every} disabled={props.disabled} />
+        <div className="tab-pane">
+            <div className="well well-small cursor_pointer" onClick={onClickDailyRadio}>
+                <input type="radio" value="1" name="DailyRadio" checked={state.every} disabled={props.disabled} />
                 <span>{translateFn('Every')}</span>
-                <input disabled={!state.every || props.disabled} type="Number" maxLength={2} onChange={onDayChange} value={props.value[3].split('/')[1] ? props.value[3].split('/')[1] :''} />
+                <input disabled={props.disabled} type="Number" maxLength={2} onChange={onDayChange} value={props.value[3].split('/')[1] ? props.value[3].split('/')[1] :''} />
                 <span>{translateFn('day(s)')}</span>
             </div>
-            <div className="well well-small">
-                <input onChange={(e) => {if (props.disabled) { return}setState({ ...state, every:false }); props.onChange(['0', props.value[1], props.value[2],'?','*', 'MON-FRI','*'])}} type="radio" value="2" name="DailyRadio" checked={!state.every} disabled={props.disabled}/>
+            <div className="well well-small cursor_pointer" onClick={onClickEveryWeekDay}>
+                <input type="radio" value="2" name="EveryWeekDay" checked={!state.every} disabled={props.disabled}/>
                 <span>{translateFn('Every week day')}</span>
             </div>
             <span>{translateFn('Start time')}</span>
