@@ -64,8 +64,10 @@ const DailyCron: FunctionComponent<DailyCronProp> = (props) => {
         if (props.disabled) {
             return
         }
-        setState({ ...state, every: true });
-        props.onChange();
+        if (!state.every) {
+            setState({ ...state, every: true });
+            props.onChange();
+        }
     }
 
     const translateFn = props.translate;
@@ -74,7 +76,7 @@ const DailyCron: FunctionComponent<DailyCronProp> = (props) => {
             <div className="well well-small cursor_pointer" onClick={onClickDailyRadio}>
                 <input type="radio" value="1" name="DailyRadio" checked={state.every} disabled={props.disabled} />
                 <span>{translateFn('Every')}</span>
-                <input disabled={props.disabled} type="Number" maxLength={2} onChange={onDayChange} value={props.value[3].split('/')[1] ? props.value[3].split('/')[1] :''} />
+                <input readOnly={!state.every} disabled={props.disabled} type="Number" maxLength={2} onChange={onDayChange} value={props.value[3].split('/')[1] ? props.value[3].split('/')[1] :''} />
                 <span>{translateFn('day(s)')}</span>
             </div>
             <div className="well well-small cursor_pointer" onClick={onClickEveryWeekDay}>
