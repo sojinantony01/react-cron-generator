@@ -53,7 +53,7 @@ const DailyCron: FunctionComponent<DailyCronProp> = (props) => {
     }
 
     const onClickEveryWeekDay = () => {
-        if (props.disabled) {
+        if (props.disabled || !state.every) {
             return
         }
         setState({ ...state, every: false });
@@ -61,13 +61,11 @@ const DailyCron: FunctionComponent<DailyCronProp> = (props) => {
     }
 
     const onClickDailyRadio = () => {
-        if (props.disabled) {
+        if (props.disabled || state.every) {
             return
         }
-        if (!state.every) {
-            setState({ ...state, every: true });
-            props.onChange();
-        }
+        setState({ ...state, every: true });
+        props.onChange();
     }
 
     const translateFn = props.translate;

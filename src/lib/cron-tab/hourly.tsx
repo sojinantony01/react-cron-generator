@@ -55,23 +55,19 @@ const HourlyCron: FunctionComponent<HourlyCronProp> = (props) => {
     }
 
     const onClickEveryHourMinute = () => {
-        if (props.disabled) {
+        if (props.disabled || state.every) {
             return
         }
-        if (!state.every) {
-            setState({ ...state, every: true });
-            props.onChange(['0', '0', '0/1', '1/1', '*', '?', '*'])
-        }
+        setState({ ...state, every: true });
+        props.onChange(['0', '0', '0/1', '1/1', '*', '?', '*'])
     }
 
     const onClickEverySpecificHour = () => {
-        if (props.disabled) {
+        if (props.disabled || !state.every) {
             return
         }
-        if (state.every) {
-            setState({ every: false });
-            props.onChange();
-        }
+        setState({ every: false });
+        props.onChange();
     }
 
     const translateFn = props.translate;

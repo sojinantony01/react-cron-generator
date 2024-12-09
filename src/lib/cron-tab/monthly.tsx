@@ -114,89 +114,79 @@ const MonthlyCron: FunctionComponent<MonthlyCronProp> = (props) => {
     props.onChange(val);
   };
   const onClickMonthlyOnceRadio = (value = "1") => {
-    if (props.disabled) {
+    if (props.disabled || state.every === "1") {
       return;
     }
-    if (state.every !== "1") {
-      setState({ ...state, every: value });
-      props.onChange([
-        "0",
-        props.value[1] === "*" ? "0" : props.value[1],
-        props.value[2] === "*" ? "0" : props.value[2],
-        "1",
-        "1/1",
-        "?",
-        "*",
-      ]);
-    }
+    setState({ ...state, every: value });
+    props.onChange([
+      "0",
+      props.value[1] === "*" ? "0" : props.value[1],
+      props.value[2] === "*" ? "0" : props.value[2],
+      "1",
+      "1/1",
+      "?",
+      "*",
+    ]);
   }
   const onClickLastDayOfEveryMonth = (value = "2") => {
-    if (props.disabled) {
+    if (props.disabled || state.every === "2") {
       return;
     }
-    if (state.every !== "2") {
-      setState({ ...state, every: value });
-      props.onChange([
-        "0",
-        props.value[1] === "*" ? "0" : props.value[1],
-        props.value[2] === "*" ? "0" : props.value[2],
-        "L",
-        "*",
-        "?",
-        "*",
-      ]);
-    }
+    setState({ ...state, every: value });
+    props.onChange([
+      "0",
+      props.value[1] === "*" ? "0" : props.value[1],
+      props.value[2] === "*" ? "0" : props.value[2],
+      "L",
+      "*",
+      "?",
+      "*",
+    ]);
   }
   const onClickLastWeekdayOfEveryMonth = (value = "3") => {
-    if (props.disabled) {
+    if (props.disabled || state.every === "3") {
       return;
     }
-    if (state.every !== "3") {
-      setState({ ...state, every: value });
-      props.onChange([
-        "0",
-        props.value[1] === "*" ? "0" : props.value[1],
-        props.value[2] === "*" ? "0" : props.value[2],
-        "LW",
-        "*",
-        "?",
-        "*",
-      ]);
-    }
+    setState({ ...state, every: value });
+    props.onChange([
+      "0",
+      props.value[1] === "*" ? "0" : props.value[1],
+      props.value[2] === "*" ? "0" : props.value[2],
+      "LW",
+      "*",
+      "?",
+      "*",
+    ]);
   }
   const onClickDaysBeforeEndOfMonth = (value = "4") => {
-    if (props.disabled) {
+    if (props.disabled || state.every === "4") {
       return;
     }
-    if (state.every !== "4") {
-      setState({ ...state, every: value });
-      props.onChange([
-        "0",
-        props.value[1] === "*" ? "0" : props.value[1],
-        props.value[2] === "*" ? "0" : props.value[2],
-        `L-${1}`,
-        "*",
-        "?",
-        "*",
-      ]);
-    }
+    setState({ ...state, every: value });
+    props.onChange([
+      "0",
+      props.value[1] === "*" ? "0" : props.value[1],
+      props.value[2] === "*" ? "0" : props.value[2],
+      `L-${1}`,
+      "*",
+      "?",
+      "*",
+    ]);
   }
   const onClickMonthlyMultipleRadio = (value = "5") => {
-    if (props.disabled) {
+    if (props.disabled || state.every === "5") {
       return;
     }
-    if (state.every !== "5") {
-      setState({ ...state, every: value });
-      props.onChange([
-        "0",
-        props.value[1] === "*" ? "0" : props.value[1],
-        props.value[2] === "*" ? "0" : props.value[2],
-        "1",
-        "1/1",
-        "?",
-        "*",
-      ]);
-    }
+    setState({ ...state, every: value });
+    props.onChange([
+      "0",
+      props.value[1] === "*" ? "0" : props.value[1],
+      props.value[2] === "*" ? "0" : props.value[2],
+      "1",
+      "1/1",
+      "?",
+      "*",
+    ]);
   }
   const translateFn = props.translate;
   return (
