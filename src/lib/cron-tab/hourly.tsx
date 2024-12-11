@@ -53,25 +53,40 @@ const HourlyCron: FunctionComponent<HourlyCronProp> = (props) => {
         val[1] = `${e.target.value}`;
         props.onChange(val)
     }
+
+    const onClickEveryHourMinute = () => {
+        if (props.disabled || state.every) {
+            return
+        }
+        setState({ ...state, every: true });
+        props.onChange(['0', '0', '0/1', '1/1', '*', '?', '*'])
+    }
+
+    const onClickEverySpecificHour = () => {
+        if (props.disabled || !state.every) {
+            return
+        }
+        setState({ every: false });
+        props.onChange();
+    }
+
     const translateFn = props.translate;
     return (   
         <div className="tab-content">              
             <div className="tab-pane active">
-                <div className="well well-small">
-                    <input type="radio" onChange={(e) => { if (props.disabled) { return}setState({ ...state, every:true }) ; props.onChange(['0','0','0/1','1/1','*','?','*'])}} checked={state.every} disabled={props.disabled} />
+                <div className="well well-small cursor_pointer" onClick={onClickEveryHourMinute}>
+                    <input name='EveryHourMinute' type="radio" checked={state.every} disabled={props.disabled} />
                     <span>{translateFn('Every')} </span>
-                    <input disabled={!state.every || props.disabled} type="Number" onChange={onHourChange} value={props.value[2].split('/')[1] ? props.value[2].split('/')[1] : ''}  />
+                    <input readOnly={!state.every} disabled={props.disabled} type="Number" onChange={onHourChange} value={props.value[2].split('/')[1] ? props.value[2].split('/')[1] : ''} />
                     <span>{translateFn('hour')}</span>
-                    <input disabled={!state.every || props.disabled} type="Number" onChange={onMinuteChange} value={props.value[1]}  />
+                    <input readOnly={!state.every} disabled={props.disabled} type="Number" onChange={onMinuteChange} value={props.value[1]} />
                     <span>{translateFn('minute(s)')}</span>
                 </div>
-                <div className="well well-small margin-right-0 margin-left-0">
-                <div className="text_align_right" style={{width:'100%'}}>
-                    <input type="radio" onChange={(e) => {if (props.disabled) { return}setState({ every: false }); props.onChange();}} checked={!state.every} disabled={props.disabled}/>
-                    <span className="">{translateFn('At')}</span>
-                    <Hour disabled={state.every || props.disabled} onChange={onAtHourChange} value={props.value[2]} />
-                    <Minutes disabled={state.every || props.disabled} onChange={onAtMinuteChange} value={props.value[1]} />
-                </div>
+                <div className="well well-small cursor_pointer" onClick={onClickEverySpecificHour}>
+                    <input name='EverySpecificHour' type="radio" checked={!state.every} disabled={props.disabled}/>
+                    <span>{translateFn('At')}</span>
+                    <Hour disabled={props.disabled} onChange={onAtHourChange} value={props.value[2]} />
+                    <Minutes disabled={props.disabled} onChange={onAtMinuteChange} value={props.value[1]} />
                 </div>
             </div>
         </div>
