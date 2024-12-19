@@ -128,3 +128,30 @@
 .cron_builder .cursor_pointer {
     cursor: pointer;
 }
+
+.cron_builder .dropbtn {
+  cursor: pointer;
+}
+
+.cron_builder .dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.cron_builder .dropdown-content {
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 140px;
+  overflow: auto;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.cron_builder .dropdown-content label {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.cron_builder .dropdown label:hover {background-color: #ddd;}
