@@ -1,17 +1,17 @@
 import React, { useState, useRef, useEffect, useCallback } from "react";
 type DaySelectProp =
   | {
-      disabled?: boolean;
-      onChange(value: null | string): void;
-      value: string;
-      multi?: false;
-    }
+    disabled?: boolean;
+    onChange(value: null | string): void;
+    value: string;
+    multi?: false;
+  }
   | {
-      multi: true;
-      disabled?: boolean;
-      onChange(value: string[]): void;
-      value: string[];
-    };
+    multi: true;
+    disabled?: boolean;
+    onChange(value: string[]): void;
+    value: string[];
+  };
 
 
 const DaySelect: React.FunctionComponent<DaySelectProp> = ({
@@ -42,22 +42,22 @@ const DaySelect: React.FunctionComponent<DaySelectProp> = ({
   }, [handleClickOutside]);
 
   const onSelect = (i: string) => {
-    if(multi && Array.isArray(value)) {
-        onChange(
-          (value.includes(i)
-            ? [...value.slice(0, value.indexOf(i)), ...value.splice(value.indexOf(i)+1, value.length-1)]
-            : [...value, i]) as string & string[],
-        );
+    if (multi && Array.isArray(value)) {
+      onChange(
+        (value.includes(i)
+          ? [...value.slice(0, value.indexOf(i)), ...value.splice(value.indexOf(i) + 1, value.length - 1)]
+          : [...value, i]) as string & string[],
+      );
     } else {
-        onChange((value === i ? null : i)  as string & string[])
+      onChange((value === i ? null : i) as string & string[])
     }
   };
   const buildOptions = () => {
     let options: React.JSX.Element[] = [];
     for (let i = 1; i <= 31; i++) {
       options.push(
-        <label onClick={() => !disabled && onSelect(i.toString())}>
-          {(Array.isArray(value) ? value.includes(i.toString()) : value === i.toString()) && <>&#10003;</>} {i}
+        <label className={`dropdown-item ${(Array.isArray(value) ? value.includes(i.toString()) : value === i.toString()) ? "dropdown-item-selected" : ""}`} onClick={() => !disabled && onSelect(i.toString())}>
+          {i}
         </label>,
       );
     }
@@ -65,10 +65,10 @@ const DaySelect: React.FunctionComponent<DaySelectProp> = ({
   };
 
   return (
-    <div className="dropdown" ref={ref}>
+    <div className="dropdown mx-2" ref={ref}>
       <input
         disabled={disabled}
-        className="dropbtn"
+        className="dropbtn mx-0"
         onClick={() => setShow((s) => !s)}
         value={
           (Array.isArray(value) ? value.length : value)
