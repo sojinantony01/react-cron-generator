@@ -85,6 +85,12 @@ const options = {
 
 ```
 
+## Importables
+
+  Cron - The react Cron component. - Default  
+  CronProp - Cron component types.  
+  cronsture - Cronsture/i18 - [cronstrue](https://www.npmjs.com/package/cronstrue)  
+
 
 ## Release notes 2.x.x
 1. Build Procedure updated
