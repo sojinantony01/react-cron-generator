@@ -16,9 +16,7 @@
   ],
   "author": "Sojin antony",
   "dependencies": {
-    "cronstrue": "^2.12.0",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "cronstrue": "^2.12.0"
   },
   "main": "build/index.js",
   "module": "build/index.js",
