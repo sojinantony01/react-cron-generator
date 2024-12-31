@@ -3,7 +3,7 @@ import cronstrue from 'cronstrue/i18n';
 import { metadata, loadHeaders, HeaderKeyType, HeaderValType } from './meta';
 import translations from "../lib/localization/translation.json"
 import './cron-builder.css';
-interface CronProp {
+export interface CronProp {
     value?: string
     onChange(val: string, text: string): void
     showResultText: boolean
