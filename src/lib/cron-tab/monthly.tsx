@@ -55,22 +55,17 @@ const MonthlyCron: FunctionComponent<MonthlyCronProp> = (props) => {
     if (props.disabled) {
       return;
     }
-    if (
-      value
-        .map((day) => (day.trim() ? parseInt(day.trim()) : day))
-    ) {
-      let val = [
-        "0",
-        props.value[1] === "*" ? "0" : props.value[1],
-        props.value[2] === "*" ? "0" : props.value[2],
-        props.value[3],
-        "1/1",
-        "?",
-        "*",
-      ];
-      val[3] = `${value.join("!")}`;
-      props.onChange(val);
-    }
+    const val = [
+      "0",
+      props.value[1] === "*" ? "0" : props.value[1],
+      props.value[2] === "*" ? "0" : props.value[2],
+      props.value[3],
+      "1/1",
+      "?",
+      "*",
+    ];
+    val[3] = `${value.filter(p => p).join("!")}`;
+    props.onChange(val);
   };
 
   const onLastDayChange = (e: { target: { value: string } }) => {

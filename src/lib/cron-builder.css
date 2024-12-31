@@ -170,11 +170,11 @@
     color: white;
 }
 
-.mx-0 {
+.cron_builder .mx-0 {
     margin-left: 0 !important;
     margin-right: 0 !important;
 }
-.mx-2 {
+.cron_builder .mx-2 {
     margin-left: 10px !important;
     margin-right: 10px !important;
 }
