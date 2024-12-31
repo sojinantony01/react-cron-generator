@@ -23,12 +23,16 @@ jobs:
         node-version: ${{ matrix.node-version }}
 
     - name: Install dependencies
-      run: npm install
+      run: yarn
+
     - name: install gh pages separately  
       run: npm install gh-pages react@18.2.0 react-dom@18.2.0
 
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v1
+
+    - name: Lint
+      run: npm run format-check
 
     - name: Cypress run
       uses: cypress-io/github-action@v6
