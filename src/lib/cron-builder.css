@@ -128,3 +128,53 @@
 .cron_builder .cursor_pointer {
     cursor: pointer;
 }
+
+.cron_builder .dropbtn {
+  cursor: pointer;
+}
+
+.cron_builder .dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.cron_builder .dropdown-content {
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 140px;
+  overflow: auto;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+  left: 0;
+  right: 0;
+  text-align: left;
+  max-height: 150px;
+  overflow: auto;
+}
+
+@media screen and (min-height: 800px) {
+    .cron_builder .dropdown-content {
+        max-height: 200px;
+      }
+}
+
+.cron_builder .dropdown-content .dropdown-item {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.cron_builder .dropdown-content .dropdown-item:hover, .cron_builder .dropdown-content .dropdown-item-selected {
+    background-color: #086090;
+    color: white;
+}
+
+.cron_builder .mx-0 {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+}
+.cron_builder .mx-2 {
+    margin-left: 10px !important;
+    margin-right: 10px !important;
+}

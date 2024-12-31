@@ -1,6 +1,7 @@
 import React, { FunctionComponent, useEffect, useState } from "react";
 import Minutes from "../minutes-select";
 import Hour from "../hour-select";
+import DaySelect from "../day-select";
 
 interface MonthlyCronProp {
   onChange(e?: string[]): void;
@@ -50,29 +51,21 @@ const MonthlyCron: FunctionComponent<MonthlyCronProp> = (props) => {
     }
   };
 
-  const onMultiDayChange = (e: { target: { value: string } }) => {
+  const onMultiDayChange = (value: string[]) => {
     if (props.disabled) {
       return;
     }
-    if (
-      e.target.value === "" ||
-      e.target.value
-        .split(",")
-        .map((day) => day.trim() ? parseInt(day.trim()) : day)
-        .every((day) => typeof day !== "string" ? (day > 0 && day <= 31) : day === "")
-    ) {
-      let val = [
-        "0",
-        props.value[1] === "*" ? "0" : props.value[1],
-        props.value[2] === "*" ? "0" : props.value[2],
-        props.value[3],
-        "1/1",
-        "?",
-        "*",
-      ];
-      val[3] = `${e.target.value.replaceAll(",", "!")}`;
-      props.onChange(val);
-    }
+    const val = [
+      "0",
+      props.value[1] === "*" ? "0" : props.value[1],
+      props.value[2] === "*" ? "0" : props.value[2],
+      props.value[3],
+      "1/1",
+      "?",
+      "*",
+    ];
+    val[3] = `${value.filter(p => p).join("!")}`;
+    props.onChange(val);
   };
 
   const onLastDayChange = (e: { target: { value: string } }) => {
@@ -255,14 +248,13 @@ const MonthlyCron: FunctionComponent<MonthlyCronProp> = (props) => {
           checked={state.every === "5" ? true : false}
           disabled={props.disabled}
         />
-        <input
-          readOnly={state.every !== "5"}
-          type="text"
-          value={state.every === "5" ? props.value[3].replaceAll("!", ",") : ""}
-          onChange={onMultiDayChange}
+        <DaySelect
+          onChange={(e) => onMultiDayChange(e)}
           disabled={props.disabled}
+          value={state.every === "5" ? props.value[3].split("!") : []}
+          multi
         />
-        {translateFn("Days of every month (comma separated dates)")}
+        {translateFn("Days of every month")}
       </div>
 
       {translateFn("Start time")}

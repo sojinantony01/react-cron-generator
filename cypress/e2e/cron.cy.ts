@@ -62,7 +62,7 @@ describe("Cron gen", () => {
     cy.get(".minutes").select("05");
     cy.get(".cron_builder > :nth-child(4)").should("have.text", "0 05 04 4 1/1 ? *");
 
-    cy.get(":nth-child(2) > input").check();
+    cy.get(':nth-child(2) > [type="radio"]').check();
     cy.get(".cron_builder > :nth-child(4)").should("have.text", "0 05 04 L * ? *");
 
     cy.get(":nth-child(3) > input").check();
@@ -75,7 +75,10 @@ describe("Cron gen", () => {
     cy.get(".cron_builder > :nth-child(4)").should("have.text", "0 05 04 L-4 1/1 ? *");
 
     cy.get(':nth-child(5) > [type="radio"]').check();
-    cy.get(':nth-child(5) > [type="text"]').clear().type("1,2,4,5");
+    cy.get('.dropdown > input').click();
+    cy.get('.dropdown > .dropdown-content > :nth-child(2)').click();
+    cy.get('.dropdown > .dropdown-content > :nth-child(4)').click();
+    cy.get('.dropdown > .dropdown-content > :nth-child(5)').click();
     cy.get(".cron_builder > :nth-child(4)").should("have.text", "0 05 04 1,2,4,5 1/1 ? *");
   });
 

@@ -137,7 +137,7 @@ const Cron: React.FunctionComponent<CronProp>  = (props) => {
         return translatedText;
     }
 
-    return (    
+    return (
         <div className='cron_builder'>
         <ul className="nav nav-tabs" >
             {getHeaders()}
