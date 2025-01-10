@@ -16,7 +16,7 @@ interface HeadersKeyInterface {
   CUSTOM: 'CUSTOM';
 }
 interface HeadersInterface {
-  MINUTES: 'Minutes';
+  MINUTES: "Minutes";
   HOURLY: 'Hourly';
   DAILY: 'Daily';
   WEEKLY: 'Weekly';
