@@ -45,6 +45,7 @@
     "@types/react-dom": "^18.0.6",
     "cypress": "^13.8.1",
     "postcss": "^8.4.16",
+    "prettier": "^3.4.2",
     "react-scripts": "5.0.1",
     "rollup": "2.79.2",
     "rollup-plugin-peer-deps-external": "2.2.4",
@@ -63,7 +64,9 @@
     "eject": "react-scripts eject",
     "deploy": "gh-pages -d build",
     "react-build": "CI=false && react-scripts build",
-    "prepublishOnly": "npm run build"
+    "prepublishOnly": "npm run build",
+    "format": "npx prettier --write './**/*.{ts,tsx,css,json,scss}' --config ./.prettierrc.json",
+    "format-check": "npx prettier --check './**/*.{ts,tsx,css,json,scss}' --config ./.prettierrc.json"
   },
   "homepage": "https://sojinantony01.github.io/react-cron-generator",
   "eslintConfig": {

@@ -1,132 +1,138 @@
 .cron_builder_bordering {
-    border: 1px solid #ddd;
-    border-top: none;
-    text-align: center;
-    padding: 10px;
-    background: #fff;
+  border: 1px solid #ddd;
+  border-top: none;
+  text-align: center;
+  padding: 10px;
+  background: #fff;
 }
-.cron_builder_bordering input, .cron_builder_bordering select {
-    width: 100px;
-    margin-right: 10px;
-    margin-left: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    outline: none;
-    padding: 0px 5px;
-    min-height: 28px;
+.cron_builder_bordering input,
+.cron_builder_bordering select {
+  width: 100px;
+  margin-right: 10px;
+  margin-left: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  outline: none;
+  padding: 0px 5px;
+  min-height: 28px;
 }
 .df {
-    display: flex;
+  display: flex;
 }
 .cron-builder-bg {
-    background-color: #086090;
-    color: white;
-    text-align: center;
-    margin-bottom: 4px;
-    padding: 8px 0px;
+  background-color: #086090;
+  color: white;
+  text-align: center;
+  margin-bottom: 4px;
+  padding: 8px 0px;
 }
 .cron_builder_bordering select {
-    background-color: white;
-    width: 75px;
-    cursor: pointer;
-    padding: 4px 2px;
-    border-radius: 4px;
+  background-color: white;
+  width: 75px;
+  cursor: pointer;
+  padding: 4px 2px;
+  border-radius: 4px;
 }
-.cron_builder_bordering select:disabled{
-    background-color: #f5f5f5;
-    cursor: default;
+.cron_builder_bordering select:disabled {
+  background-color: #f5f5f5;
+  cursor: default;
 }
 .cron_builder_bordering select option:hover {
-    background-color: #086090;
+  background-color: #086090;
 }
 .well-small input {
-    width: auto !important;
+  width: auto !important;
 }
-.cron_builder_bordering  input[type='radio'] {
-    margin-top: 0px;
-    vertical-align: middle;
+.cron_builder_bordering input[type='radio'] {
+  margin-top: 0px;
+  vertical-align: middle;
 }
 .cron_builder {
-    border: 1px solid #d0cbcb;
-    padding: 5px;
-    background-color: #dddef13d;
-    width: 100%;
-    max-width: 600px;
+  border: 1px solid #d0cbcb;
+  padding: 5px;
+  background-color: #dddef13d;
+  width: 100%;
+  max-width: 600px;
 }
 .text_align_left {
-    text-align: left;
+  text-align: left;
 }
 .cron_builder .nav li {
-    cursor: pointer;
-    flex: 1 1 10px;
-    text-align: center;
-    width: 10px;
-    display: flex;
-    padding: 0px 1px;
+  cursor: pointer;
+  flex: 1 1 10px;
+  text-align: center;
+  width: 10px;
+  display: flex;
+  padding: 0px 1px;
 }
 .cron_builder .nav li a {
-    color:#337ab7;
-    width: 100%;
-    padding: 10px;
-    display: inline-block;
-    border-radius: 4px 4px 0px 0px;
+  color: #337ab7;
+  width: 100%;
+  padding: 10px;
+  display: inline-block;
+  border-radius: 4px 4px 0px 0px;
 }
-.cron_builder .nav-tabs .nav-link:focus, .cron_builder .nav-tabs .nav-link:hover {
-    border-color: transparent transparent transparent;
-    background-color: #eeeeee;
+.cron_builder .nav-tabs .nav-link:focus,
+.cron_builder .nav-tabs .nav-link:hover {
+  border-color: transparent transparent transparent;
+  background-color: #eeeeee;
 }
-.cron_builder .nav-tabs .nav-item.show .nav-link, .cron_builder .nav-tabs .nav-link.active {
-    border-color: #dee2e6 #dee2e6 #fff;
-    background-color: #ffffff;
+.cron_builder .nav-tabs .nav-item.show .nav-link,
+.cron_builder .nav-tabs .nav-link.active {
+  border-color: #dee2e6 #dee2e6 #fff;
+  background-color: #ffffff;
 }
-.cron_builder .nav-tabs .nav-item.show .nav-link, .cron_builder .nav-tabs .nav-link.disabled {
-    color: #6c757d;
-    background-color: #ffffff;
-    border-color: transparent transparent #ffffff;
-    cursor: not-allowed;
+.cron_builder .nav-tabs .nav-item.show .nav-link,
+.cron_builder .nav-tabs .nav-link.disabled {
+  color: #6c757d;
+  background-color: #ffffff;
+  border-color: transparent transparent #ffffff;
+  cursor: not-allowed;
 }
-.cron_builder { 
-    font-size: 14px;
+.cron_builder {
+  font-size: 14px;
 }
 .cron_builder .well {
-    min-height: 20px;
-    padding: 19px;
-    margin-bottom: 20px;
-    background-color: #f5f5f5;
-    border: 1px solid #e3e3e3;
-    border-radius: 4px;
-    -webkit-box-shadow: inset 0 1px 1px rgb(0 0 0 / 5%);
-    box-shadow: inset 0 1px 1px rgb(0 0 0 / 5%);
+  min-height: 20px;
+  padding: 19px;
+  margin-bottom: 20px;
+  background-color: #f5f5f5;
+  border: 1px solid #e3e3e3;
+  border-radius: 4px;
+  -webkit-box-shadow: inset 0 1px 1px rgb(0 0 0 / 5%);
+  box-shadow: inset 0 1px 1px rgb(0 0 0 / 5%);
 }
-@media screen and (max-width:767px) {
-    .cron_builder .nav li {
-        cursor: pointer;
-        flex: 0 0 65px;
-        text-align: center;
-    }
+@media screen and (max-width: 767px) {
+  .cron_builder .nav li {
+    cursor: pointer;
+    flex: 0 0 65px;
+    text-align: center;
+  }
 }
 
 /* ---- boostrap ----- */
 .cron_builder .nav.nav-tabs {
-    list-style: none;
-    display: flex;
-    margin: 0 0;
-    padding-left: 0;
+  list-style: none;
+  display: flex;
+  margin: 0 0;
+  padding-left: 0;
 }
 .cron_builder .row {
-    display: flex;
+  display: flex;
 }
 .cron_builder .col-sm-6 {
-    flex: 0 0 50%;
+  flex: 0 0 50%;
 }
 .cron_builder .min_height_auto {
-    min-height: auto !important;
+  min-height: auto !important;
 }
 .cron_builder {
-    font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
+    'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
+    'Noto Color Emoji';
 }
 .cron_builder .cursor_pointer {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .cron_builder .dropbtn {
@@ -143,7 +149,7 @@
   background-color: #f1f1f1;
   min-width: 140px;
   overflow: auto;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
   z-index: 1;
   left: 0;
   right: 0;
@@ -153,28 +159,29 @@
 }
 
 @media screen and (min-height: 800px) {
-    .cron_builder .dropdown-content {
-        max-height: 200px;
-      }
+  .cron_builder .dropdown-content {
+    max-height: 200px;
+  }
 }
 
 .cron_builder .dropdown-content .dropdown-item {
-    color: black;
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
 }
 
-.cron_builder .dropdown-content .dropdown-item:hover, .cron_builder .dropdown-content .dropdown-item-selected {
-    background-color: #086090;
-    color: white;
+.cron_builder .dropdown-content .dropdown-item:hover,
+.cron_builder .dropdown-content .dropdown-item-selected {
+  background-color: #086090;
+  color: white;
 }
 
 .cron_builder .mx-0 {
-    margin-left: 0 !important;
-    margin-right: 0 !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
 }
 .cron_builder .mx-2 {
-    margin-left: 10px !important;
-    margin-right: 10px !important;
+  margin-left: 10px !important;
+  margin-right: 10px !important;
 }

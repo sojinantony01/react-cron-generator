@@ -1,12 +1,7 @@
 {
   "compilerOptions": {
     "target": "es6",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext",
-      "es6", "es2016", "es2017"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext", "es6", "es2016", "es2017"],
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
@@ -22,14 +17,8 @@
     "declaration": true,
     "declarationDir": "build",
     "sourceMap": true,
-    "noEmit": true,
+    "noEmit": true
   },
-  "exclude": [
-    "node_modules",
-    "build",
-    "dist"
-  ],
-  "include": [
-    "src/lib/*"
-  ]
+  "exclude": ["node_modules", "build", "dist"],
+  "include": ["src/lib/*"]
 }
