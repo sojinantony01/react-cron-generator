@@ -132,7 +132,7 @@ const Cron: React.FunctionComponent<CronProp> = (props) => {
     const index = state.headers.indexOf(tab);
     let selectedMetaData = metadata.find((data) => data.name === tab);
     if (!selectedMetaData) {
-      selectedMetaData = {...metadata[index]};
+      selectedMetaData = { ...metadata[index] };
     }
     if (!selectedMetaData) {
       throw new Error('Value does not match any available headers.');
