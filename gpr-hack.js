@@ -1,5 +1,5 @@
 // gpr-hack.js
-const { writeFileSync, readFileSync } = require("fs");
+import { writeFileSync, readFileSync } from "fs"
 
 const file = readFileSync("./package.json", {
   encoding: "utf-8",
