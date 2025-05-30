@@ -187,12 +187,13 @@ const MonthlyCron: FunctionComponent<MonthlyCronProp> = (props) => {
   const translateFn = props.translate;
   return (
     <div className="tab-pane">
-      <div className="well well-small cursor_pointer" onClick={() => onClickMonthlyOnceRadio()}>
+      <label className="well well-small cursor_pointer">
         <input
           type="radio"
           value="1"
           name="MonthlyOnceRadio"
           checked={state.every === '1' ? true : false}
+          onChange={() => onClickMonthlyOnceRadio()}
           disabled={props.disabled}
         />
         {translateFn('Day')}
@@ -204,36 +205,36 @@ const MonthlyCron: FunctionComponent<MonthlyCronProp> = (props) => {
           disabled={props.disabled}
         />
         {translateFn('of every month(s)')}
-      </div>
-      <div className="well well-small cursor_pointer" onClick={() => onClickLastDayOfEveryMonth()}>
+      </label>
+      <label className="well well-small cursor_pointer">
         <input
           type="radio"
           value="2"
           name="LastDayOfEveryMonth"
           checked={state.every === '2' ? true : false}
+          onChange={() => onClickLastDayOfEveryMonth()}
           disabled={props.disabled}
         />
         {translateFn('Last day of every month')}
-      </div>
-      <div
-        className="well well-small cursor_pointer"
-        onClick={() => onClickLastWeekdayOfEveryMonth()}
-      >
+      </label>
+      <label className="well well-small cursor_pointer">
         <input
           type="radio"
           value="3"
           name="LastWeekdayOfEveryMonth"
           checked={state.every === '3' ? true : false}
+          onChange={() => onClickLastWeekdayOfEveryMonth()}
           disabled={props.disabled}
         />
         {translateFn('On the last weekday of every month')}
-      </div>
-      <div className="well well-small cursor_pointer" onClick={() => onClickDaysBeforeEndOfMonth()}>
+      </label>
+      <label className="well well-small cursor_pointer">
         <input
           type="radio"
           value="4"
           name="DaysBeforeEndOfMonth"
           checked={state.every === '4' ? true : false}
+          onChange={() => onClickDaysBeforeEndOfMonth()}
           disabled={props.disabled}
         />
 
@@ -249,13 +250,14 @@ const MonthlyCron: FunctionComponent<MonthlyCronProp> = (props) => {
           disabled={props.disabled}
         />
         {translateFn('day(s) before the end of the month')}
-      </div>
-      <div className="well well-small cursor_pointer" onClick={() => onClickMonthlyMultipleRadio()}>
+      </label>
+      <label className="well well-small cursor_pointer">
         <input
           type="radio"
           value="5"
           name="MonthlyMultipleRadio"
           checked={state.every === '5' ? true : false}
+          onChange={() => onClickMonthlyMultipleRadio()}
           disabled={props.disabled}
         />
         <DaySelect
@@ -265,7 +267,7 @@ const MonthlyCron: FunctionComponent<MonthlyCronProp> = (props) => {
           multi
         />
         {translateFn('Days of every month')}
-      </div>
+      </label>
 
       {translateFn('Start time')}
       <Hour onChange={onAtHourChange} value={props.value[2]} disabled={props.disabled} />
