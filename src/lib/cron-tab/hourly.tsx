@@ -85,11 +85,12 @@ const HourlyCron: FunctionComponent<HourlyCronProp> = (props) => {
   return (
     <div className="tab-content">
       <div className="tab-pane active">
-        <div className="well well-small cursor_pointer" onClick={onClickEveryHourMinute}>
+        <label className="well well-small cursor_pointer">
           <input
             name="EveryHourMinute"
             type="radio"
             checked={state.every}
+            onChange={onClickEveryHourMinute}
             disabled={props.disabled}
           />
           <span>{translateFn('Every')} </span>
@@ -109,18 +110,19 @@ const HourlyCron: FunctionComponent<HourlyCronProp> = (props) => {
             value={props.value[1]}
           />
           <span>{translateFn('minute(s)')}</span>
-        </div>
-        <div className="well well-small cursor_pointer" onClick={onClickEverySpecificHour}>
+        </label>
+        <label className="well well-small cursor_pointer">
           <input
             name="EverySpecificHour"
             type="radio"
             checked={!state.every}
+            onChange={onClickEverySpecificHour}
             disabled={props.disabled}
           />
           <span>{translateFn('At')}</span>
           <Hour disabled={props.disabled} onChange={onAtHourChange} value={props.value[2]} />
           <Minutes disabled={props.disabled} onChange={onAtMinuteChange} value={props.value[1]} />
-        </div>
+        </label>
       </div>
     </div>
   );

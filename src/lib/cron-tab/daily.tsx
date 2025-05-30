@@ -77,12 +77,13 @@ const DailyCron: FunctionComponent<DailyCronProp> = (props) => {
   const translateFn = props.translate;
   return (
     <div className="tab-pane">
-      <div className="well well-small cursor_pointer" onClick={onClickDailyRadio}>
+      <label className="well well-small cursor_pointer">
         <input
           type="radio"
           value="1"
           name="DailyRadio"
           checked={state.every}
+          onChange={onClickDailyRadio}
           disabled={props.disabled}
         />
         <span>{translateFn('Every')}</span>
@@ -95,17 +96,18 @@ const DailyCron: FunctionComponent<DailyCronProp> = (props) => {
           value={props.value[3].split('/')[1] ? props.value[3].split('/')[1] : ''}
         />
         <span>{translateFn('day(s)')}</span>
-      </div>
-      <div className="well well-small cursor_pointer" onClick={onClickEveryWeekDay}>
+      </label>
+      <label className="well well-small cursor_pointer">
         <input
           type="radio"
           value="2"
           name="EveryWeekDay"
           checked={!state.every}
+          onChange={onClickEveryWeekDay}
           disabled={props.disabled}
         />
         <span>{translateFn('Every week day')}</span>
-      </div>
+      </label>
       <span>{translateFn('Start time')}</span>
       <Hour onChange={onAtHourChange} value={props.value[2]} disabled={props.disabled} />
       <Minutes onChange={onAtMinuteChange} value={props.value[1]} disabled={props.disabled} />
