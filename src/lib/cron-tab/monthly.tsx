@@ -91,7 +91,7 @@ const MonthlyCron: FunctionComponent<MonthlyCronProp> = (props) => {
         props.value[1] === '*' ? '0' : props.value[1],
         props.value[2] === '*' ? '0' : props.value[2],
         props.value[3],
-        '1/1',
+        '*',
         '?',
         '*',
       ];
@@ -270,7 +270,6 @@ const MonthlyCron: FunctionComponent<MonthlyCronProp> = (props) => {
         />
 
         <input
-          readOnly={state.every !== '4'}
           type="number"
           value={
             props.value[3].split('-').length && props.value[3].split('-')[1]
@@ -278,7 +277,7 @@ const MonthlyCron: FunctionComponent<MonthlyCronProp> = (props) => {
               : ''
           }
           onChange={onLastDayChange}
-          onClick={() => onClickDaysBeforeEndOfMonth()}
+          onFocus={() => onClickDaysBeforeEndOfMonth()}
           disabled={props.disabled}
         />
         <span onClick={() => onClickDaysBeforeEndOfMonth()}>

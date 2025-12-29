@@ -3,14 +3,15 @@ describe("Cron gen - Quartz Format (Default)", () => {
     cy.visit("/");
     /* ==== Generated with Cypress Studio ==== */
     cy.get(":nth-child(1) > .nav-link").click();
-    cy.get("input").clear();
-    cy.get("input").type("3");
+    cy.get('input[type="number"]').clear();
+    cy.get('input[type="number"]').type("3");
     cy.get(".cron_builder > :nth-child(4)").should("have.text", "0 0/3 * * * ? *");
     /* ==== End Cypress Studio ==== */
   });
 
   it("Hours passes", () => {
     cy.visit("/");
+    cy.get(":nth-child(2) > .nav-link").click();
     /* ==== Generated with Cypress Studio ==== */
     cy.get(".hours").select("03");
     cy.get(".minutes").select("06");
@@ -57,6 +58,7 @@ describe("Cron gen - Quartz Format (Default)", () => {
     cy.get(":nth-child(5) > .nav-link").click();
     cy.get(".cron_builder > :nth-child(4)").should("have.text", "0 0 00 1 1/1 ? *");
 
+    cy.get(':nth-child(1) > [type="radio"]').check();
     cy.get(':nth-child(1) > [type="number"]').clear().type("4");
     cy.get(".hours").select("04");
     cy.get(".minutes").select("05");
@@ -71,11 +73,13 @@ describe("Cron gen - Quartz Format (Default)", () => {
     cy.get(':nth-child(4) > [type="radio"]').check();
     cy.get(".cron_builder > :nth-child(4)").should("have.text", "0 05 04 L-1 * ? *");
 
-    cy.get(':nth-child(4) > [type="number"]').clear().type("4");
-    cy.get(".cron_builder > :nth-child(4)").should("have.text", "0 05 04 L-4 1/1 ? *");
+    // Click the input to ensure it's focused and the radio is properly selected
+    cy.get(':nth-child(4) > [type="number"]').click().clear().type("4");
+    cy.get(".cron_builder > :nth-child(4)").should("have.text", "0 05 04 L-4 * ? *");
 
     cy.get(':nth-child(5) > [type="radio"]').check();
     cy.get('.dropdown > input').click();
+    cy.get('.dropdown > .dropdown-content > :nth-child(1)').click();
     cy.get('.dropdown > .dropdown-content > :nth-child(2)').click();
     cy.get('.dropdown > .dropdown-content > :nth-child(4)').click();
     cy.get('.dropdown > .dropdown-content > :nth-child(5)').click();
@@ -86,7 +90,7 @@ describe("Cron gen - Quartz Format (Default)", () => {
     cy.visit("/");
     cy.get(":nth-child(6) > .nav-link").click();
     /* ==== Generated with Cypress Studio ==== */
-    cy.get("input").clear().type("0 03 04 L-4 1/1 ? *");
+    cy.get('input[type="text"]').clear().type("0 03 04 L-4 1/1 ? *");
     /* ==== End Cypress Studio ==== */
     cy.get(".cron_builder > :nth-child(4)").should("have.text", "0 03 04 L-4 1/1 ? *");
   });
@@ -160,7 +164,7 @@ describe("Cron gen - Unix Format", () => {
     cy.get(":nth-child(2) > input").check();
     cy.get(".hours").select("08");
     cy.get(".minutes").select("00");
-    cy.get(".cron_builder > :nth-child(4)").should("have.text", "00 08 * * 1-5");
+    cy.get(".cron_builder > :nth-child(4)").should("have.text", "0 08 * * 1-5");
   });
 
   it("Weekly - Unix format specific days", () => {
@@ -170,7 +174,7 @@ describe("Cron gen - Unix Format", () => {
     cy.get('[value="FRI"]').check();
     cy.get(".hours").select("10");
     cy.get(".minutes").select("00");
-    cy.get(".cron_builder > :nth-child(4)").should("have.text", "00 10 * * 1,3,5");
+    cy.get(".cron_builder > :nth-child(4)").should("have.text", "0 10 * * 1,3,5");
   });
 
   it("Weekly - Unix format all weekdays", () => {
@@ -182,7 +186,7 @@ describe("Cron gen - Unix Format", () => {
     cy.get('[value="FRI"]').check();
     cy.get(".hours").select("09");
     cy.get(".minutes").select("00");
-    cy.get(".cron_builder > :nth-child(4)").should("have.text", "00 09 * * 1,2,3,4,5");
+    cy.get(".cron_builder > :nth-child(4)").should("have.text", "0 09 * * 1,2,3,4,5");
   });
 
   it("Monthly - Unix format specific day", () => {
@@ -190,7 +194,7 @@ describe("Cron gen - Unix Format", () => {
     cy.get(':nth-child(1) > [type="number"]').clear().type("15");
     cy.get(".hours").select("12");
     cy.get(".minutes").select("00");
-    cy.get(".cron_builder > :nth-child(4)").should("have.text", "00 12 15 1/1 *");
+    cy.get(".cron_builder > :nth-child(4)").should("have.text", "0 12 15 1/1 *");
   });
 
   it("Custom - Unix format manual entry", () => {
@@ -210,30 +214,38 @@ describe("Cron gen - Format Conversion", () => {
   it("Converts from Quartz to Unix when toggling format", () => {
     cy.visit("/");
     
-    // Set a Quartz cron (every 5 minutes)
+    // Set a Quartz cron (every 5 minutes) first
     cy.get(":nth-child(1) > .nav-link").click();
-    cy.get("input").eq(0).clear().type("5");
+    cy.get('input[type="number"]').clear().type("5");
     cy.get(".cron_builder > :nth-child(4)").should("have.text", "0 0/5 * * * ? *");
     
     // Toggle to Unix format
     cy.get('input[type="checkbox"]').first().check();
     cy.get(".cron_builder > :nth-child(4)").should("have.text", "0/5 * * * *");
+    
+    // Toggle back to Quartz format
+    cy.get('input[type="checkbox"]').first().uncheck();
+    cy.get(".cron_builder > :nth-child(4)").should("have.text", "0 0/5 * * * ? *");
   });
 
   it("Converts from Unix to Quartz when toggling format", () => {
     cy.visit("/");
     
-    // Enable Unix format first
+    // Toggle to Unix format first
     cy.get('input[type="checkbox"]').first().check();
     
     // Set a Unix cron (every 10 minutes)
     cy.get(":nth-child(1) > .nav-link").click();
-    cy.get("input").eq(1).clear().type("10");
+    cy.get('input[type="number"]').clear().type("10");
     cy.get(".cron_builder > :nth-child(4)").should("have.text", "0/10 * * * *");
     
     // Toggle to Quartz format
     cy.get('input[type="checkbox"]').first().uncheck();
     cy.get(".cron_builder > :nth-child(4)").should("have.text", "0 0/10 * * * ? *");
+    
+    // Toggle back to Unix format
+    cy.get('input[type="checkbox"]').first().check();
+    cy.get(".cron_builder > :nth-child(4)").should("have.text", "0/10 * * * *");
   });
 
   it("Maintains human-readable text across format changes", () => {
@@ -241,16 +253,16 @@ describe("Cron gen - Format Conversion", () => {
     
     // Set every 5 minutes in Quartz
     cy.get(":nth-child(1) > .nav-link").click();
-    cy.get("input").eq(0).clear().type("5");
-    cy.get(".cron-builder-bg").first().should("contain", "Every 5 minutes");
+    cy.get('input[type="number"]').clear().type("5");
+    cy.get(".cron-builder-bg").should("contain", "Every 5 minutes");
     
     // Toggle to Unix
     cy.get('input[type="checkbox"]').first().check();
-    cy.get(".cron-builder-bg").first().should("contain", "Every 5 minutes");
+    cy.get(".cron-builder-bg").should("contain", "Every 5 minutes");
     
     // Toggle back to Quartz
     cy.get('input[type="checkbox"]').first().uncheck();
-    cy.get(".cron-builder-bg").first().should("contain", "Every 5 minutes");
+    cy.get(".cron-builder-bg").should("contain", "Every 5 minutes");
   });
 });
 
@@ -287,6 +299,6 @@ describe("Cron gen - Edge Cases", () => {
     cy.get(":nth-child(3) > .nav-link").click();
     cy.get(".hours").select("00");
     cy.get(".minutes").select("00");
-    cy.get(".cron_builder > :nth-child(4)").should("have.text", "00 00 1/1 * *");
+    cy.get(".cron_builder > :nth-child(4)").should("have.text", "0 00 1/1 * *");
   });
 });

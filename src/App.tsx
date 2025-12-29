@@ -23,7 +23,7 @@ function App() {
           <input
             type="checkbox"
             checked={state.isUnix}
-            onChange={(e) => setState({ ...state, isUnix: e.target.checked, value: undefined })}
+            onChange={(e) => setState({ ...state, isUnix: e.target.checked })}
           />{' '}
           Use Unix format (5 fields) instead of Quartz (7 fields)
         </label>
