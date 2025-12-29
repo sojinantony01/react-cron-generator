@@ -8,6 +8,7 @@ interface MonthlyCronProp {
   value: string[];
   translate(e: string): string;
   disabled?: boolean;
+  isUnix?: boolean;
 }
 interface State {
   hour: number;
@@ -18,7 +19,7 @@ const MonthlyCron: FunctionComponent<MonthlyCronProp> = (props) => {
   const [state, setState] = useState<State>({ hour: 0, minute: 0, every: '' });
 
   useEffect(() => {
-    let every;
+    let every: string;
     if (props.value[3] === 'L') {
       every = '2';
     } else if (props.value[3] === 'LW') {
@@ -30,8 +31,15 @@ const MonthlyCron: FunctionComponent<MonthlyCronProp> = (props) => {
     } else {
       every = '1';
     }
-    setState({ ...state, every: every });
-  }, []);
+    // Don't override state.every if it's already '5' and we're just updating the day value
+    // This prevents the radio button from jumping back to option 1 when selecting days
+    setState((prev) => {
+      if (prev.every === '5' && every === '1') {
+        return prev; // Keep the current state
+      }
+      return { ...prev, every };
+    });
+  }, [props.value]);
   const onDayChange = (e: { target: { value: string } }) => {
     if (props.disabled) {
       return;
@@ -55,6 +63,8 @@ const MonthlyCron: FunctionComponent<MonthlyCronProp> = (props) => {
     if (props.disabled) {
       return;
     }
+    // Maintain the state as option 5 when days are being selected
+    setState({ ...state, every: '5' });
     const val = [
       '0',
       props.value[1] === '*' ? '0' : props.value[1],
@@ -110,7 +120,10 @@ const MonthlyCron: FunctionComponent<MonthlyCronProp> = (props) => {
     props.onChange(val);
   };
   const onClickMonthlyOnceRadio = (value = '1') => {
-    if (props.disabled || state.every === '1') {
+    if (props.disabled) {
+      return;
+    }
+    if (state.every === '1') {
       return;
     }
     setState({ ...state, every: value });
@@ -125,7 +138,10 @@ const MonthlyCron: FunctionComponent<MonthlyCronProp> = (props) => {
     ]);
   };
   const onClickLastDayOfEveryMonth = (value = '2') => {
-    if (props.disabled || state.every === '2') {
+    if (props.disabled) {
+      return;
+    }
+    if (state.every === '2') {
       return;
     }
     setState({ ...state, every: value });
@@ -140,7 +156,10 @@ const MonthlyCron: FunctionComponent<MonthlyCronProp> = (props) => {
     ]);
   };
   const onClickLastWeekdayOfEveryMonth = (value = '3') => {
-    if (props.disabled || state.every === '3') {
+    if (props.disabled) {
+      return;
+    }
+    if (state.every === '3') {
       return;
     }
     setState({ ...state, every: value });
@@ -155,7 +174,10 @@ const MonthlyCron: FunctionComponent<MonthlyCronProp> = (props) => {
     ]);
   };
   const onClickDaysBeforeEndOfMonth = (value = '4') => {
-    if (props.disabled || state.every === '4') {
+    if (props.disabled) {
+      return;
+    }
+    if (state.every === '4') {
       return;
     }
     setState({ ...state, every: value });
@@ -170,15 +192,19 @@ const MonthlyCron: FunctionComponent<MonthlyCronProp> = (props) => {
     ]);
   };
   const onClickMonthlyMultipleRadio = (value = '5') => {
-    if (props.disabled || state.every === '5') {
+    if (props.disabled) {
+      return;
+    }
+    if (state.every === '5') {
       return;
     }
     setState({ ...state, every: value });
+    // Set initial value with empty day selection (will be populated by DaySelect)
     props.onChange([
       '0',
       props.value[1] === '*' ? '0' : props.value[1],
       props.value[2] === '*' ? '0' : props.value[2],
-      '1',
+      '', // Empty string for days - user will select from dropdown
       '1/1',
       '?',
       '*',
@@ -196,15 +222,16 @@ const MonthlyCron: FunctionComponent<MonthlyCronProp> = (props) => {
           onChange={() => onClickMonthlyOnceRadio()}
           disabled={props.disabled}
         />
-        {translateFn('Day')}
+        <span onClick={() => onClickMonthlyOnceRadio()}>{translateFn('Day')}</span>
         <input
           readOnly={state.every !== '1'}
           type="number"
           value={props.value[3]}
           onChange={onDayChange}
+          onClick={() => onClickMonthlyOnceRadio()}
           disabled={props.disabled}
         />
-        {translateFn('of every month(s)')}
+        <span onClick={() => onClickMonthlyOnceRadio()}>{translateFn('of every month(s)')}</span>
       </label>
       <label className="well well-small cursor_pointer">
         <input
@@ -215,7 +242,7 @@ const MonthlyCron: FunctionComponent<MonthlyCronProp> = (props) => {
           onChange={() => onClickLastDayOfEveryMonth()}
           disabled={props.disabled}
         />
-        {translateFn('Last day of every month')}
+        <span onClick={() => onClickLastDayOfEveryMonth()}>{translateFn('Last day of every month')}</span>
       </label>
       <label className="well well-small cursor_pointer">
         <input
@@ -226,7 +253,7 @@ const MonthlyCron: FunctionComponent<MonthlyCronProp> = (props) => {
           onChange={() => onClickLastWeekdayOfEveryMonth()}
           disabled={props.disabled}
         />
-        {translateFn('On the last weekday of every month')}
+        <span onClick={() => onClickLastWeekdayOfEveryMonth()}>{translateFn('On the last weekday of every month')}</span>
       </label>
       <label className="well well-small cursor_pointer">
         <input
@@ -247,9 +274,10 @@ const MonthlyCron: FunctionComponent<MonthlyCronProp> = (props) => {
               : ''
           }
           onChange={onLastDayChange}
+          onClick={() => onClickDaysBeforeEndOfMonth()}
           disabled={props.disabled}
         />
-        {translateFn('day(s) before the end of the month')}
+        <span onClick={() => onClickDaysBeforeEndOfMonth()}>{translateFn('day(s) before the end of the month')}</span>
       </label>
       <label className="well well-small cursor_pointer">
         <input
@@ -264,9 +292,10 @@ const MonthlyCron: FunctionComponent<MonthlyCronProp> = (props) => {
           onChange={(e) => onMultiDayChange(e)}
           disabled={props.disabled}
           value={state.every === '5' ? props.value[3].split('!') : []}
+          onFocus={() => onClickMonthlyMultipleRadio()}
           multi
         />
-        {translateFn('Days of every month')}
+        <span onClick={() => onClickMonthlyMultipleRadio()}>{translateFn('Days of every month')}</span>
       </label>
 
       {translateFn('Start time')}

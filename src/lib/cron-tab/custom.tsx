@@ -5,6 +5,7 @@ interface CustomCronProp {
   value: string[];
   translate(e: string): string;
   disabled?: boolean;
+  isUnix?: boolean;
 }
 
 const CustomCron: React.FunctionComponent<CustomCronProp> = (props) => {

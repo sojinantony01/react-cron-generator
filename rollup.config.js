@@ -23,6 +23,5 @@ export default {
     postcss(),
     json()
   ],
-  external: ["react", "react-dom"],
-  exclude:["node_modules"]
+  external: ["react", "react-dom"]
 };

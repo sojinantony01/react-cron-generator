@@ -5,6 +5,7 @@ interface MinutesCronProp {
   value: string[];
   translate(e: string): string;
   disabled?: boolean;
+  isUnix?: boolean;
 }
 
 const MinutesCron: FunctionComponent<MinutesCronProp> = (props) => {

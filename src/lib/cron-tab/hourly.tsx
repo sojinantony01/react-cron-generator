@@ -7,6 +7,7 @@ interface HourlyCronProp {
   value: string[];
   translate(e: string): string;
   disabled?: boolean;
+  isUnix?: boolean;
 }
 interface State {
   every: boolean;
@@ -16,9 +17,9 @@ const HourlyCron: FunctionComponent<HourlyCronProp> = (props) => {
 
   useEffect(() => {
     if (props.value[2].split('/')[1] || props.value[2] === '*') {
-      setState({ ...state, every: true });
+      setState((prev) => ({ ...prev, every: true }));
     }
-  }, []);
+  }, [props.value]);
 
   const onHourChange = (e: { target: { value: string } }) => {
     if (
@@ -93,23 +94,25 @@ const HourlyCron: FunctionComponent<HourlyCronProp> = (props) => {
             onChange={onClickEveryHourMinute}
             disabled={props.disabled}
           />
-          <span>{translateFn('Every')} </span>
+          <span onClick={onClickEveryHourMinute}>{translateFn('Every')} </span>
           <input
             readOnly={!state.every}
             disabled={props.disabled}
             type="Number"
             onChange={onHourChange}
+            onClick={onClickEveryHourMinute}
             value={props.value[2].split('/')[1] ? props.value[2].split('/')[1] : ''}
           />
-          <span>{translateFn('hour')}</span>
+          <span onClick={onClickEveryHourMinute}>{translateFn('hour')}</span>
           <input
             readOnly={!state.every}
             disabled={props.disabled}
             type="Number"
             onChange={onMinuteChange}
+            onClick={onClickEveryHourMinute}
             value={props.value[1]}
           />
-          <span>{translateFn('minute(s)')}</span>
+          <span onClick={onClickEveryHourMinute}>{translateFn('minute(s)')}</span>
         </label>
         <label className="well well-small cursor_pointer">
           <input
@@ -119,7 +122,7 @@ const HourlyCron: FunctionComponent<HourlyCronProp> = (props) => {
             onChange={onClickEverySpecificHour}
             disabled={props.disabled}
           />
-          <span>{translateFn('At')}</span>
+          <span onClick={onClickEverySpecificHour}>{translateFn('At')}</span>
           <Hour disabled={props.disabled} onChange={onAtHourChange} value={props.value[2]} />
           <Minutes disabled={props.disabled} onChange={onAtMinuteChange} value={props.value[1]} />
         </label>

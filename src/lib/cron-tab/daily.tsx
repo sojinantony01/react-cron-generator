@@ -7,6 +7,7 @@ interface DailyCronProp {
   value: string[];
   translate(e: string): string;
   disabled?: boolean;
+  isUnix?: boolean;
 }
 interface State {
   hour: number;
@@ -17,25 +18,16 @@ const DailyCron: FunctionComponent<DailyCronProp> = (props) => {
   const [state, setState] = useState<State>({ hour: 0, minute: 0, every: false });
 
   useEffect(() => {
-    setState({ ...state, every: props.value[3] !== '?' });
-  }, []);
+    setState((prev) => ({ ...prev, every: props.value[3] !== '?' }));
+  }, [props.value]);
 
   const onDayChange = (e: { target: { value: string } }) => {
     if (props.disabled) {
       return;
     }
     if (!e.target.value || (parseInt(e.target.value) > 0 && parseInt(e.target.value) < 32)) {
-      // props.value = ['0', getValueByIndex(1), getValueByIndex(1),'*','*','?','*'];
       onValueChange(3, e.target.value ? `1/${e.target.value}` : e.target.value);
     }
-  };
-
-  /**
-   * If value is * return 0 else return value
-   * @param {position in array} index
-   */
-  const getValueByIndex = (index: number) => {
-    return props.value[index] === '*' ? '0' : props.value[index];
   };
 
   const onAtHourChange = (e: { target: { value: string } }) => {
@@ -86,16 +78,17 @@ const DailyCron: FunctionComponent<DailyCronProp> = (props) => {
           onChange={onClickDailyRadio}
           disabled={props.disabled}
         />
-        <span>{translateFn('Every')}</span>
+        <span onClick={onClickDailyRadio}>{translateFn('Every')}</span>
         <input
           readOnly={!state.every}
           disabled={props.disabled}
           type="Number"
           maxLength={2}
           onChange={onDayChange}
+          onClick={onClickDailyRadio}
           value={props.value[3].split('/')[1] ? props.value[3].split('/')[1] : ''}
         />
-        <span>{translateFn('day(s)')}</span>
+        <span onClick={onClickDailyRadio}>{translateFn('day(s)')}</span>
       </label>
       <label className="well well-small cursor_pointer">
         <input
@@ -106,7 +99,7 @@ const DailyCron: FunctionComponent<DailyCronProp> = (props) => {
           onChange={onClickEveryWeekDay}
           disabled={props.disabled}
         />
-        <span>{translateFn('Every week day')}</span>
+        <span onClick={onClickEveryWeekDay}>{translateFn('Every week day')}</span>
       </label>
       <span>{translateFn('Start time')}</span>
       <Hour onChange={onAtHourChange} value={props.value[2]} disabled={props.disabled} />

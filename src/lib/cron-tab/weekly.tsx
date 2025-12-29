@@ -7,6 +7,7 @@ interface WeeklyCronProp {
   value: string[];
   translate(e: string): string;
   disabled?: boolean;
+  isUnix?: boolean;
 }
 
 const WeeklyCron: FunctionComponent<WeeklyCronProp> = (props) => {

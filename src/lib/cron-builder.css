@@ -65,12 +65,19 @@
   display: flex;
   padding: 0px 1px;
 }
-.cron_builder .nav li a {
+.cron_builder .nav li a,
+.cron_builder .nav li button {
   color: #337ab7;
   width: 100%;
   padding: 10px;
   display: inline-block;
   border-radius: 4px 4px 0px 0px;
+  background: none;
+  border: 1px solid transparent;
+  font-size: inherit;
+  font-family: inherit;
+  cursor: pointer;
+  text-decoration: none;
 }
 .cron_builder .nav-tabs .nav-link:focus,
 .cron_builder .nav-tabs .nav-link:hover {
