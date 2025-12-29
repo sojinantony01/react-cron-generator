@@ -38,8 +38,8 @@ jobs:
       uses: cypress-io/github-action@v6
       with:
         build: npm run build
-        start: npm start
-        wait-on: 'http://localhost:3000'
+        start: npm run dev
+        wait-on: 'http://localhost:3000/react-cron-generator/'
         wait-on-timeout: 120
 
     - name: Upload Cypress screenshots
@@ -56,8 +56,8 @@ jobs:
         name: cypress-videos-${{ matrix.node-version }}
         path: cypress/videos
 
-    - name: Build React app
-      run: npm run react-build
+    - name: Build demo app
+      run: npm run demo:build
 
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v4

@@ -29,8 +29,8 @@ jobs:
       - name: Build package
         run: npm run build
 
-      - name: Run tests
-        run: npm test -- --passWithNoTests
+      - name: Build demo app
+        run: npm run demo:build
 
   publish-npm:
     needs: build
