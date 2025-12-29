@@ -242,7 +242,9 @@ const MonthlyCron: FunctionComponent<MonthlyCronProp> = (props) => {
           onChange={() => onClickLastDayOfEveryMonth()}
           disabled={props.disabled}
         />
-        <span onClick={() => onClickLastDayOfEveryMonth()}>{translateFn('Last day of every month')}</span>
+        <span onClick={() => onClickLastDayOfEveryMonth()}>
+          {translateFn('Last day of every month')}
+        </span>
       </label>
       <label className="well well-small cursor_pointer">
         <input
@@ -253,7 +255,9 @@ const MonthlyCron: FunctionComponent<MonthlyCronProp> = (props) => {
           onChange={() => onClickLastWeekdayOfEveryMonth()}
           disabled={props.disabled}
         />
-        <span onClick={() => onClickLastWeekdayOfEveryMonth()}>{translateFn('On the last weekday of every month')}</span>
+        <span onClick={() => onClickLastWeekdayOfEveryMonth()}>
+          {translateFn('On the last weekday of every month')}
+        </span>
       </label>
       <label className="well well-small cursor_pointer">
         <input
@@ -277,7 +281,9 @@ const MonthlyCron: FunctionComponent<MonthlyCronProp> = (props) => {
           onClick={() => onClickDaysBeforeEndOfMonth()}
           disabled={props.disabled}
         />
-        <span onClick={() => onClickDaysBeforeEndOfMonth()}>{translateFn('day(s) before the end of the month')}</span>
+        <span onClick={() => onClickDaysBeforeEndOfMonth()}>
+          {translateFn('day(s) before the end of the month')}
+        </span>
       </label>
       <label className="well well-small cursor_pointer">
         <input
@@ -295,7 +301,9 @@ const MonthlyCron: FunctionComponent<MonthlyCronProp> = (props) => {
           onFocus={() => onClickMonthlyMultipleRadio()}
           multi
         />
-        <span onClick={() => onClickMonthlyMultipleRadio()}>{translateFn('Days of every month')}</span>
+        <span onClick={() => onClickMonthlyMultipleRadio()}>
+          {translateFn('Days of every month')}
+        </span>
       </label>
 
       {translateFn('Start time')}

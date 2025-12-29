@@ -24,8 +24,8 @@ function App() {
             type="checkbox"
             checked={state.isUnix}
             onChange={(e) => setState({ ...state, isUnix: e.target.checked, value: undefined })}
-          />
-          {' '}Use Unix format (5 fields) instead of Quartz (7 fields)
+          />{' '}
+          Use Unix format (5 fields) instead of Quartz (7 fields)
         </label>
       </div>
       <div>
@@ -45,7 +45,8 @@ function App() {
       <div style={{ marginTop: '20px', padding: '10px', backgroundColor: '#f0f0f0' }}>
         <strong>Format:</strong> {state.isUnix ? 'Unix (5 fields)' : 'Quartz (7 fields)'}
         <br />
-        <strong>Example:</strong> {state.isUnix ? '*/5 * * * * (Every 5 minutes)' : '0 0/5 * * * ? * (Every 5 minutes)'}
+        <strong>Example:</strong>{' '}
+        {state.isUnix ? '*/5 * * * * (Every 5 minutes)' : '0 0/5 * * * ? * (Every 5 minutes)'}
       </div>
     </div>
   );

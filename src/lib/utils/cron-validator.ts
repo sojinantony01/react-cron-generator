@@ -40,7 +40,7 @@ export function validateUnixCron(expression: string): CronValidationResult {
       validation.field,
       validation.name,
       validation.min,
-      validation.max
+      validation.max,
     );
     if (!result.isValid) {
       return result;
@@ -90,7 +90,7 @@ export function validateQuartzCron(expression: string): CronValidationResult {
       validation.field,
       validation.name,
       validation.min,
-      validation.max
+      validation.max,
     );
     if (!result.isValid) {
       return result;
@@ -107,7 +107,7 @@ function validateCronField(
   field: string,
   name: string,
   min: number,
-  max: number
+  max: number,
 ): CronValidationResult {
   if (!field) {
     return { isValid: false, error: `${name} field is required` };
@@ -210,5 +210,3 @@ export function validateCron(expression: string): CronValidationResult {
 export function isValidCron(expression: string): boolean {
   return validateCron(expression).isValid;
 }
-
-

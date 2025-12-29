@@ -70,145 +70,147 @@ const Cron: React.FunctionComponent<CronProp> = (props) => {
       }
       return translatedText;
     },
-    [translateFn]
+    [translateFn],
   );
 
   /**
    * Get human-readable cron description
    */
-  const getVal = useCallback(
-    (cronExpression?: string) => {
-      const cronToUse =
-        cronExpression ||
-        stateRef.current.value.toString().replace(/,/g, ' ').replace(/!/g, ',');
+  const getVal = useCallback((cronExpression?: string) => {
+    const cronToUse =
+      cronExpression || stateRef.current.value.toString().replace(/,/g, ' ').replace(/!/g, ',');
 
-      // cronstrue expects Quartz format, so if we have Unix, convert it first
-      let cronForParsing = cronToUse;
-      if (stateRef.current.isUnix && cronExpression) {
-        try {
-          cronForParsing = unixToQuartz(cronExpression);
-        } catch (e) {
-          // If conversion fails, use as is
-          console.warn('Failed to convert Unix to Quartz for parsing:', e);
-        }
-      }
-
+    // cronstrue expects Quartz format, so if we have Unix, convert it first
+    let cronForParsing = cronToUse;
+    if (stateRef.current.isUnix && cronExpression) {
       try {
-        const val = cronstrue.toString(cronForParsing, {
-          throwExceptionOnParseError: false,
-          locale: stateRef.current.locale,
-        });
-        if (
-          val.search('undefined') === -1 &&
-          stateRef.current.value &&
-          stateRef.current.value.length
-        ) {
-          return val;
-        }
+        cronForParsing = unixToQuartz(cronExpression);
       } catch (e) {
-        console.warn('Failed to parse cron expression:', e);
+        // If conversion fails, use as is
+        console.warn('Failed to convert Unix to Quartz for parsing:', e);
       }
-      return '-';
-    },
-    []
-  );
+    }
+
+    try {
+      const val = cronstrue.toString(cronForParsing, {
+        throwExceptionOnParseError: false,
+        locale: stateRef.current.locale,
+      });
+      if (
+        val.search('undefined') === -1 &&
+        stateRef.current.value &&
+        stateRef.current.value.length
+      ) {
+        return val;
+      }
+    } catch (e) {
+      console.warn('Failed to parse cron expression:', e);
+    }
+    return '-';
+  }, []);
 
   /**
    * Notify parent of value changes
    */
-  const parentChange = useCallback((val: string[]) => {
-    let newVal = '';
-    newVal = val.toString().replace(/,/g, ' ');
-    newVal = newVal.replace(/!/g, ',');
+  const parentChange = useCallback(
+    (val: string[]) => {
+      let newVal = '';
+      newVal = val.toString().replace(/,/g, ' ');
+      newVal = newVal.replace(/!/g, ',');
 
-    // Validate that we have a proper cron expression
-    const validation = validateCron(newVal);
-    if (!validation.isValid) {
-      console.warn('Invalid cron expression:', validation.error);
-      return;
-    }
-
-    // Convert to Unix format if needed
-    let outputVal = newVal;
-    if (stateRef.current.isUnix) {
-      try {
-        outputVal = quartzToUnix(newVal);
-      } catch (e) {
-        console.error('Error converting Quartz to Unix:', e);
+      // Validate that we have a proper cron expression
+      const validation = validateCron(newVal);
+      if (!validation.isValid) {
+        console.warn('Invalid cron expression:', validation.error);
         return;
       }
-    }
 
-    propsRef.current.onChange(outputVal, getVal(outputVal));
-  }, [getVal]);
+      // Convert to Unix format if needed
+      let outputVal = newVal;
+      if (stateRef.current.isUnix) {
+        try {
+          outputVal = quartzToUnix(newVal);
+        } catch (e) {
+          console.error('Error converting Quartz to Unix:', e);
+          return;
+        }
+      }
+
+      propsRef.current.onChange(outputVal, getVal(outputVal));
+    },
+    [getVal],
+  );
 
   /**
    * Set cron value from external source
    */
-  const setValue = useCallback((value: string) => {
-    const allHeaders = loadHeaders();
-    let processedValue = value;
+  const setValue = useCallback(
+    (value: string) => {
+      const allHeaders = loadHeaders();
+      let processedValue = value;
 
-    // Convert Unix to Quartz if needed for internal representation
-    if (stateRef.current.isUnix && value) {
-      const parts = value.split(' ');
-      if (parts.length === 5) {
-        try {
-          processedValue = unixToQuartz(value);
-        } catch (e) {
-          console.error('Error converting Unix to Quartz:', e);
-          processedValue = defaultCron;
+      // Convert Unix to Quartz if needed for internal representation
+      if (stateRef.current.isUnix && value) {
+        const parts = value.split(' ');
+        if (parts.length === 5) {
+          try {
+            processedValue = unixToQuartz(value);
+          } catch (e) {
+            console.error('Error converting Unix to Quartz:', e);
+            processedValue = defaultCron;
+          }
         }
       }
-    }
 
-    let valueArray = processedValue.replace(/,/g, '!').split(' ');
+      let valueArray = processedValue.replace(/,/g, '!').split(' ');
 
-    // Handle 6-field cron (add year field)
-    if (processedValue && processedValue.split(' ').length === 6) {
-      valueArray.push('*');
-    }
+      // Handle 6-field cron (add year field)
+      if (processedValue && processedValue.split(' ').length === 6) {
+        valueArray.push('*');
+      }
 
-    // Validate and set default if invalid
-    if (!processedValue || processedValue.split(' ').length !== 7) {
-      processedValue = defaultCron;
-      valueArray = processedValue.split(' ');
+      // Validate and set default if invalid
+      if (!processedValue || processedValue.split(' ').length !== 7) {
+        processedValue = defaultCron;
+        valueArray = processedValue.split(' ');
+        setState((prev) => ({
+          ...prev,
+          value: valueArray,
+          selectedTab: allHeaders[0],
+        }));
+        parentChange(valueArray);
+        return;
+      }
+
+      // Determine appropriate tab based on cron pattern
+      let selectedTab = allHeaders[0];
+      const val = valueArray;
+
+      if (val[1].search('/') !== -1 && val[2] === '*' && val[3] === '1/1') {
+        selectedTab = allHeaders[0]; // Minutes
+      } else if (val[3] === '1/1') {
+        selectedTab = allHeaders[1]; // Hourly
+      } else if (val[3].search('/') !== -1 || val[5] === 'MON-FRI') {
+        selectedTab = allHeaders[2]; // Daily
+      } else if (val[3] === '?') {
+        selectedTab = allHeaders[3]; // Weekly
+      } else if (val[3].startsWith('L') || val[4] === '1/1') {
+        selectedTab = allHeaders[4]; // Monthly
+      }
+
+      // Ensure selected tab is in available headers
+      if (!stateRef.current.headers.includes(selectedTab)) {
+        selectedTab = stateRef.current.headers[0];
+      }
+
       setState((prev) => ({
         ...prev,
         value: valueArray,
-        selectedTab: allHeaders[0],
+        selectedTab,
       }));
-      parentChange(valueArray);
-      return;
-    }
-
-    // Determine appropriate tab based on cron pattern
-    let selectedTab = allHeaders[0];
-    const val = valueArray;
-
-    if (val[1].search('/') !== -1 && val[2] === '*' && val[3] === '1/1') {
-      selectedTab = allHeaders[0]; // Minutes
-    } else if (val[3] === '1/1') {
-      selectedTab = allHeaders[1]; // Hourly
-    } else if (val[3].search('/') !== -1 || val[5] === 'MON-FRI') {
-      selectedTab = allHeaders[2]; // Daily
-    } else if (val[3] === '?') {
-      selectedTab = allHeaders[3]; // Weekly
-    } else if (val[3].startsWith('L') || val[4] === '1/1') {
-      selectedTab = allHeaders[4]; // Monthly
-    }
-
-    // Ensure selected tab is in available headers
-    if (!stateRef.current.headers.includes(selectedTab)) {
-      selectedTab = stateRef.current.headers[0];
-    }
-
-    setState((prev) => ({
-      ...prev,
-      value: valueArray,
-      selectedTab,
-    }));
-  }, [parentChange]);
+    },
+    [parentChange],
+  );
 
   /**
    * Get default value for a tab
@@ -234,7 +236,7 @@ const Cron: React.FunctionComponent<CronProp> = (props) => {
         }));
       }
     },
-    [defaultValue]
+    [defaultValue],
   );
 
   /**
@@ -313,7 +315,7 @@ const Cron: React.FunctionComponent<CronProp> = (props) => {
           </button>
         </li>
       )),
-    [state.headers, state.selectedTab, props.disabled, tabChanged, translate]
+    [state.headers, state.selectedTab, props.disabled, tabChanged, translate],
   );
 
   /**
@@ -340,7 +342,7 @@ const Cron: React.FunctionComponent<CronProp> = (props) => {
         />
       );
     },
-    [state.headers, state.value, state.isUnix, props.disabled, translate, onValueChange]
+    [state.headers, state.value, state.isUnix, props.disabled, translate, onValueChange],
   );
 
   /**

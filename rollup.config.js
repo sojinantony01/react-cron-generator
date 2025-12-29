@@ -4,14 +4,16 @@ import commonjs from "@rollup/plugin-commonjs";
 import typescript from "rollup-plugin-typescript2";
 import postcss from "rollup-plugin-postcss";
 import json from '@rollup/plugin-json';
-const packageJson = require("./package.json");
+import { readFileSync } from 'fs';
 
-// eslint-disable-next-line import/no-anonymous-default-export
+const packageJson = JSON.parse(readFileSync('./package.json', 'utf-8'));
+
 export default {
   input: "src/lib/index.ts",
   output: [
     {
       file: packageJson.main,
+      format: 'es',
       sourcemap: true
     }
   ],

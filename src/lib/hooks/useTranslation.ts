@@ -29,10 +29,7 @@ export function useTranslation(options: UseTranslationOptions = {}): UseTranslat
   const { locale = 'en', translateFn } = options;
 
   // Memoize the translation dictionary
-  const translationDict = useMemo(
-    () => translations as TranslationDictionary,
-    []
-  );
+  const translationDict = useMemo(() => translations as TranslationDictionary, []);
 
   /**
    * Translate a key to the appropriate language
@@ -56,7 +53,7 @@ export function useTranslation(options: UseTranslationOptions = {}): UseTranslat
       // Return key as fallback
       return key;
     },
-    [translateFn, translationDict]
+    [translateFn, translationDict],
   );
 
   return {
@@ -64,5 +61,3 @@ export function useTranslation(options: UseTranslationOptions = {}): UseTranslat
     locale,
   };
 }
-
-

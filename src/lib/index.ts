@@ -2,7 +2,12 @@ import Cron, { CronProp } from './cron';
 import { HEADER } from './meta';
 import cronstrue from 'cronstrue/i18n';
 import { unixToQuartz, quartzToUnix, detectCronFormat } from './utils/cron-converter';
-import { validateCron, validateUnixCron, validateQuartzCron, isValidCron } from './utils/cron-validator';
+import {
+  validateCron,
+  validateUnixCron,
+  validateQuartzCron,
+  isValidCron,
+} from './utils/cron-validator';
 import { useCronState } from './hooks/useCronState';
 import { useTranslation } from './hooks/useTranslation';
 import { CronProvider, useCronContext, useCronContextSafe } from './context/CronContext';

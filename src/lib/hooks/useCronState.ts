@@ -33,12 +33,7 @@ export interface UseCronStateReturn {
  * Custom hook for managing cron state with validation and format conversion
  */
 export function useCronState(options: UseCronStateOptions = {}): UseCronStateReturn {
-  const {
-    initialValue = '0 0/5 * * * ? *',
-    isUnix = false,
-    onChange,
-    onError,
-  } = options;
+  const { initialValue = '0 0/5 * * * ? *', isUnix = false, onChange, onError } = options;
 
   // Use ref to track if this is the initial mount
   const isInitialMount = useRef(true);
@@ -82,52 +77,55 @@ export function useCronState(options: UseCronStateOptions = {}): UseCronStateRet
   /**
    * Set the cron value with format conversion if needed
    */
-  const setValue = useCallback((newValue: string) => {
-    if (!newValue) {
-      setState(prev => ({ ...prev, value: '' }));
-      return;
-    }
-
-    let processedValue = newValue;
-
-    try {
-      // Convert between formats if needed
-      if (state.isUnix) {
-        const format = detectCronFormat(newValue);
-        if (format === 'quartz') {
-          processedValue = quartzToUnix(newValue);
-        }
-      } else {
-        const format = detectCronFormat(newValue);
-        if (format === 'unix') {
-          processedValue = unixToQuartz(newValue);
-        }
+  const setValue = useCallback(
+    (newValue: string) => {
+      if (!newValue) {
+        setState((prev) => ({ ...prev, value: '' }));
+        return;
       }
 
-      setState(prev => ({ ...prev, value: processedValue }));
-    } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : 'Invalid cron expression';
-      console.error('Error setting cron value:', errorMessage);
-      if (onErrorRef.current) {
-        onErrorRef.current(errorMessage);
+      let processedValue = newValue;
+
+      try {
+        // Convert between formats if needed
+        if (state.isUnix) {
+          const format = detectCronFormat(newValue);
+          if (format === 'quartz') {
+            processedValue = quartzToUnix(newValue);
+          }
+        } else {
+          const format = detectCronFormat(newValue);
+          if (format === 'unix') {
+            processedValue = unixToQuartz(newValue);
+          }
+        }
+
+        setState((prev) => ({ ...prev, value: processedValue }));
+      } catch (error) {
+        const errorMessage = error instanceof Error ? error.message : 'Invalid cron expression';
+        console.error('Error setting cron value:', errorMessage);
+        if (onErrorRef.current) {
+          onErrorRef.current(errorMessage);
+        }
+        // Still update state with original value to show error
+        setState((prev) => ({ ...prev, value: newValue }));
       }
-      // Still update state with original value to show error
-      setState(prev => ({ ...prev, value: newValue }));
-    }
-  }, [state.isUnix]);
+    },
+    [state.isUnix],
+  );
 
   /**
    * Set the selected period (tab)
    */
   const setSelectedPeriod = useCallback((period: string) => {
-    setState(prev => ({ ...prev, selectedPeriod: period }));
+    setState((prev) => ({ ...prev, selectedPeriod: period }));
   }, []);
 
   /**
    * Update value directly (used by child components)
    */
   const updateValue = useCallback((newValue: string) => {
-    setState(prev => ({ ...prev, value: newValue }));
+    setState((prev) => ({ ...prev, value: newValue }));
   }, []);
 
   /**
@@ -157,7 +155,7 @@ export function useCronState(options: UseCronStateOptions = {}): UseCronStateRet
     if (state.isUnix !== isUnix && state.value) {
       try {
         let convertedValue = state.value;
-        
+
         if (isUnix) {
           // Converting to Unix
           const format = detectCronFormat(state.value);
@@ -172,13 +170,13 @@ export function useCronState(options: UseCronStateOptions = {}): UseCronStateRet
           }
         }
 
-        setState(prev => ({ ...prev, value: convertedValue, isUnix }));
+        setState((prev) => ({ ...prev, value: convertedValue, isUnix }));
       } catch (error) {
         console.error('Error converting cron format:', error);
-        setState(prev => ({ ...prev, isUnix }));
+        setState((prev) => ({ ...prev, isUnix }));
       }
     } else if (state.isUnix !== isUnix) {
-      setState(prev => ({ ...prev, isUnix }));
+      setState((prev) => ({ ...prev, isUnix }));
     }
   }, [isUnix, state.isUnix, state.value]);
 
@@ -191,5 +189,3 @@ export function useCronState(options: UseCronStateOptions = {}): UseCronStateRet
     validationError,
   };
 }
-
-

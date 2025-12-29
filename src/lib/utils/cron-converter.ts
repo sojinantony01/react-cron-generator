@@ -1,6 +1,6 @@
 /**
  * Utility functions to convert between Unix (5 fields) and Quartz (7 fields) cron formats
- * 
+ *
  * Unix format: minute hour day month day-of-week
  * Quartz format: second minute hour day month day-of-week year
  */
@@ -12,7 +12,7 @@
  */
 export const unixToQuartz = (unixCron: string): string => {
   const parts = unixCron.trim().split(/\s+/);
-  
+
   if (parts.length !== 5) {
     throw new Error('Invalid Unix cron expression. Expected 5 fields.');
   }
@@ -22,7 +22,7 @@ export const unixToQuartz = (unixCron: string): string => {
   // Unix uses 0-6 (Sunday=0) or 0-7 (Sunday=0 or 7)
   // Quartz uses 1-7 (Sunday=1) or SUN-SAT
   // Also, Unix uses * for both day and dayOfWeek, Quartz uses ? for one of them
-  
+
   let quartzDay = day;
   let quartzDayOfWeek = dayOfWeek;
 
@@ -50,7 +50,7 @@ export const unixToQuartz = (unixCron: string): string => {
  */
 export const quartzToUnix = (quartzCron: string): string => {
   const parts = quartzCron.trim().split(/\s+/);
-  
+
   if (parts.length !== 7) {
     throw new Error('Invalid Quartz cron expression. Expected 7 fields.');
   }
@@ -83,12 +83,12 @@ const convertUnixDayOfWeekToQuartz = (unixDow: string): string => {
   // Handle ranges and lists
   if (unixDow.includes('-')) {
     const parts = unixDow.split('-');
-    return parts.map(p => convertSingleUnixDayToQuartz(p)).join('-');
+    return parts.map((p) => convertSingleUnixDayToQuartz(p)).join('-');
   }
-  
+
   if (unixDow.includes(',')) {
     const parts = unixDow.split(',');
-    return parts.map(p => convertSingleUnixDayToQuartz(p)).join(',');
+    return parts.map((p) => convertSingleUnixDayToQuartz(p)).join(',');
   }
 
   if (unixDow.includes('/')) {
@@ -127,13 +127,13 @@ const convertQuartzDayOfWeekToUnix = (quartzDow: string): string => {
   // Handle ranges and lists
   if (quartzDow.includes('-')) {
     const parts = quartzDow.split('-');
-    return parts.map(p => convertSingleQuartzDayToUnix(p)).join('-');
+    return parts.map((p) => convertSingleQuartzDayToUnix(p)).join('-');
   }
-  
+
   if (quartzDow.includes(',') || quartzDow.includes('!')) {
     const separator = quartzDow.includes('!') ? '!' : ',';
     const parts = quartzDow.split(separator);
-    return parts.map(p => convertSingleQuartzDayToUnix(p)).join(',');
+    return parts.map((p) => convertSingleQuartzDayToUnix(p)).join(',');
   }
 
   if (quartzDow.includes('/')) {
@@ -152,13 +152,13 @@ const convertQuartzDayOfWeekToUnix = (quartzDow: string): string => {
  */
 const convertSingleQuartzDayToUnix = (day: string): string => {
   const dayMap: { [key: string]: string } = {
-    'SUN': '0',
-    'MON': '1',
-    'TUE': '2',
-    'WED': '3',
-    'THU': '4',
-    'FRI': '5',
-    'SAT': '6',
+    SUN: '0',
+    MON: '1',
+    TUE: '2',
+    WED: '3',
+    THU: '4',
+    FRI: '5',
+    SAT: '6',
     '1': '0', // Quartz Sunday
     '2': '1',
     '3': '2',
@@ -178,7 +178,7 @@ const convertSingleQuartzDayToUnix = (day: string): string => {
  */
 export const detectCronFormat = (cron: string): 'unix' | 'quartz' | 'unknown' => {
   const parts = cron.trim().split(/\s+/);
-  
+
   if (parts.length === 5) {
     return 'unix';
   } else if (parts.length === 7) {
@@ -188,8 +188,6 @@ export const detectCronFormat = (cron: string): 'unix' | 'quartz' | 'unknown' =>
     // Assume Quartz (6 fields = second minute hour day month day-of-week)
     return 'quartz';
   }
-  
+
   return 'unknown';
 };
-
-

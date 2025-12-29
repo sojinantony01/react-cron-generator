@@ -28,7 +28,14 @@ export type CronValue = string[];
 /**
  * Header/Tab types for the cron builder
  */
-export type HeaderType = 'minutes' | 'hourly' | 'daily' | 'weekly' | 'monthly' | 'yearly' | 'custom';
+export type HeaderType =
+  | 'minutes'
+  | 'hourly'
+  | 'daily'
+  | 'weekly'
+  | 'monthly'
+  | 'yearly'
+  | 'custom';
 
 /**
  * Translation function type
@@ -249,5 +256,3 @@ export interface TranslationReturn {
    */
   locale: string;
 }
-
-
