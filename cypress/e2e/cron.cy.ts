@@ -1,6 +1,6 @@
 describe("Cron gen - Quartz Format (Default)", () => {
   it("Minutes passes", () => {
-    cy.visit("http://localhost:3000/react-cron-generator");
+    cy.visit("/");
     /* ==== Generated with Cypress Studio ==== */
     cy.get(":nth-child(1) > .nav-link").click();
     cy.get("input").clear();
@@ -10,7 +10,7 @@ describe("Cron gen - Quartz Format (Default)", () => {
   });
 
   it("Hours passes", () => {
-    cy.visit("http://localhost:3000/react-cron-generator");
+    cy.visit("/");
     /* ==== Generated with Cypress Studio ==== */
     cy.get(".hours").select("03");
     cy.get(".minutes").select("06");
@@ -26,7 +26,7 @@ describe("Cron gen - Quartz Format (Default)", () => {
   });
 
   it("Daily passes", () => {
-    cy.visit("http://localhost:3000/react-cron-generator");
+    cy.visit("/");
     /* ==== Generated with Cypress Studio ==== */
     cy.get(":nth-child(3) > .nav-link").click();
     cy.get('[type="Number"]').clear().type("10");
@@ -40,7 +40,7 @@ describe("Cron gen - Quartz Format (Default)", () => {
   });
 
   it("Weekly passes", () => {
-    cy.visit("http://localhost:3000/react-cron-generator");
+    cy.visit("/");
     /* ==== Generated with Cypress Studio ==== */
     cy.get(":nth-child(4) > .nav-link").click();
     cy.get('[value="MON"]').check();
@@ -53,7 +53,7 @@ describe("Cron gen - Quartz Format (Default)", () => {
   });
 
   it("Monthly passes", () => {
-    cy.visit("http://localhost:3000/react-cron-generator");
+    cy.visit("/");
     cy.get(":nth-child(5) > .nav-link").click();
     cy.get(".cron_builder > :nth-child(4)").should("have.text", "0 0 00 1 1/1 ? *");
 
@@ -83,7 +83,7 @@ describe("Cron gen - Quartz Format (Default)", () => {
   });
 
   it("Custom passes", () => {
-    cy.visit("http://localhost:3000/react-cron-generator");
+    cy.visit("/");
     cy.get(":nth-child(6) > .nav-link").click();
     /* ==== Generated with Cypress Studio ==== */
     cy.get("input").clear().type("0 03 04 L-4 1/1 ? *");
@@ -94,7 +94,7 @@ describe("Cron gen - Quartz Format (Default)", () => {
 
 describe("Cron gen - Unix Format", () => {
   beforeEach(() => {
-    cy.visit("http://localhost:3000/react-cron-generator");
+    cy.visit("/");
     // Enable Unix format
     cy.get('input[type="checkbox"]').first().check();
   });
@@ -208,7 +208,7 @@ describe("Cron gen - Unix Format", () => {
 
 describe("Cron gen - Format Conversion", () => {
   it("Converts from Quartz to Unix when toggling format", () => {
-    cy.visit("http://localhost:3000/react-cron-generator");
+    cy.visit("/");
     
     // Set a Quartz cron (every 5 minutes)
     cy.get(":nth-child(1) > .nav-link").click();
@@ -221,7 +221,7 @@ describe("Cron gen - Format Conversion", () => {
   });
 
   it("Converts from Unix to Quartz when toggling format", () => {
-    cy.visit("http://localhost:3000/react-cron-generator");
+    cy.visit("/");
     
     // Enable Unix format first
     cy.get('input[type="checkbox"]').first().check();
@@ -237,7 +237,7 @@ describe("Cron gen - Format Conversion", () => {
   });
 
   it("Maintains human-readable text across format changes", () => {
-    cy.visit("http://localhost:3000/react-cron-generator");
+    cy.visit("/");
     
     // Set every 5 minutes in Quartz
     cy.get(":nth-child(1) > .nav-link").click();
@@ -256,7 +256,7 @@ describe("Cron gen - Format Conversion", () => {
 
 describe("Cron gen - Edge Cases", () => {
   it("Handles empty input gracefully in Unix format", () => {
-    cy.visit("http://localhost:3000/react-cron-generator");
+    cy.visit("/");
     cy.get('input[type="checkbox"]').first().check();
     cy.get(":nth-child(1) > .nav-link").click();
     cy.get("input").eq(1).clear();
@@ -265,7 +265,7 @@ describe("Cron gen - Edge Cases", () => {
   });
 
   it("Handles invalid Unix cron in custom field", () => {
-    cy.visit("http://localhost:3000/react-cron-generator");
+    cy.visit("/");
     cy.get('input[type="checkbox"]').first().check();
     cy.get(":nth-child(6) > .nav-link").click();
     cy.get("input").eq(1).clear().type("invalid cron");
@@ -274,7 +274,7 @@ describe("Cron gen - Edge Cases", () => {
   });
 
   it("Unix format - Every minute", () => {
-    cy.visit("http://localhost:3000/react-cron-generator");
+    cy.visit("/");
     cy.get('input[type="checkbox"]').first().check();
     cy.get(":nth-child(1) > .nav-link").click();
     cy.get("input").eq(1).clear().type("1");
@@ -282,7 +282,7 @@ describe("Cron gen - Edge Cases", () => {
   });
 
   it("Unix format - Midnight daily", () => {
-    cy.visit("http://localhost:3000/react-cron-generator");
+    cy.visit("/");
     cy.get('input[type="checkbox"]').first().check();
     cy.get(":nth-child(3) > .nav-link").click();
     cy.get(".hours").select("00");
