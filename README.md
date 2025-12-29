@@ -94,11 +94,12 @@ function App() {
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
-| `value` | `string` | `undefined` | Initial cron expression (Unix: 5 fields, Quartz: 7 fields) |
+| `value` | `string` | `undefined` | Initial cron expression (Unix: 5 fields, Quartz: 6 or 7 fields) |
 | `onChange` | `(value: string, text: string) => void` | **Required** | Callback fired when cron value changes. Receives cron expression and human-readable text |
 | `showResultText` | `boolean` | `false` | Display human-readable description below the builder |
 | `showResultCron` | `boolean` | `false` | Display the cron expression below the builder |
-| `isUnix` | `boolean` | `false` | Use Unix format (5 fields) instead of Quartz (7 fields) |
+| `isUnix` | `boolean` | `false` | Use Unix format (5 fields) instead of Quartz. **Cannot be used with `use6FieldQuartz`** |
+| `use6FieldQuartz` | `boolean` | `false` | Use 6-field Quartz format instead of 7-field. **Cannot be used with `isUnix`** |
 | `translateFn` | `(key: string) => string` | `undefined` | Custom translation function for i18n support |
 | `locale` | `string` | `'en'` | Locale for cronstrue (human-readable text) |
 | `options` | `{ headers: HeaderType[] }` | All headers | Customize which tabs are available |
@@ -106,13 +107,53 @@ function App() {
 
 ### Format Comparison
 
-| Feature | Unix (5 fields) | Quartz (7 fields) |
-|---------|----------------|-------------------|
-| **Format** | `minute hour day month day-of-week` | `second minute hour day month day-of-week year` |
-| **Example** | `*/5 * * * *` | `0 0/5 * * * ? *` |
-| **Day of Week** | 0-6 (Sunday=0) | 1-7 (Sunday=1) or SUN-SAT |
-| **Special Chars** | `* , - /` | `* , - / ? L W #` |
-| **Used By** | Linux/Unix cron, most cron implementations | Quartz Scheduler, Spring Framework, Java apps |
+| Feature | Unix (5 fields) | Quartz (6 fields) | Quartz (7 fields) |
+|---------|----------------|-------------------|-------------------|
+| **Format** | `minute hour day month day-of-week` | `second minute hour day month day-of-week` | `second minute hour day month day-of-week year` |
+| **Example** | `*/5 * * * *` | `0 */5 * * * ?` | `0 0/5 * * * ? *` |
+| **Day of Week** | 0-6 (Sunday=0) | 1-7 (Sunday=1) or SUN-SAT | 1-7 (Sunday=1) or SUN-SAT |
+| **Special Chars** | `* , - /` | `* , - / ? L W #` | `* , - / ? L W #` |
+| **Used By** | Linux/Unix cron, most cron implementations | Quartz Scheduler (legacy) | Quartz Scheduler, Spring Framework, Java apps |
+
+### 6-Field Quartz Format Support
+
+The component supports both 6-field and 7-field Quartz formats:
+
+- **6-field format**: `second minute hour day month day-of-week` (e.g., `0 0 12 * * ?`)
+- **7-field format**: `second minute hour day month day-of-week year` (e.g., `0 0 12 * * ? *`)
+
+**Format Behavior:**
+
+The `use6FieldQuartz` prop controls the output format:
+
+```jsx
+// Default: 7-field Quartz format
+<Cron
+  value="0 0 12 * * ?"  // 6-field input
+  onChange={(value) => {
+    console.log(value);  // "0 0 12 * * ? *" - converted to 7-field
+  }}
+  showResultText={true}
+  showResultCron={true}
+/>
+
+// Explicitly use 6-field Quartz format
+<Cron
+  value="0 0 12 * * ? *"  // 7-field input
+  onChange={(value) => {
+    console.log(value);  // "0 0 12 * * ?" - converted to 6-field
+  }}
+  showResultText={true}
+  showResultCron={true}
+  use6FieldQuartz={true}  // Enable 6-field format
+/>
+```
+
+**Rules:**
+- **`use6FieldQuartz={false}` (default)**: Always outputs 7-field format, even if 6-field input is provided
+- **`use6FieldQuartz={true}`**: Always outputs 6-field format, even if 7-field input is provided
+- Cannot use both `isUnix={true}` and `use6FieldQuartz={true}` together - this will throw an error
+- Internally, the component always works with 7-field format for processing
 
 ## 🔧 Advanced Usage
 

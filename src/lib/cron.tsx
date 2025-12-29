@@ -16,6 +16,7 @@ export interface CronProp {
   options?: { headers: HeaderKeyType[] };
   disabled?: boolean;
   isUnix?: boolean;
+  use6FieldQuartz?: boolean;
 }
 
 interface State {
@@ -24,7 +25,6 @@ interface State {
   headers: HeaderValType[];
   locale: string;
   isUnix: boolean;
-  is6Field: boolean;
 }
 
 interface Dic {
@@ -34,12 +34,16 @@ interface Dic {
 const defaultCron = '0 0 00 1/1 * ? *';
 
 const Cron: React.FunctionComponent<CronProp> = (props) => {
+  // Validate prop combination
+  if (props.isUnix && props.use6FieldQuartz) {
+    throw new Error('Cannot use both isUnix and use6FieldQuartz props together. Please use only one format option.');
+  }
+
   const [state, setState] = useState<State>({
     value: [],
     headers: loadHeaders(props.options),
     locale: props.locale ? props.locale : 'en',
     isUnix: props.isUnix || false,
-    is6Field: false,
   });
 
   // Use refs to avoid stale closures in callbacks
@@ -136,13 +140,14 @@ const Cron: React.FunctionComponent<CronProp> = (props) => {
           console.error('Error converting Quartz to Unix:', e);
           return;
         }
-      } else if (stateRef.current.is6Field) {
-        // If input was 6-field, output 6-field (remove year field)
+      } else if (propsRef.current.use6FieldQuartz) {
+        // If use6FieldQuartz is enabled, output 6-field (remove year field)
         const parts = outputVal.split(' ');
         if (parts.length === 7 && parts[6] === '*') {
           outputVal = parts.slice(0, 6).join(' ');
         }
       }
+      // If use6FieldQuartz is false/undefined, always output 7-field (already in 7-field format)
 
       propsRef.current.onChange(outputVal, getVal(outputVal));
     },
@@ -156,7 +161,6 @@ const Cron: React.FunctionComponent<CronProp> = (props) => {
     (value: string) => {
       const allHeaders = loadHeaders();
       let processedValue = value;
-      let is6Field = false;
 
       // Convert Unix to Quartz if needed for internal representation
       if (stateRef.current.isUnix && value) {
@@ -173,9 +177,8 @@ const Cron: React.FunctionComponent<CronProp> = (props) => {
 
       let valueArray = processedValue.replace(/,/g, '!').split(' ');
 
-      // Handle 6-field cron (add year field)
+      // Handle 6-field cron (add year field for internal processing)
       if (processedValue && processedValue.split(' ').length === 6) {
-        is6Field = true;
         valueArray.push('*');
       }
 
@@ -187,7 +190,6 @@ const Cron: React.FunctionComponent<CronProp> = (props) => {
           ...prev,
           value: valueArray,
           selectedTab: allHeaders[0],
-          is6Field: false,
         }));
         parentChange(valueArray);
         return;
@@ -218,7 +220,6 @@ const Cron: React.FunctionComponent<CronProp> = (props) => {
         ...prev,
         value: valueArray,
         selectedTab,
-        is6Field,
       }));
     },
     [parentChange],
@@ -369,15 +370,15 @@ const Cron: React.FunctionComponent<CronProp> = (props) => {
         console.warn('Failed to convert to Unix for display:', e);
         return quartzCron;
       }
-    } else if (state.is6Field) {
-      // Display as 6-field if input was 6-field
+    } else if (props.use6FieldQuartz) {
+      // Display as 6-field if use6FieldQuartz is enabled
       const parts = quartzCron.split(' ');
       if (parts.length === 7 && parts[6] === '*') {
         return parts.slice(0, 6).join(' ');
       }
     }
     return quartzCron;
-  }, [state.value, state.isUnix, state.is6Field]);
+  }, [state.value, state.isUnix, props.use6FieldQuartz]);
 
   return (
     <div className="cron_builder">
