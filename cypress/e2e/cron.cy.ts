@@ -301,4 +301,69 @@ describe("Cron gen - Edge Cases", () => {
     cy.get(".minutes").select("00");
     cy.get(".cron_builder > :nth-child(4)").should("have.text", "0 00 1/1 * *");
   });
+
+describe("Cron gen - 6-Field Quartz Format", () => {
+  it("Accepts 6-field Quartz cron and maintains format", () => {
+    cy.visit("/");
+    
+    // Use custom tab to input a 6-field cron
+    cy.get(":nth-child(6) > .nav-link").click();
+    cy.get('input[type="text"]').clear().type("0 0 12 * * ?");
+    
+    // Verify it displays as 6-field
+    cy.get(".cron_builder > :nth-child(4)").should("have.text", "0 0 12 * * ?");
+  });
+
+  it("Processes 6-field cron correctly in custom tab", () => {
+    cy.visit("/");
+    
+    // Input 6-field cron in custom tab
+    cy.get(":nth-child(6) > .nav-link").click();
+    cy.get('input[type="text"]').clear().type("0 0/5 * * * ?");
+    
+    // Verify it displays as 6-field
+    cy.get(".cron_builder > :nth-child(4)").should("have.text", "0 0/5 * * * ?");
+  });
+
+  it("Switching tabs generates new 7-field cron (expected behavior)", () => {
+    cy.visit("/");
+    
+    // Start with 6-field cron
+    cy.get(":nth-child(6) > .nav-link").click();
+    cy.get('input[type="text"]').clear().type("0 0 00 1/1 * ?");
+    cy.get(".cron_builder > :nth-child(4)").should("have.text", "0 0 00 1/1 * ?");
+    
+    // Switch to Daily tab - generates new default value (7-field)
+    cy.get(":nth-child(3) > .nav-link").click();
+    cy.get(".hours").select("12");
+    cy.get(".minutes").select("30");
+    
+    // After tab switch, it becomes 7-field (this is expected)
+    cy.get(".cron_builder > :nth-child(4)").should("have.text", "0 30 12 1/1 * ? *");
+  });
+
+  it("Handles 6-field Monthly cron via custom input", () => {
+    cy.visit("/");
+    
+    // Input 6-field monthly cron
+    cy.get(":nth-child(6) > .nav-link").click();
+    cy.get('input[type="text"]').clear().type("0 0 00 15 1/1 ?");
+    
+    // Verify it's displayed as 6-field
+    cy.get(".cron_builder > :nth-child(4)").should("have.text", "0 0 00 15 1/1 ?");
+  });
+
+  it("Distinguishes between 6-field and 7-field formats", () => {
+    cy.visit("/");
+    
+    // Test 7-field format
+    cy.get(":nth-child(6) > .nav-link").click();
+    cy.get('input[type="text"]').clear().type("0 0 12 * * ? *");
+    cy.get(".cron_builder > :nth-child(4)").should("have.text", "0 0 12 * * ? *");
+    
+    // Switch to 6-field format
+    cy.get('input[type="text"]').clear().type("0 0 12 * * ?");
+    cy.get(".cron_builder > :nth-child(4)").should("have.text", "0 0 12 * * ?");
+  });
+});
 });
