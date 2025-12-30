@@ -49,7 +49,7 @@ const WeeklyCron: FunctionComponent<WeeklyCronProp> = (props) => {
     val[2] = `${val[2]}`.split('/').length > 1 ? '0' : val[2].toString();
     val[3] = '?';
     val[4] = '*';
-    
+
     if (val[5] === '*' || val[5] === '?' || val[5] === 'MON-FRI' || val[5] === '1-5') {
       val[5] = e.target.value;
     } else {

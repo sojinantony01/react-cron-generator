@@ -85,28 +85,31 @@ const Cron: React.FunctionComponent<CronProp> = (props) => {
    * Convert internal Quartz format to output format (Unix or Quartz)
    * This is the single source of truth for format conversion
    */
-  const convertToOutputFormat = useCallback((quartzValue: string[], isUnixFormat?: boolean): string => {
-    let outputVal = quartzValue.toString().replace(/,/g, ' ').replace(/!/g, ',');
-    
-    const useUnix = isUnixFormat !== undefined ? isUnixFormat : stateRef.current.isUnix;
-    
-    if (useUnix) {
-      try {
-        outputVal = quartzToUnix(outputVal);
-      } catch (e) {
-        console.error('Error converting Quartz to Unix:', e);
-        return outputVal;
+  const convertToOutputFormat = useCallback(
+    (quartzValue: string[], isUnixFormat?: boolean): string => {
+      let outputVal = quartzValue.toString().replace(/,/g, ' ').replace(/!/g, ',');
+
+      const useUnix = isUnixFormat !== undefined ? isUnixFormat : stateRef.current.isUnix;
+
+      if (useUnix) {
+        try {
+          outputVal = quartzToUnix(outputVal);
+        } catch (e) {
+          console.error('Error converting Quartz to Unix:', e);
+          return outputVal;
+        }
+      } else if (propsRef.current.use6FieldQuartz) {
+        // If use6FieldQuartz is enabled, output 6-field (remove year field)
+        const parts = outputVal.split(' ');
+        if (parts.length === 7 && parts[6] === '*') {
+          outputVal = parts.slice(0, 6).join(' ');
+        }
       }
-    } else if (propsRef.current.use6FieldQuartz) {
-      // If use6FieldQuartz is enabled, output 6-field (remove year field)
-      const parts = outputVal.split(' ');
-      if (parts.length === 7 && parts[6] === '*') {
-        outputVal = parts.slice(0, 6).join(' ');
-      }
-    }
-    
-    return outputVal;
-  }, []);
+
+      return outputVal;
+    },
+    [],
+  );
 
   /**
    * Get human-readable cron description
@@ -146,7 +149,7 @@ const Cron: React.FunctionComponent<CronProp> = (props) => {
   const parentChange = useCallback(
     (val: string[]) => {
       const outputVal = convertToOutputFormat(val);
-      
+
       // Validate the output cron expression
       const validation = validateCron(outputVal);
       if (!validation.isValid) {
