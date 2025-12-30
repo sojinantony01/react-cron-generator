@@ -16,8 +16,10 @@
     "jsx": "react-jsx",
     "declaration": true,
     "declarationDir": "build",
+    "declarationMap": true,
     "sourceMap": true,
-    "noEmit": true
+    "noEmit": false,
+    "emitDeclarationOnly": false
   },
   "exclude": ["node_modules", "build", "dist"],
   "include": ["src/lib/*"]

@@ -1,2 +1,10 @@
 /src
 /public
+/cypress
+*.test.tsx
+*.test.ts
+*.spec.tsx
+*.spec.ts
+vitest.config.ts
+cypress.config.ts
+.github

@@ -1,45 +1,75 @@
-name: CI/CD
+name: CI/CD - Deploy
 
 on:
   push:
-    branches: [ master ]
+    branches: [ master, main ]
     
 jobs:
-  build:
-
+  build-and-deploy:
     runs-on: ubuntu-latest
 
     strategy:
       matrix:
-        node-version: [18.x]
+        node-version: [20.x]
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
 
     - name: Set up Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v1
+      uses: actions/setup-node@v4
       with:
         node-version: ${{ matrix.node-version }}
+        cache: 'npm'
 
     - name: Install dependencies
-      run: npm install
-    - name: install gh pages separately  
+      run: npm ci
+
+    - name: Install gh-pages and React
       run: npm install gh-pages react@18.2.0 react-dom@18.2.0
 
-    - name: Upload coverage to Codecov
-      uses: codecov/codecov-action@v1
+    - name: Lint check
+      run: npm run format-check
+
+    - name: Run unit tests
+      run: npm test
+
+    - name: Build package
+      run: npm run build
 
     - name: Cypress run
       uses: cypress-io/github-action@v6
       with:
         build: npm run build
-        start: npm start
+        start: npm run dev
+        wait-on: 'http://localhost:3000/react-cron-generator/'
+        wait-on-timeout: 120
 
-    - name: Build
-      run: npm run react-build
+    - name: Upload Cypress screenshots
+      uses: actions/upload-artifact@v4
+      if: failure()
+      with:
+        name: cypress-screenshots-${{ matrix.node-version }}
+        path: cypress/screenshots
 
-    - name: Deploy
+    - name: Upload Cypress videos
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: cypress-videos-${{ matrix.node-version }}
+        path: cypress/videos
+
+    - name: Build demo app
+      run: npm run demo:build
+
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v4
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}
+        fail_ci_if_error: false
+
+    - name: Deploy to GitHub Pages
+      if: matrix.node-version == '20.x'
       run: |
         git config --global user.name $user_name
         git config --global user.email $user_email
@@ -50,3 +80,5 @@ jobs:
         user_email: 'github-actions[bot]@users.noreply.github.com'
         github_token: ${{ secrets.ACTIONS_DEPLOY_ACCESS_TOKEN }}
         repository: ${{ github.repository }}
+
+

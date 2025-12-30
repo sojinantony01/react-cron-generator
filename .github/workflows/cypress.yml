@@ -1,44 +1,71 @@
-name: CI/CD
+name: CI/CD - Pull Request
 
 on:
   pull_request:
-    branches: [ master ]
+    branches: [ master, main ]
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     strategy:
       matrix:
-        node-version: [18.x]
+        node-version: [20.x]
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
 
     - name: Set up Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v1
+      uses: actions/setup-node@v4
       with:
         node-version: ${{ matrix.node-version }}
+        cache: 'npm'
 
     - name: Install dependencies
-      run: npm install
+      run: npm ci
 
-    - name: install gh pages separately  
+    - name: Install gh-pages and React
       run: npm install gh-pages react@18.2.0 react-dom@18.2.0
 
-    - name: Upload coverage to Codecov
-      uses: codecov/codecov-action@v1
-
-    - name: Lint
+    - name: Lint check
       run: npm run format-check
+
+    - name: Run unit tests
+      run: npm test
+
+    - name: Build package
+      run: npm run build
 
     - name: Cypress run
       uses: cypress-io/github-action@v6
       with:
         build: npm run build
-        start: npm start
+        start: npm run dev
+        wait-on: 'http://localhost:3000/react-cron-generator/'
+        wait-on-timeout: 120
 
-    - name: Build
-      run: npm run react-build
+    - name: Upload Cypress screenshots
+      uses: actions/upload-artifact@v4
+      if: failure()
+      with:
+        name: cypress-screenshots
+        path: cypress/screenshots
+
+    - name: Upload Cypress videos
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: cypress-videos
+        path: cypress/videos
+
+    - name: Build demo app
+      run: npm run demo:build
+
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v4
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}
+        fail_ci_if_error: false
+
+

@@ -5,12 +5,14 @@ type DaySelectProp =
       onChange(value: null | string): void;
       value: string;
       multi?: false;
+      onFocus?: () => void;
     }
   | {
       multi: true;
       disabled?: boolean;
       onChange(value: string[]): void;
       value: string[];
+      onFocus?: () => void;
     };
 
 const DaySelect: React.FunctionComponent<DaySelectProp> = ({
@@ -18,6 +20,7 @@ const DaySelect: React.FunctionComponent<DaySelectProp> = ({
   multi = false,
   onChange,
   value,
+  onFocus,
 }) => {
   const [show, setShow] = useState<boolean>(false);
   const ref = useRef<any>(null);
@@ -74,7 +77,10 @@ const DaySelect: React.FunctionComponent<DaySelectProp> = ({
       <input
         disabled={disabled}
         className="dropbtn mx-0"
-        onClick={() => setShow((s) => !s)}
+        onClick={() => {
+          if (onFocus) onFocus();
+          setShow((s) => !s);
+        }}
         value={
           (Array.isArray(value) ? value.length : value)
             ? Array.isArray(value)

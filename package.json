@@ -1,26 +1,41 @@
 {
   "name": "react-cron-generator",
-  "version": "2.0.20",
-  "description": "Simple react component to generate cron expression",
+  "version": "2.1.0",
+  "description": "A powerful React component for building cron expressions with support for both Unix (5 fields) and Quartz (7 fields) formats. Features validation, format conversion, TypeScript support, and accessibility.",
   "keywords": [
+    "react",
     "React cron generator",
     "cron builder",
     "Scheduler expression builder",
     "cron",
-    "React cron",
-    "cron builder",
-    "cron ui",
-    "react cron ",
-    "react cron editor",
-    "react cron creator"
+    "cron-generator",
+    "cron-builder",
+    "cron-expression",
+    "scheduler",
+    "quartz",
+    "unix-cron",
+    "typescript",
+    "react-component",
+    "cron-ui",
+    "cron-editor",
+    "cron-validator",
+    "schedule-builder",
+    "time-scheduler"
   ],
-  "author": "Sojin antony",
+  "author": {
+    "name": "Sojin Antony",
+    "url": "https://github.com/sojinantony01"
+  },
+  "bugs": {
+    "url": "https://github.com/sojinantony01/react-cron-generator/issues"
+  },
   "dependencies": {
-    "cronstrue": "^2.12.0"
+    "cronstrue": "^2.59.0"
   },
   "type": "module",
   "main": "build/index.js",
   "module": "build/index.js",
+  "types": "build/index.d.ts",
   "files": [
     "build",
     "README.md"
@@ -30,52 +45,49 @@
     "url": "https://github.com/sojinantony01/react-cron-generator.git"
   },
   "peerDependencies": {
-    "react": ">=16.8.0",
-    "react-dom": ">=16.8.0"
+    "react": ">=16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0",
+    "react-dom": ">=16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0"
   },
   "devDependencies": {
-    "@rollup/plugin-commonjs": "22.0.2",
-    "@rollup/plugin-json": "4.1.0",
-    "@rollup/plugin-node-resolve": "14.1.0",
-    "@testing-library/jest-dom": "^5.16.5",
-    "@testing-library/react": "^13.4.0",
-    "@testing-library/user-event": "^13.5.0",
-    "@types/jest": "^27.5.2",
-    "@types/node": "^16.11.59",
-    "@types/react": "^18.0.20",
-    "@types/react-dom": "^18.0.6",
-    "cypress": "^13.8.1",
-    "postcss": "^8.4.16",
-    "prettier": "^3.4.2",
-    "react-scripts": "5.0.1",
-    "rollup": "2.79.2",
-    "rollup-plugin-peer-deps-external": "2.2.4",
-    "rollup-plugin-postcss": "4.0.2",
-    "rollup-plugin-typescript2": "0.34.0",
-    "sass": "^1.54.9",
-    "typescript": "^4.8.3",
-    "web-vitals": "^2.1.4"
+    "@rollup/plugin-commonjs": "^29.0.0",
+    "@rollup/plugin-json": "^6.1.0",
+    "@rollup/plugin-node-resolve": "^16.0.3",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.1",
+    "@testing-library/user-event": "^14.6.1",
+    "@types/node": "^22.0.0",
+    "@types/react": "^18.3.27",
+    "@types/react-dom": "^18.3.7",
+    "@vitejs/plugin-react": "^5.1.2",
+    "cypress": "^13.17.0",
+    "jsdom": "^27.4.0",
+    "postcss": "^8.5.6",
+    "prettier": "^3.7.4",
+    "rollup": "^4.54.0",
+    "rollup-plugin-peer-deps-external": "^2.2.4",
+    "rollup-plugin-postcss": "^4.0.2",
+    "rollup-plugin-typescript2": "^0.36.0",
+    "typescript": "^4.9.5",
+    "vite": "^7.3.0",
+    "vite-plugin-dts": "^4.5.4",
+    "vitest": "^4.0.16"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "dev": "vite",
     "build": "rm -rf build && rollup -c",
-    "test": "react-scripts test",
+    "demo:build": "vite build",
+    "demo:preview": "vite preview",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:ui": "vitest --ui",
     "cy:open": "cypress open",
     "cy:run": "cypress run --browser chrome",
-    "eject": "react-scripts eject",
-    "deploy": "gh-pages -d build",
-    "react-build": "CI=false && react-scripts build",
+    "deploy": "npm run demo:build && gh-pages -d dist",
     "prepublishOnly": "npm run build",
-    "format": "npx prettier --write './**/*.{ts,tsx,css,json,scss}' --config ./.prettierrc.json",
-    "format-check": "npx prettier --check './**/*.{ts,tsx,css,json,scss}' --config ./.prettierrc.json"
+    "format": "npx prettier --write './**/*.{ts,tsx,css,json}' --config ./.prettierrc.json",
+    "format-check": "npx prettier --check './**/*.{ts,tsx,css,json}' --config ./.prettierrc.json"
   },
   "homepage": "https://sojinantony01.github.io/react-cron-generator",
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
   "license": "ISC",
   "browserslist": {
     "production": [
