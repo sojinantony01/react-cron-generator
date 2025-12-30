@@ -148,6 +148,13 @@ function validateCronField(
 
   // Allow Quartz-specific special characters for day-of-week field
   if (name === 'day-of-week') {
+    // Allow text day names (MON, TUE, etc.) and ranges (MON-FRI)
+    const dayNames = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
+    const dayNamePattern = /^(SUN|MON|TUE|WED|THU|FRI|SAT)(-((SUN|MON|TUE|WED|THU|FRI|SAT)))?$/i;
+    if (dayNamePattern.test(field)) {
+      return { isValid: true };
+    }
+    
     // n#m = mth occurrence of day n (e.g., 2#3 = 3rd Tuesday)
     if (field.includes('#')) {
       const [day, occurrence] = field.split('#').map(Number);
@@ -207,10 +214,34 @@ function validateCronField(
     return { isValid: true };
   }
 
-  // Allow lists (e.g., 1,2,3)
+  // Allow lists (e.g., 1,2,3 or MON,WED,FRI for day-of-week)
   if (field.includes(',')) {
-    const values = field.split(',').map(Number);
-    for (const value of values) {
+    const values = field.split(',');
+    
+    // For day-of-week field, check if values are day names
+    if (name === 'day-of-week') {
+      const dayNames = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
+      for (const value of values) {
+        const trimmedValue = value.trim();
+        // Check if it's a day name
+        if (dayNames.includes(trimmedValue.toUpperCase())) {
+          continue;
+        }
+        // Otherwise, validate as number
+        const numValue = Number(trimmedValue);
+        if (isNaN(numValue) || numValue < min || numValue > max) {
+          return {
+            isValid: false,
+            error: `Value ${trimmedValue} in ${name} must be between ${min}-${max} or a valid day name`,
+          };
+        }
+      }
+      return { isValid: true };
+    }
+    
+    // For other fields, validate as numbers
+    const numValues = values.map(Number);
+    for (const value of numValues) {
       if (isNaN(value) || value < min || value > max) {
         return {
           isValid: false,

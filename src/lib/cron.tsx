@@ -373,7 +373,8 @@ const Cron: React.FunctionComponent<CronProp> = (props) => {
       try {
         return quartzToUnix(quartzCron);
       } catch (e) {
-        console.warn('Failed to convert to Unix for display:', e);
+        // Silently fallback to quartzCron during initialization or invalid states
+        // This is expected behavior when the component is initializing
         return quartzCron;
       }
     } else if (props.use6FieldQuartz) {
