@@ -182,25 +182,18 @@ console.log(format); // 'unix'
 ### Validation
 
 ```jsx
-import { 
-  validateCron, 
-  validateUnixCron, 
-  validateQuartzCron,
-  isValidCron 
-} from 'react-cron-generator';
+import { validateCron } from 'react-cron-generator';
 
-// Validate any format (auto-detects)
+// Validate any format (auto-detects Unix or Quartz)
 const result = validateCron('*/5 * * * *');
 console.log(result);
 // { isValid: true, format: 'unix' }
 
-// Validate specific format
-const unixResult = validateUnixCron('*/5 * * * *');
-const quartzResult = validateQuartzCron('0 */5 * * * ? *');
-
-// Simple boolean check
-if (isValidCron('*/5 * * * *')) {
+// Check validation result
+if (result.isValid) {
   console.log('Valid cron expression!');
+} else {
+  console.error('Invalid:', result.error);
 }
 ```
 
@@ -245,36 +238,6 @@ function translateFn(key) {
 />
 ```
 
-### Custom Hooks
-
-```jsx
-import { useCronState, useTranslation } from 'react-cron-generator';
-
-function CustomCronComponent() {
-  const {
-    state,
-    setValue,
-    isValidExpression,
-    validationError
-  } = useCronState({
-    initialValue: '*/5 * * * *',
-    isUnix: true,
-    onChange: (value) => console.log(value),
-    onError: (error) => console.error(error)
-  });
-
-  const { translate } = useTranslation({
-    locale: 'en'
-  });
-
-  return (
-    <div>
-      <p>{translate('Every')} {state.value}</p>
-      {!isValidExpression && <p>Error: {validationError}</p>}
-    </div>
-  );
-}
-```
 
 ## 🎨 Styling
 
@@ -305,23 +268,15 @@ You can override styles by targeting the CSS classes:
 ### Exported Components
 
 - `Cron` - Main cron builder component (default export)
-- `CronProvider` - Context provider for advanced usage
 
 ### Exported Utilities
 
 - `unixToQuartz(cron: string): string` - Convert Unix to Quartz format
 - `quartzToUnix(cron: string): string` - Convert Quartz to Unix format
 - `detectCronFormat(cron: string): 'unix' | 'quartz'` - Detect cron format
-- `validateCron(cron: string): ValidationResult` - Validate any cron format
-- `validateUnixCron(cron: string): ValidationResult` - Validate Unix format
-- `validateQuartzCron(cron: string): ValidationResult` - Validate Quartz format
-- `isValidCron(cron: string): boolean` - Simple validation check
-
-### Exported Hooks
-
-- `useCronState(options)` - Manage cron state with validation
-- `useTranslation(options)` - Handle translations
-- `useCronContext()` - Access cron context (when using CronProvider)
+- `validateCron(cron: string): ValidationResult` - Validate any cron format (auto-detects Unix or Quartz)
+- `HEADER` - Constants for tab headers
+- `cronstrue` - Human-readable cron descriptions (from cronstrue/i18n)
 
 ### Exported Types
 
