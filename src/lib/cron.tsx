@@ -301,9 +301,6 @@ const Cron: React.FunctionComponent<CronProp> = (props) => {
   /**
    * Handle isUnix prop changes - notify parent with converted format
    */
-  /**
-   * Handle isUnix prop changes - notify parent with converted format
-   */
   const prevIsUnixRef = useRef(props.isUnix);
   useEffect(() => {
     if (props.isUnix !== prevIsUnixRef.current) {
