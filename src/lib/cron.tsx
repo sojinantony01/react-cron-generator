@@ -286,7 +286,7 @@ const Cron: React.FunctionComponent<CronProp> = (props) => {
    * Sync with external value prop
    */
   useEffect(() => {
-    const hasValidState = stateRef.current.value && stateRef.current.value.length === 7;
+    const hasValidState = stateRef.current.value && stateRef.current.value.length > 0;
     const compareVal = hasValidState ? convertToOutputFormat(stateRef.current.value) : '';
 
     if (props.value !== compareVal) {
@@ -379,8 +379,8 @@ const Cron: React.FunctionComponent<CronProp> = (props) => {
    * Get display value for result cron (uses single source of truth)
    */
   const displayCron = useMemo(() => {
-    // Only convert if we have a valid state
-    if (!state.value || state.value.length !== 7) {
+    // Only convert if we have a valid state with actual values
+    if (!state.value || state.value.length === 0) {
       return '';
     }
     return convertToOutputFormat(state.value, props.isUnix);
