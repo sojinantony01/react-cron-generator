@@ -151,7 +151,14 @@ function validateCronField(
     // n#m = mth occurrence of day n (e.g., 2#3 = 3rd Tuesday)
     if (field.includes('#')) {
       const [day, occurrence] = field.split('#').map(Number);
-      if (!isNaN(day) && !isNaN(occurrence) && day >= 1 && day <= 7 && occurrence >= 1 && occurrence <= 5) {
+      if (
+        !isNaN(day) &&
+        !isNaN(occurrence) &&
+        day >= 1 &&
+        day <= 7 &&
+        occurrence >= 1 &&
+        occurrence <= 5
+      ) {
         return { isValid: true };
       }
       return { isValid: false, error: `Invalid n#m value in ${name}: ${field}` };

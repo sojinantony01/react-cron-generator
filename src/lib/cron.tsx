@@ -36,7 +36,9 @@ const defaultCron = '0 0 00 1/1 * ? *';
 const Cron: React.FunctionComponent<CronProp> = (props) => {
   // Validate prop combination
   if (props.isUnix && props.use6FieldQuartz) {
-    throw new Error('Cannot use both isUnix and use6FieldQuartz props together. Please use only one format option.');
+    throw new Error(
+      'Cannot use both isUnix and use6FieldQuartz props together. Please use only one format option.',
+    );
   }
 
   const [state, setState] = useState<State>({
@@ -88,7 +90,7 @@ const Cron: React.FunctionComponent<CronProp> = (props) => {
 
     // cronstrue expects Quartz format, so if we have Unix, convert it first
     let cronForParsing = cronToUse;
-    
+
     // Check if the cron expression is in Unix format (5 fields)
     const parts = cronForParsing.split(' ');
     if (parts.length === 5) {
@@ -254,16 +256,19 @@ const Cron: React.FunctionComponent<CronProp> = (props) => {
   /**
    * Handle value change from child components
    */
-  const onValueChange = useCallback((val: string[]) => {
-    if (val && val.length) {
-      setState((prev) => ({ ...prev, value: [...val] }));
-      parentChange(val);
-    } else {
-      const defaultVal = ['0', '0', '00', '1/1', '*', '?', '*'];
-      setState((prev) => ({ ...prev, value: defaultVal }));
-      parentChange(defaultVal);
-    }
-  }, [parentChange]);
+  const onValueChange = useCallback(
+    (val: string[]) => {
+      if (val && val.length) {
+        setState((prev) => ({ ...prev, value: [...val] }));
+        parentChange(val);
+      } else {
+        const defaultVal = ['0', '0', '00', '1/1', '*', '?', '*'];
+        setState((prev) => ({ ...prev, value: defaultVal }));
+        parentChange(defaultVal);
+      }
+    },
+    [parentChange],
+  );
 
   /**
    * Sync with external value prop
