@@ -5,14 +5,7 @@ import { unixToQuartz, quartzToUnix, detectCronFormat } from './utils/cron-conve
 import { validateCron } from './utils/cron-validator';
 
 // Export all utilities
-export {
-  HEADER,
-  cronstrue,
-  unixToQuartz,
-  quartzToUnix,
-  detectCronFormat,
-  validateCron,
-};
+export { HEADER, cronstrue, unixToQuartz, quartzToUnix, detectCronFormat, validateCron };
 
 // Export types
 export type { CronProp };

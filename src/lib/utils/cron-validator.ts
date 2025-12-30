@@ -258,4 +258,3 @@ export function validateCron(expression: string): CronValidationResult {
     };
   }
 }
-
