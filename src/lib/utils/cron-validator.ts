@@ -154,7 +154,7 @@ function validateCronField(
     if (dayNamePattern.test(field)) {
       return { isValid: true };
     }
-    
+
     // n#m = mth occurrence of day n (e.g., 2#3 = 3rd Tuesday)
     if (field.includes('#')) {
       const [day, occurrence] = field.split('#').map(Number);
@@ -217,7 +217,7 @@ function validateCronField(
   // Allow lists (e.g., 1,2,3 or MON,WED,FRI for day-of-week)
   if (field.includes(',')) {
     const values = field.split(',');
-    
+
     // For day-of-week field, check if values are day names
     if (name === 'day-of-week') {
       const dayNames = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
@@ -238,7 +238,7 @@ function validateCronField(
       }
       return { isValid: true };
     }
-    
+
     // For other fields, validate as numbers
     const numValues = values.map(Number);
     for (const value of numValues) {
