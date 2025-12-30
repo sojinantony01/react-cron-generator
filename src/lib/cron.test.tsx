@@ -559,6 +559,179 @@ describe('Cron Component - Custom Headers', () => {
       expect(screen.getByText('Monthly')).toBeInTheDocument();
       expect(screen.getByText('Custom')).toBeInTheDocument();
     });
+  });
+
+  describe('Unix Format Initialization with Values', () => {
+    it('should initialize with Unix format value without console errors', () => {
+      const onChange = vi.fn();
+      const consoleError = vi.spyOn(console, 'error').mockImplementation(() => {});
+      const consoleWarn = vi.spyOn(console, 'warn').mockImplementation(() => {});
+
+      render(
+        <Cron
+          value="*/5 * * * *"
+          onChange={onChange}
+          showResultText={false}
+          showResultCron={true}
+          isUnix={true}
+        />,
+      );
+
+      // Should display the Unix value
+      expect(screen.getByText('*/5 * * * *')).toBeInTheDocument();
+
+      // Should not have any console errors
+      expect(consoleError).not.toHaveBeenCalled();
+      expect(consoleWarn).not.toHaveBeenCalled();
+
+      consoleError.mockRestore();
+      consoleWarn.mockRestore();
+    });
+
+    it('should initialize with hourly Unix format value', () => {
+      const onChange = vi.fn();
+      const consoleError = vi.spyOn(console, 'error').mockImplementation(() => {});
+
+      render(
+        <Cron
+          value="0 * * * *"
+          onChange={onChange}
+          showResultText={false}
+          showResultCron={true}
+          isUnix={true}
+        />,
+      );
+
+      expect(screen.getByText('0 * * * *')).toBeInTheDocument();
+      expect(consoleError).not.toHaveBeenCalled();
+
+      consoleError.mockRestore();
+    });
+
+    it('should initialize with daily Unix format value', () => {
+      const onChange = vi.fn();
+      const consoleError = vi.spyOn(console, 'error').mockImplementation(() => {});
+
+      render(
+        <Cron
+          value="0 0 * * *"
+          onChange={onChange}
+          showResultText={false}
+          showResultCron={true}
+          isUnix={true}
+        />,
+      );
+
+      expect(screen.getByText('0 0 * * *')).toBeInTheDocument();
+      expect(consoleError).not.toHaveBeenCalled();
+
+      consoleError.mockRestore();
+    });
+
+    it('should initialize with weekly Unix format value', () => {
+      const onChange = vi.fn();
+      const consoleError = vi.spyOn(console, 'error').mockImplementation(() => {});
+
+      render(
+        <Cron
+          value="0 0 * * 1"
+          onChange={onChange}
+          showResultText={false}
+          showResultCron={true}
+          isUnix={true}
+        />,
+      );
+
+      expect(screen.getByText('0 0 * * 1')).toBeInTheDocument();
+      expect(consoleError).not.toHaveBeenCalled();
+
+      consoleError.mockRestore();
+    });
+
+    it('should initialize with monthly Unix format value', () => {
+      const onChange = vi.fn();
+      const consoleError = vi.spyOn(console, 'error').mockImplementation(() => {});
+
+      render(
+        <Cron
+          value="0 0 1 * *"
+          onChange={onChange}
+          showResultText={false}
+          showResultCron={true}
+          isUnix={true}
+        />,
+      );
+
+      expect(screen.getByText('0 0 1 * *')).toBeInTheDocument();
+      expect(consoleError).not.toHaveBeenCalled();
+
+      consoleError.mockRestore();
+    });
+
+    it('should handle complex Unix cron expressions', () => {
+      const onChange = vi.fn();
+      const consoleError = vi.spyOn(console, 'error').mockImplementation(() => {});
+
+      render(
+        <Cron
+          value="*/15 2-5 * * 1-5"
+          onChange={onChange}
+          showResultText={false}
+          showResultCron={true}
+          isUnix={true}
+        />,
+      );
+
+      expect(screen.getByText('*/15 2-5 * * 1-5')).toBeInTheDocument();
+      expect(consoleError).not.toHaveBeenCalled();
+
+      consoleError.mockRestore();
+    });
+
+    it('should convert Unix to Quartz internally and back to Unix for display', () => {
+      const onChange = vi.fn();
+
+      render(
+        <Cron
+          value="*/5 * * * *"
+          onChange={onChange}
+          showResultText={true}
+          showResultCron={true}
+          isUnix={true}
+        />,
+      );
+
+      // Should display Unix format
+      expect(screen.getByText('*/5 * * * *')).toBeInTheDocument();
+      // Should have human-readable text
+      expect(screen.getByText(/every 5 minutes/i)).toBeInTheDocument();
+    });
+
+    it('should handle onChange callback with Unix format', async () => {
+      const onChange = vi.fn();
+      const user = userEvent.setup();
+
+      render(
+        <Cron
+          value="*/5 * * * *"
+          onChange={onChange}
+          showResultText={false}
+          showResultCron={true}
+          isUnix={true}
+        />,
+      );
+
+      // Switch to hourly tab
+      const hourlyTab = screen.getByLabelText('Select Hourly tab');
+      await user.click(hourlyTab);
+
+      await waitFor(() => {
+        expect(onChange).toHaveBeenCalled();
+        // Should call with Unix format (5 fields)
+        const lastCall = onChange.mock.calls[onChange.mock.calls.length - 1];
+        expect(lastCall[0].split(' ').length).toBe(5);
+      });
+    });
 
     it('should work with custom headers and translations', () => {
       const onChange = vi.fn();
