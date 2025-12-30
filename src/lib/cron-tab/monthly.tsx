@@ -209,7 +209,7 @@ const MonthlyCron: FunctionComponent<MonthlyCronProp> = (props) => {
       '0',
       props.value[1] === '*' ? '0' : props.value[1],
       props.value[2] === '*' ? '0' : props.value[2],
-      '', // Empty string for days - user will select from dropdown
+      '1',
       '1/1',
       '?',
       '*',
