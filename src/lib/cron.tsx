@@ -24,7 +24,6 @@ interface State {
   selectedTab?: HeaderValType;
   headers: HeaderValType[];
   locale: string;
-  isUnix: boolean;
 }
 
 interface Dic {
@@ -45,7 +44,6 @@ const Cron: React.FunctionComponent<CronProp> = (props) => {
     value: [],
     headers: loadHeaders(props.options),
     locale: props.locale ? props.locale : 'en',
-    isUnix: props.isUnix || false,
   });
 
   // Use refs to avoid stale closures in callbacks
@@ -82,14 +80,21 @@ const Cron: React.FunctionComponent<CronProp> = (props) => {
   );
 
   /**
+   * Helper to convert array to cron string
+   */
+  const arrayToCronString = useCallback((arr: string[]): string => {
+    return arr.toString().replace(/,/g, ' ').replace(/!/g, ',');
+  }, []);
+
+  /**
    * Convert internal Quartz format to output format (Unix or Quartz)
    * This is the single source of truth for format conversion
    */
   const convertToOutputFormat = useCallback(
     (quartzValue: string[], isUnixFormat?: boolean): string => {
-      let outputVal = quartzValue.toString().replace(/,/g, ' ').replace(/!/g, ',');
+      let outputVal = arrayToCronString(quartzValue);
 
-      const useUnix = isUnixFormat !== undefined ? isUnixFormat : stateRef.current.isUnix;
+      const useUnix = isUnixFormat !== undefined ? isUnixFormat : props.isUnix;
 
       if (useUnix) {
         try {
@@ -98,7 +103,7 @@ const Cron: React.FunctionComponent<CronProp> = (props) => {
           console.error('Error converting Quartz to Unix:', e);
           return outputVal;
         }
-      } else if (propsRef.current.use6FieldQuartz) {
+      } else if (props.use6FieldQuartz) {
         // If use6FieldQuartz is enabled, output 6-field (remove year field)
         const parts = outputVal.split(' ');
         if (parts.length === 7 && parts[6] === '*') {
@@ -108,7 +113,7 @@ const Cron: React.FunctionComponent<CronProp> = (props) => {
 
       return outputVal;
     },
-    [],
+    [props.isUnix, props.use6FieldQuartz, arrayToCronString],
   );
 
   /**
@@ -171,7 +176,7 @@ const Cron: React.FunctionComponent<CronProp> = (props) => {
       let processedValue = value;
 
       // Convert Unix to Quartz if needed for internal representation
-      if (stateRef.current.isUnix && value) {
+      if (props.isUnix && value) {
         const parts = value.split(' ');
         if (parts.length === 5) {
           try {
@@ -281,23 +286,7 @@ const Cron: React.FunctionComponent<CronProp> = (props) => {
    * Sync with external value prop
    */
   useEffect(() => {
-    let newVal = stateRef.current.value.toString().replace(/,/g, ' ');
-    newVal = newVal.replace(/!/g, ',');
-
-    // Convert to appropriate format for comparison using props.isUnix (not stateRef)
-    let compareVal = newVal;
-    if (props.isUnix) {
-      try {
-        compareVal = quartzToUnix(newVal);
-      } catch (e) {
-        // Ignore conversion errors during comparison
-      }
-    } else if (props.use6FieldQuartz) {
-      const parts = newVal.split(' ');
-      if (parts.length === 7 && parts[6] === '*') {
-        compareVal = parts.slice(0, 6).join(' ');
-      }
-    }
+    const compareVal = convertToOutputFormat(stateRef.current.value);
 
     if (props.value !== compareVal) {
       setValue(props.value ? props.value : '');
@@ -306,14 +295,18 @@ const Cron: React.FunctionComponent<CronProp> = (props) => {
     if (props.translateFn && !props.locale) {
       console.warn('Warning !!! locale not set while using translateFn');
     }
-  }, [props.value, props.isUnix, props.use6FieldQuartz, props.translateFn, props.locale, setValue]);
+  }, [props.value, props.translateFn, props.locale, setValue, convertToOutputFormat]);
 
   /**
    * Handle isUnix prop changes - notify parent with converted format
    */
+  /**
+   * Handle isUnix prop changes - notify parent with converted format
+   */
+  const prevIsUnixRef = useRef(props.isUnix);
   useEffect(() => {
-    if (props.isUnix !== undefined && props.isUnix !== state.isUnix) {
-      setState((prev) => ({ ...prev, isUnix: props.isUnix || false }));
+    if (props.isUnix !== prevIsUnixRef.current) {
+      prevIsUnixRef.current = props.isUnix;
       // Immediately notify parent with new format
       if (state.value && state.value.length) {
         const outputVal = convertToOutputFormat(state.value, props.isUnix);
@@ -323,7 +316,7 @@ const Cron: React.FunctionComponent<CronProp> = (props) => {
         }
       }
     }
-  }, [props.isUnix, state.isUnix, state.value, convertToOutputFormat, getVal]);
+  }, [props.isUnix, state.value, convertToOutputFormat, getVal]);
 
   /**
    * Notify parent when value changes
@@ -377,19 +370,19 @@ const Cron: React.FunctionComponent<CronProp> = (props) => {
           value={state.value}
           onChange={onValueChange}
           disabled={props.disabled}
-          isUnix={state.isUnix}
+          isUnix={props.isUnix}
         />
       );
     },
-    [state.headers, state.value, state.isUnix, props.disabled, translate, onValueChange],
+    [state.headers, state.value, props.isUnix, props.disabled, translate, onValueChange],
   );
 
   /**
    * Get display value for result cron (uses single source of truth)
    */
   const displayCron = useMemo(() => {
-    return convertToOutputFormat(state.value, state.isUnix);
-  }, [state.value, state.isUnix, convertToOutputFormat]);
+    return convertToOutputFormat(state.value, props.isUnix);
+  }, [state.value, props.isUnix, convertToOutputFormat]);
 
   return (
     <div className="cron_builder">
