@@ -259,9 +259,3 @@ export function validateCron(expression: string): CronValidationResult {
   }
 }
 
-/**
- * Checks if a cron expression is valid (simple boolean check)
- */
-export function isValidCron(expression: string): boolean {
-  return validateCron(expression).isValid;
-}
