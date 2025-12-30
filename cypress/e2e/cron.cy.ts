@@ -79,7 +79,7 @@ describe("Cron gen - Quartz Format (Default)", () => {
 
     cy.get(':nth-child(5) > [type="radio"]').check();
     cy.get('.dropdown > input').click();
-    cy.get('.dropdown > .dropdown-content > :nth-child(1)').click();
+    // cy.get('.dropdown > .dropdown-content > :nth-child(1)').click(); //selected by default
     cy.get('.dropdown > .dropdown-content > :nth-child(2)').click();
     cy.get('.dropdown > .dropdown-content > :nth-child(4)').click();
     cy.get('.dropdown > .dropdown-content > :nth-child(5)').click();
