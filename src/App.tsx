@@ -23,7 +23,7 @@ function App() {
           <input
             type="checkbox"
             checked={state.isUnix}
-            onChange={(e) => setState({ ...state, isUnix: e.target.checked })}
+            onChange={(e) => setState((prev) => ({ ...prev, isUnix: e.target.checked }))}
           />{' '}
           Use Unix format (5 fields) instead of Quartz (7 fields)
         </label>
@@ -31,7 +31,7 @@ function App() {
       <div>
         <Cron
           onChange={(e, text) => {
-            setState({ ...state, value: e });
+            setState((prev) => ({ ...prev, value: e }));
             console.log('Cron value:', e);
             console.log('Human readable:', text);
           }}

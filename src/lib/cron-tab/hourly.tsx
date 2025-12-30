@@ -33,7 +33,7 @@ const HourlyCron: FunctionComponent<HourlyCronProp> = (props) => {
       state.every &&
       ((parseInt(e.target.value) > 0 && parseInt(e.target.value) < 24) || e.target.value === '')
     ) {
-      let val = ['0', '0', '*', '*', '*', '?', '*'];
+      let val = ['0', '0', '*', '1/1', '*', '?', '*'];
       val[1] = props.value[1];
       val[2] = e.target.value ? `0/${e.target.value}` : e.target.value;
       val[3] = '1/1';
@@ -46,7 +46,7 @@ const HourlyCron: FunctionComponent<HourlyCronProp> = (props) => {
       state.every &&
       ((parseInt(e.target.value) > 0 && parseInt(e.target.value) < 60) || e.target.value === '')
     ) {
-      let val = ['0', '0', '*', '*', '*', '?', '*'];
+      let val = ['0', '0', '*', '1/1', '*', '?', '*'];
       val[1] = e.target.value;
       val[2] = props.value[2];
       val[3] = '1/1';

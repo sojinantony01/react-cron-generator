@@ -70,7 +70,6 @@ const MonthlyCron: FunctionComponent<MonthlyCronProp> = (props) => {
     if (props.disabled) {
       return;
     }
-    // Maintain the state as option 5 when days are being selected
     setState({ ...state, every: '5' });
     const val = [
       '0',
@@ -206,7 +205,6 @@ const MonthlyCron: FunctionComponent<MonthlyCronProp> = (props) => {
       return;
     }
     setState({ ...state, every: value });
-    // Set initial value with empty day selection (will be populated by DaySelect)
     props.onChange([
       '0',
       props.value[1] === '*' ? '0' : props.value[1],

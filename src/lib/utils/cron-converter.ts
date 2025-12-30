@@ -86,9 +86,10 @@ const convertUnixDayOfWeekToQuartz = (unixDow: string): string => {
     return parts.map((p) => convertSingleUnixDayToQuartz(p)).join('-');
   }
 
-  if (unixDow.includes(',')) {
-    const parts = unixDow.split(',');
-    return parts.map((p) => convertSingleUnixDayToQuartz(p)).join(',');
+  if (unixDow.includes(',') || unixDow.includes('!')) {
+    const separator = unixDow.includes('!') ? '!' : ',';
+    const parts = unixDow.split(separator);
+    return parts.map((p) => convertSingleUnixDayToQuartz(p)).join(separator);
   }
 
   if (unixDow.includes('/')) {

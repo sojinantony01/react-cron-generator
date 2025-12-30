@@ -61,9 +61,7 @@ const DailyCron: FunctionComponent<DailyCronProp> = (props) => {
       return;
     }
     setState({ ...state, every: false });
-    // Use numeric format for Unix (1-5 = Mon-Fri), text format for Quartz (MON-FRI)
-    const dayOfWeek = props.isUnix ? '1-5' : 'MON-FRI';
-    props.onChange(['0', props.value[1], props.value[2], '?', '*', dayOfWeek, '*']);
+    props.onChange(['0', props.value[1], props.value[2], '?', '*', 'MON-FRI', '*']);
   };
 
   const onClickDailyRadio = () => {
