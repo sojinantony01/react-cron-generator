@@ -40,6 +40,13 @@ const MonthlyCron: FunctionComponent<MonthlyCronProp> = (props) => {
       return { ...prev, every };
     });
   }, [props.value]);
+
+  const preventInvalidChars = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (['e', 'E', '+', '-', '.'].includes(e.key)) {
+      e.preventDefault();
+    }
+  };
+
   const onDayChange = (e: { target: { value: string } }) => {
     if (props.disabled) {
       return;
@@ -228,6 +235,7 @@ const MonthlyCron: FunctionComponent<MonthlyCronProp> = (props) => {
           type="number"
           value={props.value[3]}
           onChange={onDayChange}
+          onKeyDown={preventInvalidChars}
           onClick={() => onClickMonthlyOnceRadio()}
           disabled={props.disabled}
         />
@@ -277,6 +285,7 @@ const MonthlyCron: FunctionComponent<MonthlyCronProp> = (props) => {
               : ''
           }
           onChange={onLastDayChange}
+          onKeyDown={preventInvalidChars}
           onFocus={() => onClickDaysBeforeEndOfMonth()}
           disabled={props.disabled}
         />

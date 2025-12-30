@@ -21,6 +21,12 @@ const HourlyCron: FunctionComponent<HourlyCronProp> = (props) => {
     }
   }, [props.value]);
 
+  const preventInvalidChars = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (['e', 'E', '+', '-', '.'].includes(e.key)) {
+      e.preventDefault();
+    }
+  };
+
   const onHourChange = (e: { target: { value: string } }) => {
     if (
       !props.disabled &&
@@ -100,6 +106,7 @@ const HourlyCron: FunctionComponent<HourlyCronProp> = (props) => {
             disabled={props.disabled}
             type="Number"
             onChange={onHourChange}
+            onKeyDown={preventInvalidChars}
             onClick={onClickEveryHourMinute}
             value={props.value[2].split('/')[1] ? props.value[2].split('/')[1] : ''}
           />
@@ -109,6 +116,7 @@ const HourlyCron: FunctionComponent<HourlyCronProp> = (props) => {
             disabled={props.disabled}
             type="Number"
             onChange={onMinuteChange}
+            onKeyDown={preventInvalidChars}
             onClick={onClickEveryHourMinute}
             value={props.value[1]}
           />

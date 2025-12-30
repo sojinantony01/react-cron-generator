@@ -88,9 +88,12 @@ const Cron: React.FunctionComponent<CronProp> = (props) => {
 
     // cronstrue expects Quartz format, so if we have Unix, convert it first
     let cronForParsing = cronToUse;
-    if (stateRef.current.isUnix && cronExpression) {
+    
+    // Check if the cron expression is in Unix format (5 fields)
+    const parts = cronForParsing.split(' ');
+    if (parts.length === 5) {
       try {
-        cronForParsing = unixToQuartz(cronExpression);
+        cronForParsing = unixToQuartz(cronForParsing);
       } catch (e) {
         // If conversion fails, use as is
         console.warn('Failed to convert Unix to Quartz for parsing:', e);
@@ -102,11 +105,7 @@ const Cron: React.FunctionComponent<CronProp> = (props) => {
         throwExceptionOnParseError: false,
         locale: stateRef.current.locale,
       });
-      if (
-        val.search('undefined') === -1 &&
-        stateRef.current.value &&
-        stateRef.current.value.length
-      ) {
+      if (val.search('undefined') === -1 && cronForParsing && cronForParsing.length) {
         return val;
       }
     } catch (e) {
@@ -258,11 +257,13 @@ const Cron: React.FunctionComponent<CronProp> = (props) => {
   const onValueChange = useCallback((val: string[]) => {
     if (val && val.length) {
       setState((prev) => ({ ...prev, value: [...val] }));
+      parentChange(val);
     } else {
       const defaultVal = ['0', '0', '00', '1/1', '*', '?', '*'];
       setState((prev) => ({ ...prev, value: defaultVal }));
+      parentChange(defaultVal);
     }
-  }, []);
+  }, [parentChange]);
 
   /**
    * Sync with external value prop

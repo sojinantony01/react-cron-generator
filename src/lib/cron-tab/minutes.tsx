@@ -20,6 +20,12 @@ const MinutesCron: FunctionComponent<MinutesCronProp> = (props) => {
     }
   };
 
+  const preventInvalidChars = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (['e', 'E', '+', '-', '.'].includes(e.key)) {
+      e.preventDefault();
+    }
+  };
+
   const value = props.value[1].split('/')[1];
   return (
     <div className="well">
@@ -27,6 +33,7 @@ const MinutesCron: FunctionComponent<MinutesCronProp> = (props) => {
       <input
         type="Number"
         onChange={onChange}
+        onKeyDown={preventInvalidChars}
         value={value}
         min={1}
         max={60}

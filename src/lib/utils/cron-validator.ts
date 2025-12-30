@@ -118,8 +118,56 @@ function validateCronField(
     return { isValid: true };
   }
 
+  // Allow Quartz-specific special characters for day field
+  if (name === 'day') {
+    // L = last day of month
+    if (field === 'L') {
+      return { isValid: true };
+    }
+    // LW = last weekday of month
+    if (field === 'LW') {
+      return { isValid: true };
+    }
+    // L-n = n days before end of month (e.g., L-3)
+    if (field.startsWith('L-')) {
+      const daysBeforeEnd = Number(field.substring(2));
+      if (!isNaN(daysBeforeEnd) && daysBeforeEnd > 0 && daysBeforeEnd <= 31) {
+        return { isValid: true };
+      }
+      return { isValid: false, error: `Invalid L-n value in ${name}: ${field}` };
+    }
+    // nW = nearest weekday to day n (e.g., 15W)
+    if (field.endsWith('W')) {
+      const dayNum = Number(field.slice(0, -1));
+      if (!isNaN(dayNum) && dayNum >= 1 && dayNum <= 31) {
+        return { isValid: true };
+      }
+      return { isValid: false, error: `Invalid nW value in ${name}: ${field}` };
+    }
+  }
+
+  // Allow Quartz-specific special characters for day-of-week field
+  if (name === 'day-of-week') {
+    // n#m = mth occurrence of day n (e.g., 2#3 = 3rd Tuesday)
+    if (field.includes('#')) {
+      const [day, occurrence] = field.split('#').map(Number);
+      if (!isNaN(day) && !isNaN(occurrence) && day >= 1 && day <= 7 && occurrence >= 1 && occurrence <= 5) {
+        return { isValid: true };
+      }
+      return { isValid: false, error: `Invalid n#m value in ${name}: ${field}` };
+    }
+    // nL = last occurrence of day n (e.g., 6L = last Friday)
+    if (field.endsWith('L')) {
+      const dayNum = Number(field.slice(0, -1));
+      if (!isNaN(dayNum) && dayNum >= 1 && dayNum <= 7) {
+        return { isValid: true };
+      }
+      return { isValid: false, error: `Invalid nL value in ${name}: ${field}` };
+    }
+  }
+
   // Allow ranges (e.g., 1-5)
-  if (field.includes('-')) {
+  if (field.includes('-') && !field.startsWith('L-')) {
     const [start, end] = field.split('-').map(Number);
     if (isNaN(start) || isNaN(end)) {
       return { isValid: false, error: `Invalid range in ${name}: ${field}` };

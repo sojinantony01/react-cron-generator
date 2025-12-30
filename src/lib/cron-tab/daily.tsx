@@ -21,6 +21,12 @@ const DailyCron: FunctionComponent<DailyCronProp> = (props) => {
     setState((prev) => ({ ...prev, every: props.value[3] !== '?' }));
   }, [props.value]);
 
+  const preventInvalidChars = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (['e', 'E', '+', '-', '.'].includes(e.key)) {
+      e.preventDefault();
+    }
+  };
+
   const onDayChange = (e: { target: { value: string } }) => {
     if (props.disabled) {
       return;
@@ -85,6 +91,7 @@ const DailyCron: FunctionComponent<DailyCronProp> = (props) => {
           type="Number"
           maxLength={2}
           onChange={onDayChange}
+          onKeyDown={preventInvalidChars}
           onClick={onClickDailyRadio}
           value={props.value[3].split('/')[1] ? props.value[3].split('/')[1] : ''}
         />
