@@ -291,12 +291,12 @@ describe('Cron Component - Translation', () => {
     it('should use custom translateFn when provided', () => {
       const onChange = vi.fn();
       const customTranslations: Record<string, string> = {
-        'Minutes': 'Minutos',
-        'Hourly': 'Por hora',
-        'Daily': 'Diario',
-        'Weekly': 'Semanal',
-        'Monthly': 'Mensual',
-        'Custom': 'Personalizado',
+        Minutes: 'Minutos',
+        Hourly: 'Por hora',
+        Daily: 'Diario',
+        Weekly: 'Semanal',
+        Monthly: 'Mensual',
+        Custom: 'Personalizado',
       };
 
       const translateFn = (key: string) => customTranslations[key] || key;
@@ -327,7 +327,7 @@ describe('Cron Component - Translation', () => {
     it('should fallback to key when translation not found', () => {
       const onChange = vi.fn();
       const partialTranslations: Record<string, string> = {
-        'Minutes': 'Minutos',
+        Minutes: 'Minutos',
       };
 
       const translateFn = (key: string) => partialTranslations[key] || key;
@@ -343,7 +343,7 @@ describe('Cron Component - Translation', () => {
 
       // Translated key
       expect(screen.getByText('Minutos')).toBeInTheDocument();
-      
+
       // Untranslated keys should fallback to original
       expect(screen.getByText('Hourly')).toBeInTheDocument();
       expect(screen.getByText('Daily')).toBeInTheDocument();
@@ -386,15 +386,15 @@ describe('Cron Component - Translation', () => {
     it('should handle French translations', () => {
       const onChange = vi.fn();
       const frenchTranslations: Record<string, string> = {
-        'Minutes': 'Minutes',
-        'Hourly': 'Horaire',
-        'Daily': 'Quotidien',
-        'Weekly': 'Hebdomadaire',
-        'Monthly': 'Mensuel',
-        'Custom': 'Personnalisé',
-        'Every': 'Chaque',
+        Minutes: 'Minutes',
+        Hourly: 'Horaire',
+        Daily: 'Quotidien',
+        Weekly: 'Hebdomadaire',
+        Monthly: 'Mensuel',
+        Custom: 'Personnalisé',
+        Every: 'Chaque',
         'minute(s)': 'minute(s)',
-        'hour': 'heure',
+        hour: 'heure',
       };
 
       const translateFn = (key: string) => frenchTranslations[key] || key;
@@ -449,12 +449,7 @@ describe('Cron Component - Custom Headers', () => {
       };
 
       render(
-        <Cron
-          onChange={onChange}
-          showResultText={true}
-          showResultCron={false}
-          options={options}
-        />,
+        <Cron onChange={onChange} showResultText={true} showResultCron={false} options={options} />,
       );
 
       // Should show specified headers
@@ -475,12 +470,7 @@ describe('Cron Component - Custom Headers', () => {
       };
 
       render(
-        <Cron
-          onChange={onChange}
-          showResultText={true}
-          showResultCron={false}
-          options={options}
-        />,
+        <Cron onChange={onChange} showResultText={true} showResultCron={false} options={options} />,
       );
 
       expect(screen.getByText('Custom')).toBeInTheDocument();
@@ -495,12 +485,7 @@ describe('Cron Component - Custom Headers', () => {
       };
 
       render(
-        <Cron
-          onChange={onChange}
-          showResultText={true}
-          showResultCron={false}
-          options={options}
-        />,
+        <Cron onChange={onChange} showResultText={true} showResultCron={false} options={options} />,
       );
 
       const tabs = screen.getAllByRole('button');
@@ -516,12 +501,7 @@ describe('Cron Component - Custom Headers', () => {
       };
 
       render(
-        <Cron
-          onChange={onChange}
-          showResultText={true}
-          showResultCron={false}
-          options={options}
-        />,
+        <Cron onChange={onChange} showResultText={true} showResultCron={false} options={options} />,
       );
 
       const tabs = screen.getAllByRole('button');
@@ -586,8 +566,8 @@ describe('Cron Component - Custom Headers', () => {
         headers: ['MINUTES' as const, 'DAILY' as const],
       };
       const translations: Record<string, string> = {
-        'Minutes': 'Minutos',
-        'Daily': 'Diario',
+        Minutes: 'Minutos',
+        Daily: 'Diario',
       };
       const translateFn = (key: string) => translations[key] || key;
 
