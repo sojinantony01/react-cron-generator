@@ -1,6 +1,6 @@
 {
   "name": "react-cron-generator",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "description": "A powerful React component for building cron expressions with support for both Unix (5 fields) and Quartz (7 fields) formats. Features validation, format conversion, TypeScript support, and accessibility.",
   "keywords": [
     "react",
@@ -59,7 +59,7 @@
     "@types/react": "^18.3.27",
     "@types/react-dom": "^18.3.7",
     "@vitejs/plugin-react": "^5.1.2",
-    "cypress": "^13.17.0",
+    "cypress": "^15.8.1",
     "jsdom": "^27.4.0",
     "postcss": "^8.5.6",
     "prettier": "^3.7.4",
