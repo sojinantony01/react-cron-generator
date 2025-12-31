@@ -177,22 +177,23 @@ const Cron: React.FunctionComponent<CronProp> = (props) => {
 
       // Convert Unix to Quartz if needed for internal representation
       if (props.isUnix && value) {
-        const parts = value.split(' ');
-        if (parts.length === 5) {
+        if(value.split(' ').length === 5) {
           try {
             processedValue = unixToQuartz(value);
           } catch (e) {
-            console.error('Error converting Unix to Quartz:', e);
+            console.error('Error: converting Unix to Quartz:', e);
             processedValue = defaultCron;
           }
-        } else {
-          console.error('Error: value is not Unix');
-          processedValue = defaultCron;
         }
       }
       if (!props.isUnix && value && value.split(' ').length === 5) {
-        console.error('Error: value is not Quartz');
-        processedValue = defaultCron;
+        try {
+          console.error('Warning: Unix value found,Converting to Quartz');
+          processedValue = unixToQuartz(value);
+        } catch (e) {
+          console.error('Error: converting Unix to Quartz:', e);
+          processedValue = defaultCron;
+        }
       }
 
       let valueArray = processedValue.replace(/,/g, '!').split(' ');
