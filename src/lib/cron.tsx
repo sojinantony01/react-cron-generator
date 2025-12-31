@@ -190,7 +190,7 @@ const Cron: React.FunctionComponent<CronProp> = (props) => {
           processedValue = defaultCron;
         }
       }
-      if (!props.isUnix && value && value.length !== 5) {
+      if (!props.isUnix && value && value.length === 5) {
         console.error('Error: value is not Quartz');
         processedValue = defaultCron;
       }
