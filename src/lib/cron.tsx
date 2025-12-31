@@ -177,7 +177,7 @@ const Cron: React.FunctionComponent<CronProp> = (props) => {
 
       // Convert Unix to Quartz if needed for internal representation
       if (props.isUnix && value) {
-        if(value.split(' ').length === 5) {
+        if (value.split(' ').length === 5) {
           try {
             processedValue = unixToQuartz(value);
           } catch (e) {
