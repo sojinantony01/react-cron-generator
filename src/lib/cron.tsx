@@ -185,7 +185,14 @@ const Cron: React.FunctionComponent<CronProp> = (props) => {
             console.error('Error converting Unix to Quartz:', e);
             processedValue = defaultCron;
           }
+        } else {
+          console.error('Error: value is not Unix');
+          processedValue = defaultCron;
         }
+      }
+      if (!props.isUnix && value && value.length !== 5) {
+        console.error('Error: value is not Quartz');
+        processedValue = defaultCron;
       }
 
       let valueArray = processedValue.replace(/,/g, '!').split(' ');
