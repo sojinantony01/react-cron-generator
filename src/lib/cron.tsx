@@ -177,14 +177,22 @@ const Cron: React.FunctionComponent<CronProp> = (props) => {
 
       // Convert Unix to Quartz if needed for internal representation
       if (props.isUnix && value) {
-        const parts = value.split(' ');
-        if (parts.length === 5) {
+        if (value.split(' ').length === 5) {
           try {
             processedValue = unixToQuartz(value);
           } catch (e) {
-            console.error('Error converting Unix to Quartz:', e);
+            console.error('Error: converting Unix to Quartz:', e);
             processedValue = defaultCron;
           }
+        }
+      }
+      if (!props.isUnix && value && value.split(' ').length === 5) {
+        try {
+          console.error('Warning: Unix value found,Converting to Quartz');
+          processedValue = unixToQuartz(value);
+        } catch (e) {
+          console.error('Error: converting Unix to Quartz:', e);
+          processedValue = defaultCron;
         }
       }
 
@@ -286,7 +294,8 @@ const Cron: React.FunctionComponent<CronProp> = (props) => {
    * Sync with external value prop
    */
   useEffect(() => {
-    const compareVal = convertToOutputFormat(stateRef.current.value);
+    const hasValidState = stateRef.current.value && stateRef.current.value.length > 0;
+    const compareVal = hasValidState ? convertToOutputFormat(stateRef.current.value) : '';
 
     if (props.value !== compareVal) {
       setValue(props.value ? props.value : '');
@@ -297,9 +306,6 @@ const Cron: React.FunctionComponent<CronProp> = (props) => {
     }
   }, [props.value, props.translateFn, props.locale, setValue, convertToOutputFormat]);
 
-  /**
-   * Handle isUnix prop changes - notify parent with converted format
-   */
   /**
    * Handle isUnix prop changes - notify parent with converted format
    */
@@ -381,6 +387,10 @@ const Cron: React.FunctionComponent<CronProp> = (props) => {
    * Get display value for result cron (uses single source of truth)
    */
   const displayCron = useMemo(() => {
+    // Only convert if we have a valid state with actual values
+    if (!state.value || state.value.length === 0) {
+      return '';
+    }
     return convertToOutputFormat(state.value, props.isUnix);
   }, [state.value, props.isUnix, convertToOutputFormat]);
 
