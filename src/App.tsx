@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Cron from './lib';
+import './lib/cron-builder.css';
 // import { HEADER } from './lib';
 import packageConf from '../package.json';
 

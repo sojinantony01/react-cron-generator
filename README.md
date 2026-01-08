@@ -44,7 +44,7 @@ yarn add react-cron-generator
 ```jsx
 import React, { useState } from 'react';
 import Cron from 'react-cron-generator';
-import 'react-cron-generator/dist/cron-builder.css';
+import 'react-cron-generator/build/cron-builder.css';
 
 function App() {
   const [value, setValue] = useState('0 0 00 1/1 * ? *');
@@ -69,7 +69,7 @@ function App() {
 ```jsx
 import React, { useState } from 'react';
 import Cron from 'react-cron-generator';
-import 'react-cron-generator/dist/cron-builder.css';
+import 'react-cron-generator/build/cron-builder.css';
 
 function App() {
   const [value, setValue] = useState('*/5 * * * *');
@@ -244,7 +244,7 @@ function translateFn(key) {
 The component comes with default styles. Import the CSS file:
 
 ```jsx
-import 'react-cron-generator/dist/cron-builder.css';
+import 'react-cron-generator/build/cron-builder.css';
 ```
 
 You can override styles by targeting the CSS classes:
