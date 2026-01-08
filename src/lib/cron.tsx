@@ -4,7 +4,6 @@ import { metadata, loadHeaders, HeaderKeyType, HeaderValType } from './meta';
 import translations from '../lib/localization/translation.json';
 import { unixToQuartz, quartzToUnix } from './utils/cron-converter';
 import { validateCron } from './utils/cron-validator';
-import './cron-builder.css';
 
 export interface CronProp {
   value?: string;

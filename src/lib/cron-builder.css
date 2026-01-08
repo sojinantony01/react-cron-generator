@@ -78,7 +78,7 @@
   text-align: center;
   width: 10px;
   display: flex;
-  padding: 0px 1px;
+  padding: 0;
 }
 
 .cron_builder .nav li a,
