@@ -88,6 +88,12 @@ function App() {
 }
 ```
 
+## 📸 Screenshots
+
+![Cron Generator Interface](https://raw.githubusercontent.com/sojinantony01/react-cron-generator/master/public/images/Screenshot%20from%202019-06-08%2000-31-31.png)
+
+![Cron Generator Options](https://raw.githubusercontent.com/sojinantony01/react-cron-generator/master/public/images/Screenshot%20from%202019-06-08%2000-31-57.png)
+
 ## 📖 Documentation
 
 ### Props
@@ -362,12 +368,6 @@ Give a ⭐️ if this project helped you!
 - [NPM Package](https://www.npmjs.com/package/react-cron-generator)
 - [GitHub Repository](https://github.com/sojinantony01/react-cron-generator)
 - [Issue Tracker](https://github.com/sojinantony01/react-cron-generator/issues)
-
-## 📸 Screenshots
-
-![Cron Generator Interface](https://raw.githubusercontent.com/sojinantony01/react-cron-generator/master/public/images/Screenshot%20from%202019-06-08%2000-31-31.png)
-
-![Cron Generator Options](https://raw.githubusercontent.com/sojinantony01/react-cron-generator/master/public/images/Screenshot%20from%202019-06-08%2000-31-57.png)
 
 ---
 
