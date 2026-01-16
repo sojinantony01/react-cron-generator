@@ -102,6 +102,7 @@ function App() {
 |------|------|---------|-------------|
 | `value` | `string` | `undefined` | Initial cron expression (Unix: 5 fields, Quartz: 6 or 7 fields) |
 | `onChange` | `(value: string, text: string) => void` | **Required** | Callback fired when cron value changes. Receives cron expression and human-readable text |
+| `onHeaderChange` | `(header: string) => void` | `undefined` | Callback fired when the selected tab/header changes. Receives header value (`'Minutes'`, `'Hourly'`, `'Daily'`, `'Weekly'`, `'Monthly'`, `'Custom'`). Called on initial mount and whenever tabs changes |
 | `showResultText` | `boolean` | `false` | Display human-readable description below the builder |
 | `showResultCron` | `boolean` | `false` | Display the cron expression below the builder |
 | `isUnix` | `boolean` | `false` | Use Unix format (5 fields) instead of Quartz. **Cannot be used with `use6FieldQuartz`** |

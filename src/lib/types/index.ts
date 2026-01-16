@@ -3,6 +3,8 @@
  * Provides comprehensive type safety across the application
  */
 
+import { HeaderValType } from '../meta';
+
 /**
  * Cron format types
  */
@@ -111,6 +113,13 @@ export interface CronProps {
    * @default false
    */
   isUnix?: boolean;
+
+  /**
+   * Callback fired when the selected header/tab changes
+   * Called whenever tab changes
+   * @param header - The selected header value (e.g., 'Minutes', 'Hourly', 'Daily', 'Weekly', 'Monthly', 'Custom')
+   */
+  onHeaderChange?: (header: HeaderValType) => void;
 }
 
 /**

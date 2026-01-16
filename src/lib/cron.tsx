@@ -16,6 +16,7 @@ export interface CronProp {
   disabled?: boolean;
   isUnix?: boolean;
   use6FieldQuartz?: boolean;
+  onHeaderChange?(header: HeaderValType): void;
 }
 
 interface State {
@@ -331,6 +332,15 @@ const Cron: React.FunctionComponent<CronProp> = (props) => {
       parentChange(state.value);
     }
   }, [state.value, parentChange]);
+
+  /**
+   * Notify parent when selected tab changes
+   */
+  useEffect(() => {
+    if (state.selectedTab && props.onHeaderChange) {
+      props.onHeaderChange(state.selectedTab);
+    }
+  }, [state.selectedTab]);
 
   /**
    * Render tab headers
