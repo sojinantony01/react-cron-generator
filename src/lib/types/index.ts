@@ -3,7 +3,7 @@
  * Provides comprehensive type safety across the application
  */
 
-import { HeaderValType } from "../meta";
+import { HeaderValType } from '../meta';
 
 /**
  * Cron format types
