@@ -204,7 +204,7 @@ const Cron: React.FunctionComponent<CronProp> = (props) => {
       }
 
       // Validate and set default if invalid
-      if (!processedValue || processedValue.split(' ').length !== 7) {
+      if (!processedValue || valueArray.length !== 7) {
         processedValue = defaultCron;
         valueArray = processedValue.split(' ');
         setState((prev) => ({
