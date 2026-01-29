@@ -1,15 +1,18 @@
 {
-    "short_name": "React App",
-    "name": "Create React App Sample",
-    "icons": [
-      {
-        "src": "favicon.ico",
-        "sizes": "64x64 32x32 24x24 16x16",
-        "type": "image/x-icon"
-      }
-    ],
-    "start_url": ".",
-    "display": "standalone",
-    "theme_color": "#000000",
-    "background_color": "#ffffff"
+  "short_name": "Cron Generator",
+  "name": "React Cron Expression Generator - Online Tool",
+  "description": "Online cron expression generator and builder. Create cron schedules easily with visual UI for Unix and Quartz formats.",
+  "icons": [
+    {
+      "src": "favicon.ico",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff",
+  "categories": ["productivity", "utilities", "developer tools"],
+  "orientation": "any"
 }
