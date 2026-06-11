@@ -26,6 +26,16 @@
     "name": "Sojin Antony",
     "url": "https://github.com/sojinantony01"
   },
+  "contributors": [
+    {
+      "name": "Sojin Antony",
+      "url": "https://github.com/sojinantony01"
+    },
+    {
+      "name": "Bibin Antony",
+      "url": "https://github.com/bibinantony1998"      
+    }
+  ],
   "bugs": {
     "url": "https://github.com/sojinantony01/react-cron-generator/issues"
   },
@@ -38,7 +48,10 @@
   "types": "build/index.d.ts",
   "files": [
     "build",
-    "README.md"
+    "README.md",
+    "CONTRIBUTING.md",
+    "CODE_OF_CONDUCT.md",
+    "LICENSE.txt"
   ],
   "repository": {
     "type": "git",

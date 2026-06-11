@@ -12,6 +12,13 @@
 
 **[Interactive Demo →](https://sojinantony01.github.io/react-cron-generator/)**
 
+## 🤝 Community
+
+- 📖 [Contributing Guidelines](CONTRIBUTING.md) - Learn how to contribute
+- 📜 [Code of Conduct](CODE_OF_CONDUCT.md) - Our community standards
+- 🐛 [Issue Tracker](https://github.com/sojinantony01/react-cron-generator/issues) - Report bugs or request features
+- 💬 [Discussions](https://github.com/sojinantony01/react-cron-generator/discussions) - Ask questions and share ideas
+
 ## ✨ Features
 
 - 🎯 **Dual Format Support** - Works with both Unix (5 fields) and Quartz (7 fields) cron formats
@@ -329,13 +336,25 @@ You can override styles by targeting the CSS classes:
 
 ## 🤝 Contributing
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+Contributions are welcome! We love your input and want to make contributing as easy and transparent as possible.
+
+Please read our [Contributing Guidelines](CONTRIBUTING.md) and [Code of Conduct](CODE_OF_CONDUCT.md) before getting started.
+
+### Quick Start for Contributors
 
 1. Fork the repository
 2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
 3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
 4. Push to the branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
+
+For detailed information on:
+- Setting up your development environment
+- Running tests
+- Code style guidelines
+- Submitting pull requests
+
+Please see our [Contributing Guide](CONTRIBUTING.md).
 
 ## 📝 License
 
@@ -352,6 +371,25 @@ This project is licensed under the ISC License - see the [LICENSE](LICENSE) file
 
 - GitHub: [@sojinantony01](https://github.com/sojinantony01)
 - Buy me a coffee: [!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/guidelines/download-assets-sm-1.svg)](https://www.buymeacoffee.com/sojinantony)
+
+## 👥 Contributors
+
+Thanks to all the amazing people who have contributed to this project! 🎉
+
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+
+<a href="https://github.com/sojinantony01/react-cron-generator/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=sojinantony01/react-cron-generator" />
+</a>
+
+<!-- markdownlint-restore -->
+<!-- prettier-ignore-end -->
+
+<!-- ALL-CONTRIBUTORS-LIST:END -->
+
+Want to see your name here? Check out our [Contributing Guide](CONTRIBUTING.md)!
 
 ## 🌟 Show Your Support
 
