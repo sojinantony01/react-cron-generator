@@ -761,3 +761,55 @@ describe('Cron Component - Custom Headers', () => {
     });
   });
 });
+
+describe('Cron Component - Issue #90: Custom tab auto-selection', () => {
+  it('should select Custom tab when value cannot be parsed by any structured tab', async () => {
+    const onChange = vi.fn();
+    render(
+      <Cron
+        value="0 3,8,13,18,23,28,33 * * * * *"
+        onChange={onChange}
+        showResultText={false}
+        showResultCron={true}
+      />,
+    );
+
+    await waitFor(() => {
+      expect(screen.getByLabelText('Select Custom tab')).toHaveClass('active');
+    });
+  });
+
+  it('should fill the Custom tab input with the unrecognised expression', async () => {
+    const onChange = vi.fn();
+    render(
+      <Cron
+        value="0 3,8,13,18,23,28,33 * * * * *"
+        onChange={onChange}
+        showResultText={false}
+        showResultCron={true}
+      />,
+    );
+
+    await waitFor(() => {
+      const input = screen.getByRole('textbox') as HTMLInputElement;
+      expect(input.value).toBe('0 3,8,13,18,23,28,33 * * * * *');
+    });
+  });
+
+  it('should not select Minutes tab for an expression with comma-separated minutes', async () => {
+    const onChange = vi.fn();
+    render(
+      <Cron
+        value="0 3,8,13,18,23,28,33 * * * * *"
+        onChange={onChange}
+        showResultText={false}
+        showResultCron={false}
+      />,
+    );
+
+    await waitFor(() => {
+      expect(screen.getByLabelText('Select Minutes tab')).not.toHaveClass('active');
+      expect(screen.getByLabelText('Select Custom tab')).toHaveClass('active');
+    });
+  });
+});
