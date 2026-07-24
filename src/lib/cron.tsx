@@ -4,6 +4,7 @@ import { metadata, loadHeaders, HeaderKeyType, HeaderValType } from './meta';
 import translations from '../lib/localization/translation.json';
 import { unixToQuartz, quartzToUnix } from './utils/cron-converter';
 import { validateCron } from './utils/cron-validator';
+import { compressMonthDays } from './utils/range-compressor';
 
 export interface CronProp {
   value?: string;
@@ -229,6 +230,21 @@ const Cron: React.FunctionComponent<CronProp> = (props) => {
         valueArray.push('*');
       }
 
+      // Compress consecutive month-day lists to range notation on load.
+      // Must run AFTER the 6-field fix so valueArray always has 7 fields here.
+      // e.g. "10!11!12" in val[3] becomes "10-12" when it's a monthly pattern
+      if (valueArray.length === 7 && valueArray[4] === '1/1' && valueArray[3].includes('!')) {
+        const days = valueArray[3].split('!').filter(Boolean);
+        if (days.length > 1 && days.every((d) => !isNaN(Number(d)))) {
+          valueArray[3] = compressMonthDays(days);
+        }
+      }
+
+      // Handle 6-field cron (add year field for internal processing)
+      if (processedValue && processedValue.split(' ').length === 6) {
+        valueArray.push('*');
+      }
+
       // Validate and set default if invalid — no value means no defaultTab override
       if (!processedValue || valueArray.length !== 7) {
         processedValue = defaultCron;
@@ -250,10 +266,10 @@ const Cron: React.FunctionComponent<CronProp> = (props) => {
         matchedTab = 'Minutes';
       } else if (val[3] === '1/1') {
         matchedTab = 'Hourly';
-      } else if (val[3].search('/') !== -1 || val[5] === 'MON-FRI') {
-        matchedTab = 'Daily';
       } else if (val[3] === '?') {
         matchedTab = 'Weekly';
+      } else if (val[3].search('/') !== -1 || val[5] === 'MON-FRI') {
+        matchedTab = 'Daily';
       } else if (val[3].startsWith('L') || val[4] === '1/1') {
         matchedTab = 'Monthly';
       }

@@ -2,6 +2,7 @@ import React, { FunctionComponent, useEffect, useState } from 'react';
 import Minutes from '../minutes-select';
 import Hour from '../hour-select';
 import DaySelect from '../day-select';
+import { compressMonthDays, expandMonthDays } from '../utils/range-compressor';
 
 interface MonthlyCronProp {
   onChange(e?: string[]): void;
@@ -15,6 +16,22 @@ interface State {
   minute: number;
   every: string;
 }
+/**
+ * Returns true when val[3] represents a multi-day selection —
+ * either `!`-joined (legacy: "5!10!15") or a compressed form
+ * that includes a range or multiple groups (e.g. "10-12", "1!5-7").
+ * Single plain numbers ("1", "15") and special tokens ("L", "LW", "L-3")
+ * are not multi-day.
+ */
+const isMultiDay = (val: string): boolean => {
+  if (!val || val.startsWith('L') || val === '?' || val === '*') return false;
+  // Bang-separated list (legacy internal format)
+  if (val.includes('!')) return true;
+  // Numeric range like "10-12"
+  if (val.includes('-') && !isNaN(Number(val.split('-')[0]))) return true;
+  return false;
+};
+
 const MonthlyCron: FunctionComponent<MonthlyCronProp> = (props) => {
   const [state, setState] = useState<State>({ hour: 0, minute: 0, every: '' });
 
@@ -26,7 +43,7 @@ const MonthlyCron: FunctionComponent<MonthlyCronProp> = (props) => {
       every = '3';
     } else if (props.value[3].startsWith('L')) {
       every = '4';
-    } else if (props.value[3].includes('!')) {
+    } else if (isMultiDay(props.value[3])) {
       every = '5';
     } else {
       every = '1';
@@ -80,7 +97,7 @@ const MonthlyCron: FunctionComponent<MonthlyCronProp> = (props) => {
       '?',
       '*',
     ];
-    val[3] = `${value.filter((p) => p).join('!')}`;
+    val[3] = compressMonthDays(value.filter((p) => p));
     props.onChange(val);
   };
 
@@ -303,7 +320,7 @@ const MonthlyCron: FunctionComponent<MonthlyCronProp> = (props) => {
         <DaySelect
           onChange={(e) => onMultiDayChange(e)}
           disabled={props.disabled}
-          value={state.every === '5' ? props.value[3].split('!') : []}
+          value={state.every === '5' ? expandMonthDays(props.value[3]) : []}
           onFocus={() => onClickMonthlyMultipleRadio()}
           multi
         />

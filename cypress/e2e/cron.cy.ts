@@ -186,7 +186,7 @@ describe("Cron gen - Unix Format", () => {
     cy.get('[value="FRI"]').check();
     cy.get(".hours").select("09");
     cy.get(".minutes").select("00");
-    cy.get(".cron_builder > :nth-child(4)").should("have.text", "0 09 * * 1,2,3,4,5");
+    cy.get(".cron_builder > :nth-child(4)").should("have.text", "0 09 * * 1-5");
   });
 
   it("Monthly - Unix format specific day", () => {

@@ -1,6 +1,7 @@
 import React, { FunctionComponent } from 'react';
 import Minutes from '../minutes-select';
 import Hour from '../hour-select';
+import { compressWeekdays, expandWeekdays } from '../utils/range-compressor';
 
 interface WeeklyCronProp {
   onChange(e?: string[]): void;
@@ -50,22 +51,16 @@ const WeeklyCron: FunctionComponent<WeeklyCronProp> = (props) => {
     val[3] = '?';
     val[4] = '*';
 
-    if (val[5] === '*' || val[5] === '?' || val[5] === 'MON-FRI' || val[5] === '1-5') {
-      val[5] = e.target.value;
-    } else {
-      val[5] = val[5] + '!' + e.target.value;
+    const current = expandWeekdays(val[5]);
+    if (!current.includes(e.target.value)) {
+      current.push(e.target.value);
     }
+    val[5] = compressWeekdays(current);
   };
 
   const onDayUnChecked = (val: string[], e: { target: { checked: boolean; value: string } }) => {
-    let valFive: string | string[] = val[5].split('!');
-    if (valFive.length > 1) {
-      valFive.splice(valFive.indexOf(e.target.value), 1);
-      valFive = valFive.toString().replace(/,/g, '!');
-    } else {
-      valFive = '*';
-    }
-    val[5] = valFive;
+    const current = expandWeekdays(val[5]).filter((d) => d !== e.target.value);
+    val[5] = current.length > 0 ? compressWeekdays(current) : '*';
   };
 
   const translateFn = props.translate;
@@ -80,7 +75,7 @@ const WeeklyCron: FunctionComponent<WeeklyCronProp> = (props) => {
               type="checkbox"
               value="MON"
               onChange={onCheck}
-              checked={props.value[5].search('MON') !== -1 ? true : false}
+              checked={expandWeekdays(props.value[5]).includes('MON')}
               disabled={props.disabled}
             />
             <label className="cursor_pointer" htmlFor="mon-checkbox">
@@ -93,7 +88,7 @@ const WeeklyCron: FunctionComponent<WeeklyCronProp> = (props) => {
               type="checkbox"
               value="WED"
               onChange={onCheck}
-              checked={props.value[5].search('WED') !== -1 ? true : false}
+              checked={expandWeekdays(props.value[5]).includes('WED')}
               disabled={props.disabled}
             />
             <label className="cursor_pointer" htmlFor="wed-checkbox">
@@ -106,7 +101,7 @@ const WeeklyCron: FunctionComponent<WeeklyCronProp> = (props) => {
               type="checkbox"
               value="FRI"
               onChange={onCheck}
-              checked={props.value[5].search('FRI') !== -1 ? true : false}
+              checked={expandWeekdays(props.value[5]).includes('FRI')}
               disabled={props.disabled}
             />
             <label className="cursor_pointer" htmlFor="fri-checkbox">
@@ -119,7 +114,7 @@ const WeeklyCron: FunctionComponent<WeeklyCronProp> = (props) => {
               type="checkbox"
               value="SUN"
               onChange={onCheck}
-              checked={props.value[5].search('SUN') !== -1 ? true : false}
+              checked={expandWeekdays(props.value[5]).includes('SUN')}
               disabled={props.disabled}
             />
             <label className="cursor_pointer" htmlFor="sun-checkbox">
@@ -135,7 +130,7 @@ const WeeklyCron: FunctionComponent<WeeklyCronProp> = (props) => {
               type="checkbox"
               value="TUE"
               onChange={onCheck}
-              checked={props.value[5].search('TUE') !== -1 ? true : false}
+              checked={expandWeekdays(props.value[5]).includes('TUE')}
               disabled={props.disabled}
             />
             <label className="cursor_pointer" htmlFor="tue-checkbox">
@@ -148,7 +143,7 @@ const WeeklyCron: FunctionComponent<WeeklyCronProp> = (props) => {
               type="checkbox"
               value="THU"
               onChange={onCheck}
-              checked={props.value[5].search('THU') !== -1 ? true : false}
+              checked={expandWeekdays(props.value[5]).includes('THU')}
               disabled={props.disabled}
             />
             <label className="cursor_pointer" htmlFor="thu-checkbox">
@@ -161,7 +156,7 @@ const WeeklyCron: FunctionComponent<WeeklyCronProp> = (props) => {
               type="checkbox"
               value="SAT"
               onChange={onCheck}
-              checked={props.value[5].search('SAT') !== -1 ? true : false}
+              checked={expandWeekdays(props.value[5]).includes('SAT')}
               disabled={props.disabled}
             />
             <label className="cursor_pointer" htmlFor="sat-checkbox">

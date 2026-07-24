@@ -107,6 +107,40 @@ describe('Cron Component - Basic Functionality', () => {
         expect(customTab).toHaveClass('active');
       });
     });
+
+    it('should route "0 0 00 ? * MON-FRI *" to Weekly tab (not Daily)', async () => {
+      // Regression: val[3]==='?' is the Weekly signature and must be checked before
+      // the val[5]==='MON-FRI' heuristic that routes to Daily.
+      const onChange = vi.fn();
+      render(
+        <Cron
+          value="0 0 00 ? * MON-FRI *"
+          onChange={onChange}
+          showResultText={false}
+          showResultCron={false}
+        />,
+      );
+      await waitFor(() => {
+        expect(screen.getByLabelText('Select Weekly tab')).toHaveClass('active');
+        expect(screen.getByLabelText('Select Daily tab')).not.toHaveClass('active');
+      });
+    });
+
+    it('should route an unrecognised cron pattern to Custom tab', async () => {
+      // e.g. "0 0 9-17 * * ? *" has no simple tab match — should land on Custom
+      const onChange = vi.fn();
+      render(
+        <Cron
+          value="0 0 9-17 * * ? *"
+          onChange={onChange}
+          showResultText={false}
+          showResultCron={false}
+        />,
+      );
+      await waitFor(() => {
+        expect(screen.getByLabelText('Select Custom tab')).toHaveClass('active');
+      });
+    });
   });
 
   describe('Cron Value Changes', () => {
