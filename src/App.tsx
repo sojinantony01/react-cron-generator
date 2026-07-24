@@ -16,7 +16,7 @@ interface State {
 }
 
 function App() {
-  const [state, setState] = useState<State>({ isUnix: false, value:"0 0 00 5-7 1/1 ? *" });
+  const [state, setState] = useState<State>({ isUnix: false });
 
   return (
     <div className="app-container">

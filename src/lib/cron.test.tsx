@@ -141,8 +141,6 @@ describe('Cron Component - Basic Functionality', () => {
         expect(screen.getByLabelText('Select Custom tab')).toHaveClass('active');
       });
     });
-
-
   });
 
   describe('Cron Value Changes', () => {
