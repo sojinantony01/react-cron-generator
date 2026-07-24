@@ -74,6 +74,34 @@ export const expandWeekdays = (compressed: string): string[] => {
 };
 
 /**
+ * Expand a compressed month-day string back to individual day numbers.
+ * Handles `!`-joined lists and `-` ranges.
+ *
+ * e.g. "10-12"   → ['10','11','12']
+ *      "1!5-7"   → ['1','5','6','7']
+ *      "5!10!15" → ['5','10','15']
+ */
+export const expandMonthDays = (compressed: string): string[] => {
+  if (!compressed) return [];
+  const result: string[] = [];
+  for (const part of compressed.split('!')) {
+    if (part.includes('-')) {
+      const [startStr, endStr] = part.split('-');
+      const start = Number(startStr);
+      const end = Number(endStr);
+      if (!isNaN(start) && !isNaN(end)) {
+        for (let d = start; d <= end; d++) result.push(String(d));
+      } else {
+        result.push(part); // non-numeric range — keep as-is
+      }
+    } else if (part) {
+      result.push(part);
+    }
+  }
+  return result;
+};
+
+/**
  * Compress an array of numeric day-of-month values into range strings.
  *
  * @param days - Array of day strings, e.g. ['1','2','3','5','6']

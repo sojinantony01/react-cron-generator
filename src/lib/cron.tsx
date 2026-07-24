@@ -225,7 +225,13 @@ const Cron: React.FunctionComponent<CronProp> = (props) => {
 
       let valueArray = processedValue.replace(/,/g, '!').split(' ');
 
-      // Compress consecutive month-day lists to range notation on load
+      // Handle 6-field cron (add year field for internal processing)
+      if (processedValue && processedValue.split(' ').length === 6) {
+        valueArray.push('*');
+      }
+
+      // Compress consecutive month-day lists to range notation on load.
+      // Must run AFTER the 6-field fix so valueArray always has 7 fields here.
       // e.g. "10!11!12" in val[3] becomes "10-12" when it's a monthly pattern
       if (valueArray.length === 7 && valueArray[4] === '1/1' && valueArray[3].includes('!')) {
         const days = valueArray[3].split('!').filter(Boolean);

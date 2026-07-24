@@ -16,6 +16,22 @@ interface State {
   minute: number;
   every: string;
 }
+/**
+ * Returns true when val[3] represents a multi-day selection —
+ * either `!`-joined (legacy: "5!10!15") or a compressed form
+ * that includes a range or multiple groups (e.g. "10-12", "1!5-7").
+ * Single plain numbers ("1", "15") and special tokens ("L", "LW", "L-3")
+ * are not multi-day.
+ */
+const isMultiDay = (val: string): boolean => {
+  if (!val || val.startsWith('L') || val === '?' || val === '*') return false;
+  // Bang-separated list (legacy internal format)
+  if (val.includes('!')) return true;
+  // Numeric range like "10-12"
+  if (val.includes('-') && !isNaN(Number(val.split('-')[0]))) return true;
+  return false;
+};
+
 const MonthlyCron: FunctionComponent<MonthlyCronProp> = (props) => {
   const [state, setState] = useState<State>({ hour: 0, minute: 0, every: '' });
 
