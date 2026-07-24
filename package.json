@@ -33,7 +33,7 @@
     },
     {
       "name": "Bibin Antony",
-      "url": "https://github.com/bibinantony1998"      
+      "url": "https://github.com/bibinantony1998"
     }
   ],
   "bugs": {
@@ -73,6 +73,7 @@
     "@types/react": "^18.3.27",
     "@types/react-dom": "^18.3.7",
     "@vitejs/plugin-react": "^5.1.2",
+    "@vitest/coverage-v8": "^4.1.10",
     "cypress": "^15.8.1",
     "jsdom": "^27.4.0",
     "postcss": "^8.5.6",
@@ -92,6 +93,7 @@
     "demo:preview": "vite preview",
     "test": "vitest run",
     "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
     "test:ui": "vitest --ui",
     "cy:open": "cypress open",
     "cy:run": "cypress run --browser chrome",
