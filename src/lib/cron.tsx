@@ -4,6 +4,7 @@ import { metadata, loadHeaders, HeaderKeyType, HeaderValType } from './meta';
 import translations from '../lib/localization/translation.json';
 import { unixToQuartz, quartzToUnix } from './utils/cron-converter';
 import { validateCron } from './utils/cron-validator';
+import { compressMonthDays } from './utils/range-compressor';
 
 export interface CronProp {
   value?: string;
@@ -223,6 +224,15 @@ const Cron: React.FunctionComponent<CronProp> = (props) => {
       }
 
       let valueArray = processedValue.replace(/,/g, '!').split(' ');
+
+      // Compress consecutive month-day lists to range notation on load
+      // e.g. "10!11!12" in val[3] becomes "10-12" when it's a monthly pattern
+      if (valueArray.length === 7 && valueArray[4] === '1/1' && valueArray[3].includes('!')) {
+        const days = valueArray[3].split('!').filter(Boolean);
+        if (days.length > 1 && days.every((d) => !isNaN(Number(d)))) {
+          valueArray[3] = compressMonthDays(days);
+        }
+      }
 
       // Handle 6-field cron (add year field for internal processing)
       if (processedValue && processedValue.split(' ').length === 6) {

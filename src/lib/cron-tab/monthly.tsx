@@ -2,6 +2,7 @@ import React, { FunctionComponent, useEffect, useState } from 'react';
 import Minutes from '../minutes-select';
 import Hour from '../hour-select';
 import DaySelect from '../day-select';
+import { compressMonthDays } from '../utils/range-compressor';
 
 interface MonthlyCronProp {
   onChange(e?: string[]): void;
@@ -80,7 +81,7 @@ const MonthlyCron: FunctionComponent<MonthlyCronProp> = (props) => {
       '?',
       '*',
     ];
-    val[3] = `${value.filter((p) => p).join('!')}`;
+    val[3] = compressMonthDays(value.filter((p) => p));
     props.onChange(val);
   };
 

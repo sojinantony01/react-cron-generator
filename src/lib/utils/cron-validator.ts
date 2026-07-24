@@ -180,8 +180,9 @@ function validateCronField(
     }
   }
 
-  // Allow ranges (e.g., 1-5)
-  if (field.includes('-') && !field.startsWith('L-')) {
+  // Allow ranges (e.g., 1-5) — but only when there is no comma (mixed comma+range
+  // is handled by the comma-list block below).
+  if (field.includes('-') && !field.startsWith('L-') && !field.includes(',')) {
     const [start, end] = field.split('-').map(Number);
     if (isNaN(start) || isNaN(end)) {
       return { isValid: false, error: `Invalid range in ${name}: ${field}` };
@@ -218,35 +219,52 @@ function validateCronField(
   if (field.includes(',')) {
     const values = field.split(',');
 
-    // For day-of-week field, check if values are day names
+    // For day-of-week field, check if values are day names or day-name ranges
     if (name === 'day-of-week') {
       const dayNames = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
-      for (const value of values) {
-        const trimmedValue = value.trim();
-        // Check if it's a day name
-        if (dayNames.includes(trimmedValue.toUpperCase())) {
-          continue;
+      // A token is valid if it is: a day name, a DAY-DAY range, or a plain number
+      const isDayNameRangeToken = (token: string): boolean => {
+        const t = token.trim().toUpperCase();
+        if (dayNames.includes(t)) return true;
+        // DAY-DAY range (e.g. MON-FRI, MON-TUE)
+        const parts = t.split('-');
+        if (parts.length === 2 && dayNames.includes(parts[0]) && dayNames.includes(parts[1])) {
+          return true;
         }
-        // Otherwise, validate as number
-        const numValue = Number(trimmedValue);
-        if (isNaN(numValue) || numValue < min || numValue > max) {
+        // Numeric value
+        const numValue = Number(t);
+        return !isNaN(numValue) && numValue >= min && numValue <= max;
+      };
+      for (const value of values) {
+        if (!isDayNameRangeToken(value)) {
           return {
             isValid: false,
-            error: `Value ${trimmedValue} in ${name} must be between ${min}-${max} or a valid day name`,
+            error: `Value ${value.trim()} in ${name} must be between ${min}-${max} or a valid day name`,
           };
         }
       }
       return { isValid: true };
     }
 
-    // For other fields, validate as numbers
-    const numValues = values.map(Number);
-    for (const value of numValues) {
-      if (isNaN(value) || value < min || value > max) {
-        return {
-          isValid: false,
-          error: `Value ${value} in ${name} must be between ${min}-${max}`,
-        };
+    // For other fields, validate each token as a number or a numeric range (e.g. "10-12")
+    for (const token of values) {
+      const trimmed = token.trim();
+      if (trimmed.includes('-')) {
+        const [start, end] = trimmed.split('-').map(Number);
+        if (isNaN(start) || isNaN(end) || start < min || end > max || start > end) {
+          return {
+            isValid: false,
+            error: `Range ${trimmed} in ${name} must be between ${min}-${max}`,
+          };
+        }
+      } else {
+        const numValue = Number(trimmed);
+        if (isNaN(numValue) || numValue < min || numValue > max) {
+          return {
+            isValid: false,
+            error: `Value ${trimmed} in ${name} must be between ${min}-${max}`,
+          };
+        }
       }
     }
     return { isValid: true };
