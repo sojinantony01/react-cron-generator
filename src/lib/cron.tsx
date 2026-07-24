@@ -17,6 +17,8 @@ export interface CronProp {
   isUnix?: boolean;
   use6FieldQuartz?: boolean;
   onHeaderChange?(header: HeaderValType): void;
+  /** Override the default selected tab on initial render */
+  defaultTab?: HeaderKeyType;
 }
 
 interface State {
@@ -168,6 +170,33 @@ const Cron: React.FunctionComponent<CronProp> = (props) => {
   );
 
   /**
+   * If `defaultTab` prop is set and the corresponding tab is available, return it.
+   * Otherwise return the auto-detected tab.
+   */
+  const resolveDefaultTab = useCallback(
+    (autoDetected: HeaderValType): HeaderValType => {
+      const { defaultTab } = propsRef.current;
+      if (defaultTab) {
+        // Map HeaderKeyType ('MINUTES') → HeaderValType ('Minutes')
+        const keyToVal: Record<HeaderKeyType, HeaderValType> = {
+          MINUTES: 'Minutes',
+          HOURLY: 'Hourly',
+          DAILY: 'Daily',
+          WEEKLY: 'Weekly',
+          MONTHLY: 'Monthly',
+          CUSTOM: 'Custom',
+        };
+        const desired = keyToVal[defaultTab];
+        if (desired && stateRef.current.headers.includes(desired)) {
+          return desired;
+        }
+      }
+      return autoDetected;
+    },
+    [],
+  );
+
+  /**
    * Set cron value from external source
    */
   const setValue = useCallback(
@@ -203,7 +232,7 @@ const Cron: React.FunctionComponent<CronProp> = (props) => {
         valueArray.push('*');
       }
 
-      // Validate and set default if invalid
+      // Validate and set default if invalid — no value means no defaultTab override
       if (!processedValue || valueArray.length !== 7) {
         processedValue = defaultCron;
         valueArray = processedValue.split(' ');
@@ -217,24 +246,36 @@ const Cron: React.FunctionComponent<CronProp> = (props) => {
       }
 
       // Determine appropriate tab based on cron pattern
-      let selectedTab = allHeaders[0];
       const val = valueArray;
+      let matchedTab: HeaderValType | null = null;
 
       if (val[1].search('/') !== -1 && val[2] === '*' && val[3] === '1/1') {
-        selectedTab = allHeaders[0]; // Minutes
+        matchedTab = 'Minutes';
       } else if (val[3] === '1/1') {
-        selectedTab = allHeaders[1]; // Hourly
+        matchedTab = 'Hourly';
       } else if (val[3].search('/') !== -1 || val[5] === 'MON-FRI') {
-        selectedTab = allHeaders[2]; // Daily
+        matchedTab = 'Daily';
       } else if (val[3] === '?') {
-        selectedTab = allHeaders[3]; // Weekly
+        matchedTab = 'Weekly';
       } else if (val[3].startsWith('L') || val[4] === '1/1') {
-        selectedTab = allHeaders[4]; // Monthly
+        matchedTab = 'Monthly';
       }
 
-      // Ensure selected tab is in available headers
-      if (!stateRef.current.headers.includes(selectedTab)) {
-        selectedTab = stateRef.current.headers[0];
+      // Determine selectedTab:
+      // 1. If `defaultTab` prop is set and available, always honour it.
+      // 2. If matched a structured pattern and it's available, use it.
+      // 3. If not matched (complex / custom expression), fall back to Custom tab.
+      // 4. If Custom tab is not available, fall back to the first available header.
+      let selectedTab: HeaderValType;
+      const availableHeaders = stateRef.current.headers;
+
+      if (matchedTab && availableHeaders.includes(matchedTab)) {
+        selectedTab = resolveDefaultTab(matchedTab);
+      } else if (!matchedTab && availableHeaders.includes('Custom')) {
+        // No structured pattern matched — use the Custom tab and keep the value as-is
+        selectedTab = resolveDefaultTab('Custom');
+      } else {
+        selectedTab = resolveDefaultTab(availableHeaders[0]);
       }
 
       setState((prev) => ({
@@ -266,7 +307,10 @@ const Cron: React.FunctionComponent<CronProp> = (props) => {
         setState((prev) => ({
           ...prev,
           selectedTab: tab,
-          value: defaultValue(tab),
+          // When switching to Custom, preserve the current expression so the user
+          // can inspect or tweak whatever was built in another tab.
+          // For all other tabs, reset to the tab's default value.
+          value: tab === 'Custom' ? prev.value : defaultValue(tab),
         }));
       }
     },
