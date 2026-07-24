@@ -173,28 +173,25 @@ const Cron: React.FunctionComponent<CronProp> = (props) => {
    * If `defaultTab` prop is set and the corresponding tab is available, return it.
    * Otherwise return the auto-detected tab.
    */
-  const resolveDefaultTab = useCallback(
-    (autoDetected: HeaderValType): HeaderValType => {
-      const { defaultTab } = propsRef.current;
-      if (defaultTab) {
-        // Map HeaderKeyType ('MINUTES') → HeaderValType ('Minutes')
-        const keyToVal: Record<HeaderKeyType, HeaderValType> = {
-          MINUTES: 'Minutes',
-          HOURLY: 'Hourly',
-          DAILY: 'Daily',
-          WEEKLY: 'Weekly',
-          MONTHLY: 'Monthly',
-          CUSTOM: 'Custom',
-        };
-        const desired = keyToVal[defaultTab];
-        if (desired && stateRef.current.headers.includes(desired)) {
-          return desired;
-        }
+  const resolveDefaultTab = useCallback((autoDetected: HeaderValType): HeaderValType => {
+    const { defaultTab } = propsRef.current;
+    if (defaultTab) {
+      // Map HeaderKeyType ('MINUTES') → HeaderValType ('Minutes')
+      const keyToVal: Record<HeaderKeyType, HeaderValType> = {
+        MINUTES: 'Minutes',
+        HOURLY: 'Hourly',
+        DAILY: 'Daily',
+        WEEKLY: 'Weekly',
+        MONTHLY: 'Monthly',
+        CUSTOM: 'Custom',
+      };
+      const desired = keyToVal[defaultTab];
+      if (desired && stateRef.current.headers.includes(desired)) {
+        return desired;
       }
-      return autoDetected;
-    },
-    [],
-  );
+    }
+    return autoDetected;
+  }, []);
 
   /**
    * Set cron value from external source
