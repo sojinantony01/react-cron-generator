@@ -263,9 +263,7 @@ describe('Weekly tab — range compression', () => {
   // ------------------------------------------------------------------
 
   it('emits a range in Unix mode (MON-WED becomes 1-3 in Unix day-of-week)', async () => {
-    render(
-      <Cron onChange={onChange} showResultText={false} showResultCron={true} isUnix={true} />,
-    );
+    render(<Cron onChange={onChange} showResultText={false} showResultCron={true} isUnix={true} />);
     const user = await openWeeklyTab();
 
     await user.click(screen.getByRole('checkbox', { name: /monday/i }));
@@ -310,7 +308,6 @@ describe('Weekly tab — range compression', () => {
     expect(onChange).not.toHaveBeenCalled();
   });
 });
-
 
 // ---------------------------------------------------------------------------
 // Monthly tab — range compression for multi-day selection

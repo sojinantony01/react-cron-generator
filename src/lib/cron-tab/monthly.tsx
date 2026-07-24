@@ -2,7 +2,7 @@ import React, { FunctionComponent, useEffect, useState } from 'react';
 import Minutes from '../minutes-select';
 import Hour from '../hour-select';
 import DaySelect from '../day-select';
-import { compressMonthDays } from '../utils/range-compressor';
+import { compressMonthDays, expandMonthDays } from '../utils/range-compressor';
 
 interface MonthlyCronProp {
   onChange(e?: string[]): void;
@@ -27,7 +27,7 @@ const MonthlyCron: FunctionComponent<MonthlyCronProp> = (props) => {
       every = '3';
     } else if (props.value[3].startsWith('L')) {
       every = '4';
-    } else if (props.value[3].includes('!')) {
+    } else if (isMultiDay(props.value[3])) {
       every = '5';
     } else {
       every = '1';
@@ -304,7 +304,7 @@ const MonthlyCron: FunctionComponent<MonthlyCronProp> = (props) => {
         <DaySelect
           onChange={(e) => onMultiDayChange(e)}
           disabled={props.disabled}
-          value={state.every === '5' ? props.value[3].split('!') : []}
+          value={state.every === '5' ? expandMonthDays(props.value[3]) : []}
           onFocus={() => onClickMonthlyMultipleRadio()}
           multi
         />

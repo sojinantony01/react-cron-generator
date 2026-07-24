@@ -36,9 +36,7 @@ export const compressWeekdays = (days: string[]): string => {
   }
   groups.push(current);
 
-  return groups
-    .map((g) => (g.length > 1 ? `${g[0]}-${g[g.length - 1]}` : g[0]))
-    .join('!');
+  return groups.map((g) => (g.length > 1 ? `${g[0]}-${g[g.length - 1]}` : g[0])).join('!');
 };
 
 /**
@@ -100,7 +98,5 @@ export const compressMonthDays = (days: string[]): string => {
   }
   groups.push(current);
 
-  return groups
-    .map((g) => (g.length > 1 ? `${g[0]}-${g[g.length - 1]}` : `${g[0]}`))
-    .join('!');
+  return groups.map((g) => (g.length > 1 ? `${g[0]}-${g[g.length - 1]}` : `${g[0]}`)).join('!');
 };
