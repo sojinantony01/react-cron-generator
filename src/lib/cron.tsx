@@ -266,10 +266,10 @@ const Cron: React.FunctionComponent<CronProp> = (props) => {
         matchedTab = 'Minutes';
       } else if (val[3] === '1/1') {
         matchedTab = 'Hourly';
-      } else if (val[3].search('/') !== -1 || val[5] === 'MON-FRI') {
-        matchedTab = 'Daily';
       } else if (val[3] === '?') {
         matchedTab = 'Weekly';
+      } else if (val[3].search('/') !== -1 || val[5] === 'MON-FRI') {
+        matchedTab = 'Daily';
       } else if (val[3].startsWith('L') || val[4] === '1/1') {
         matchedTab = 'Monthly';
       }
