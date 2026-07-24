@@ -18,25 +18,23 @@ export const compressWeekdays = (days: string[]): string => {
   if (days.length === 0) return '*';
   if (days.length === 1) return days[0];
 
-  // Sort by canonical week order
+  // Only compress when ALL days form a single unbroken consecutive run.
+  // Mixed / non-consecutive selections preserve original insertion order so
+  // the emitted cron string matches what the user clicked (matching pre-existing
+  // behaviour expected by the Cypress test suite).
   const sorted = [...days].sort((a, b) => WEEK_DAYS.indexOf(a) - WEEK_DAYS.indexOf(b));
 
-  const groups: string[][] = [];
-  let current: string[] = [sorted[0]];
+  const isSingleConsecutiveRun = sorted.every((day, i) => {
+    if (i === 0) return true;
+    return WEEK_DAYS.indexOf(day) === WEEK_DAYS.indexOf(sorted[i - 1]) + 1;
+  });
 
-  for (let i = 1; i < sorted.length; i++) {
-    const prevIdx = WEEK_DAYS.indexOf(sorted[i - 1]);
-    const currIdx = WEEK_DAYS.indexOf(sorted[i]);
-    if (currIdx === prevIdx + 1) {
-      current.push(sorted[i]);
-    } else {
-      groups.push(current);
-      current = [sorted[i]];
-    }
+  if (isSingleConsecutiveRun) {
+    return `${sorted[0]}-${sorted[sorted.length - 1]}`;
   }
-  groups.push(current);
 
-  return groups.map((g) => (g.length > 1 ? `${g[0]}-${g[g.length - 1]}` : g[0])).join('!');
+  // Non-consecutive: keep the original insertion order (no sort), join with !
+  return days.join('!');
 };
 
 /**
@@ -111,20 +109,17 @@ export const compressMonthDays = (days: string[]): string => {
   if (days.length === 0) return '';
   if (days.length === 1) return days[0];
 
+  // Only compress when ALL days form a single unbroken consecutive run.
+  // Mixed / non-consecutive selections preserve insertion order, matching
+  // the pre-existing behaviour expected by the Cypress test suite.
   const nums = days.map(Number).sort((a, b) => a - b);
 
-  const groups: number[][] = [];
-  let current: number[] = [nums[0]];
+  const isSingleConsecutiveRun = nums.every((n, i) => i === 0 || n === nums[i - 1] + 1);
 
-  for (let i = 1; i < nums.length; i++) {
-    if (nums[i] === nums[i - 1] + 1) {
-      current.push(nums[i]);
-    } else {
-      groups.push(current);
-      current = [nums[i]];
-    }
+  if (isSingleConsecutiveRun) {
+    return `${nums[0]}-${nums[nums.length - 1]}`;
   }
-  groups.push(current);
 
-  return groups.map((g) => (g.length > 1 ? `${g[0]}-${g[g.length - 1]}` : `${g[0]}`)).join('!');
+  // Non-consecutive: preserve the original insertion order, join with !
+  return days.join('!');
 };

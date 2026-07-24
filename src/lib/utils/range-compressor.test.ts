@@ -26,8 +26,10 @@ describe('compressWeekdays', () => {
     expect(compressWeekdays(['MON', 'WED', 'FRI'])).toBe('MON!WED!FRI');
   });
 
-  it('handles two separate ranges', () => {
-    expect(compressWeekdays(['MON', 'TUE', 'THU', 'FRI'])).toBe('MON-TUE!THU-FRI');
+  it('non-consecutive selection with two possible sub-ranges keeps insertion order without compressing sub-runs', () => {
+    // MON,TUE,THU,FRI are two separate consecutive sub-runs but not a single run —
+    // insertion order is preserved with no range notation (matching Cypress constraint)
+    expect(compressWeekdays(['MON', 'TUE', 'THU', 'FRI'])).toBe('MON!TUE!THU!FRI');
   });
 
   it('sorts days before compressing regardless of input order', () => {
@@ -35,7 +37,8 @@ describe('compressWeekdays', () => {
   });
 
   it('weekend days are not a range (SUN is index 0, SAT is index 6 — not adjacent)', () => {
-    expect(compressWeekdays(['SAT', 'SUN'])).toBe('SUN!SAT');
+    // SAT+SUN are not adjacent in the WEEK_DAYS array so they stay separated in insertion order
+    expect(compressWeekdays(['SAT', 'SUN'])).toBe('SAT!SUN');
   });
 });
 
@@ -91,8 +94,10 @@ describe('compressMonthDays', () => {
     expect(compressMonthDays(['1', '3', '5'])).toBe('1!3!5');
   });
 
-  it('handles two separate numeric ranges', () => {
-    expect(compressMonthDays(['1', '2', '3', '5', '6'])).toBe('1-3!5-6');
+  it('non-consecutive selection with two possible sub-runs keeps insertion order without range notation', () => {
+    // 1,2,3,5,6 are two sub-runs but not a single consecutive run —
+    // days are kept in original insertion order with no range notation (matching Cypress constraint)
+    expect(compressMonthDays(['1', '2', '3', '5', '6'])).toBe('1!2!3!5!6');
   });
 
   it('sorts numerically before compressing', () => {

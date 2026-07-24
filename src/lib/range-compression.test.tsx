@@ -128,7 +128,9 @@ describe('Weekly tab — range compression', () => {
     });
   });
 
-  it('splits into two separate ranges when there is a gap (MON-TUE and THU-FRI)', async () => {
+  it('non-consecutive selection (MON, TUE, THU, FRI) emits each day individually', async () => {
+    // Two sub-runs but not a single consecutive run — compression is not applied;
+    // days are emitted in insertion order without range notation.
     render(<Cron onChange={onChange} showResultText={false} showResultCron={true} />);
     const user = await openWeeklyTab();
 
@@ -139,7 +141,7 @@ describe('Weekly tab — range compression', () => {
 
     await waitFor(() => {
       const cronDisplay = screen.getByLabelText('Cron expression');
-      expect(cronDisplay.textContent).toContain('MON-TUE,THU-FRI');
+      expect(cronDisplay.textContent).toContain('MON,TUE,THU,FRI');
     });
   });
 
@@ -159,7 +161,9 @@ describe('Weekly tab — range compression', () => {
     });
   });
 
-  it('correctly unchecks a day from inside an existing range (MON-THU → uncheck WED → MON-TUE,THU)', async () => {
+  it('unchecking a day from inside a range (MON-THU → uncheck WED) leaves MON,TUE,THU individually', async () => {
+    // After unchecking WED, MON+TUE+THU are not a single consecutive run;
+    // they are emitted individually without range notation.
     render(<Cron onChange={onChange} showResultText={false} showResultCron={true} />);
     const user = await openWeeklyTab();
 
@@ -168,12 +172,12 @@ describe('Weekly tab — range compression', () => {
     await user.click(screen.getByRole('checkbox', { name: /wednesday/i }));
     await user.click(screen.getByRole('checkbox', { name: /thursday/i }));
 
-    // Uncheck Wednesday — splits the range
+    // Uncheck Wednesday
     await user.click(screen.getByRole('checkbox', { name: /wednesday/i }));
 
     await waitFor(() => {
       const cronDisplay = screen.getByLabelText('Cron expression');
-      expect(cronDisplay.textContent).toContain('MON-TUE,THU');
+      expect(cronDisplay.textContent).toContain('MON,TUE,THU');
     });
   });
 
@@ -357,7 +361,8 @@ describe('Monthly tab — range compression for multi-day picker', () => {
     expect(domField(emittedCron)).toBe('5,10,15');
   });
 
-  it('produces two separate ranges for two runs of consecutive days (1-3 and 10-11)', () => {
+  it('non-consecutive multi-day selection (1,2,3,10,11) emits each day individually', () => {
+    // Not a single consecutive run — no range compression applied; days emitted in order.
     render(
       <Cron
         value="0 0 0 1,2,3,10,11 1/1 ? *"
@@ -370,6 +375,6 @@ describe('Monthly tab — range compression for multi-day picker', () => {
 
     expect(onChange).toHaveBeenCalled();
     const emittedCron = onChange.mock.calls.at(-1)?.[0] as string;
-    expect(domField(emittedCron)).toBe('1-3,10-11');
+    expect(domField(emittedCron)).toBe('1,2,3,10,11');
   });
 });
