@@ -17,20 +17,11 @@ describe('Cron — recovers when cronstrue throws during human-readable text gen
     const onChange = vi.fn();
     const consoleWarn = vi.spyOn(console, 'warn').mockImplementation(() => {});
 
-    render(
-      <Cron
-        onChange={onChange}
-        showResultText={true}
-        showResultCron={false}
-      />,
-    );
+    render(<Cron onChange={onChange} showResultText={true} showResultCron={false} />);
 
     expect(screen.getByText('Minutes')).toBeInTheDocument();
 
-    expect(consoleWarn).toHaveBeenCalledWith(
-      'Failed to parse cron expression:',
-      expect.any(Error),
-    );
+    expect(consoleWarn).toHaveBeenCalledWith('Failed to parse cron expression:', expect.any(Error));
 
     consoleWarn.mockRestore();
   });

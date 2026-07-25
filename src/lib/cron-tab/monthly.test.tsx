@@ -426,7 +426,13 @@ describe('MonthlyCron', () => {
   });
 
   it('normalizes * hour/minute in onLastDayChange', async () => {
-    render(<MonthlyCron onChange={onChange} value={['0', '*', '*', 'L-3', '*', '?', '*']} translate={translate} />);
+    render(
+      <MonthlyCron
+        onChange={onChange}
+        value={['0', '*', '*', 'L-3', '*', '?', '*']}
+        translate={translate}
+      />,
+    );
     await waitFor(() =>
       expect(
         (document.querySelector('input[name="DaysBeforeEndOfMonth"]') as HTMLInputElement).checked,
@@ -609,12 +615,19 @@ describe('MonthlyCron', () => {
 
 describe('MonthlyCron — disabled guards and span onClick handlers', () => {
   let onChange: ReturnType<typeof vi.fn>;
-  beforeEach(() => { onChange = vi.fn(); });
+  beforeEach(() => {
+    onChange = vi.fn();
+  });
 
   // Click the span (always fires onClick even when disabled=true) while disabled prop is true
   it('onClickLastWeekdayOfEveryMonth: no onChange when disabled (span click)', () => {
     render(
-      <MonthlyCron onChange={onChange} value={onceDayValue()} translate={(k) => k} disabled={true} />,
+      <MonthlyCron
+        onChange={onChange}
+        value={onceDayValue()}
+        translate={(k) => k}
+        disabled={true}
+      />,
     );
     fireEvent.click(screen.getByText('On the last weekday of every month'));
     expect(onChange).not.toHaveBeenCalled();
@@ -622,32 +635,38 @@ describe('MonthlyCron — disabled guards and span onClick handlers', () => {
 
   // Click span when already on option 3 — hits `if (state.every === '3') return`
   it('onClickLastWeekdayOfEveryMonth: no onChange when already on option 3 (span click)', () => {
-    render(
-      <MonthlyCron onChange={onChange} value={lastWeekdayValue()} translate={(k) => k} />,
-    );
+    render(<MonthlyCron onChange={onChange} value={lastWeekdayValue()} translate={(k) => k} />);
     fireEvent.click(screen.getByText('On the last weekday of every month'));
     expect(onChange).not.toHaveBeenCalled();
   });
 
   it('onClickDaysBeforeEndOfMonth: no onChange when disabled (span click)', () => {
     render(
-      <MonthlyCron onChange={onChange} value={onceDayValue()} translate={(k) => k} disabled={true} />,
+      <MonthlyCron
+        onChange={onChange}
+        value={onceDayValue()}
+        translate={(k) => k}
+        disabled={true}
+      />,
     );
     fireEvent.click(screen.getByText('day(s) before the end of the month'));
     expect(onChange).not.toHaveBeenCalled();
   });
 
   it('onClickDaysBeforeEndOfMonth: no onChange when already on option 4 (span click)', () => {
-    render(
-      <MonthlyCron onChange={onChange} value={daysBeforeEndValue()} translate={(k) => k} />,
-    );
+    render(<MonthlyCron onChange={onChange} value={daysBeforeEndValue()} translate={(k) => k} />);
     fireEvent.click(screen.getByText('day(s) before the end of the month'));
     expect(onChange).not.toHaveBeenCalled();
   });
 
   it('onClickMonthlyMultipleRadio: no onChange when disabled (span click)', () => {
     render(
-      <MonthlyCron onChange={onChange} value={onceDayValue()} translate={(k) => k} disabled={true} />,
+      <MonthlyCron
+        onChange={onChange}
+        value={onceDayValue()}
+        translate={(k) => k}
+        disabled={true}
+      />,
     );
     fireEvent.click(screen.getByText('Days of every month'));
     expect(onChange).not.toHaveBeenCalled();
@@ -717,11 +736,18 @@ describe('MonthlyCron — disabled guards and span onClick handlers', () => {
 
 describe('MonthlyCron — additional disabled state coverage', () => {
   let onChange: ReturnType<typeof vi.fn>;
-  beforeEach(() => { onChange = vi.fn(); });
+  beforeEach(() => {
+    onChange = vi.fn();
+  });
 
   it('onMultiDayChange: no onChange when disabled (removeAttribute trick)', () => {
     render(
-      <MonthlyCron onChange={onChange} value={multiDayValue()} translate={(k) => k} disabled={true} />,
+      <MonthlyCron
+        onChange={onChange}
+        value={multiDayValue()}
+        translate={(k) => k}
+        disabled={true}
+      />,
     );
     // Open the DaySelect dropdown by removing disabled attr from the dropbtn
     const dropbtn = document.querySelector('input.dropbtn') as HTMLInputElement;
@@ -738,7 +764,12 @@ describe('MonthlyCron — additional disabled state coverage', () => {
 
   it('onAtHourChange: no onChange when disabled', () => {
     render(
-      <MonthlyCron onChange={onChange} value={onceDayValue()} translate={(k) => k} disabled={true} />,
+      <MonthlyCron
+        onChange={onChange}
+        value={onceDayValue()}
+        translate={(k) => k}
+        disabled={true}
+      />,
     );
     const hourSelect = document.querySelector('select.hours') as HTMLSelectElement;
     if (hourSelect) {
@@ -750,7 +781,12 @@ describe('MonthlyCron — additional disabled state coverage', () => {
 
   it('onAtMinuteChange: no onChange when disabled', () => {
     render(
-      <MonthlyCron onChange={onChange} value={onceDayValue()} translate={(k) => k} disabled={true} />,
+      <MonthlyCron
+        onChange={onChange}
+        value={onceDayValue()}
+        translate={(k) => k}
+        disabled={true}
+      />,
     );
     const minuteSelect = document.querySelector('select.minutes') as HTMLSelectElement;
     if (minuteSelect) {
@@ -762,7 +798,12 @@ describe('MonthlyCron — additional disabled state coverage', () => {
 
   it('onClickMonthlyOnceRadio: no onChange when disabled (span click)', () => {
     render(
-      <MonthlyCron onChange={onChange} value={lastDayValue()} translate={(k) => k} disabled={true} />,
+      <MonthlyCron
+        onChange={onChange}
+        value={lastDayValue()}
+        translate={(k) => k}
+        disabled={true}
+      />,
     );
     // Click the "Day" span (option 1) while disabled
     fireEvent.click(screen.getByText('Day'));
@@ -770,17 +811,13 @@ describe('MonthlyCron — additional disabled state coverage', () => {
   });
 
   it('onClickMonthlyOnceRadio: no onChange when already on option 1 (span click)', () => {
-    render(
-      <MonthlyCron onChange={onChange} value={onceDayValue()} translate={(k) => k} />,
-    );
+    render(<MonthlyCron onChange={onChange} value={onceDayValue()} translate={(k) => k} />);
     fireEvent.click(screen.getByText('Day'));
     expect(onChange).not.toHaveBeenCalled();
   });
 
   it('onClickLastDayOfEveryMonth: no onChange when already on option 2 (span click)', () => {
-    render(
-      <MonthlyCron onChange={onChange} value={lastDayValue()} translate={(k) => k} />,
-    );
+    render(<MonthlyCron onChange={onChange} value={lastDayValue()} translate={(k) => k} />);
     fireEvent.click(screen.getByText('Last day of every month'));
     expect(onChange).not.toHaveBeenCalled();
   });

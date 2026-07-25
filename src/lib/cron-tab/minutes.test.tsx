@@ -131,7 +131,7 @@ describe('MinutesCron', () => {
     input.addEventListener(
       'keydown',
       (e) => {
-            setTimeout(() => {
+        setTimeout(() => {
           if (e.defaultPrevented) prevented.push(e.key);
         }, 0);
       },
@@ -159,7 +159,11 @@ describe('MinutesCron', () => {
 describe('MinutesCron — preventInvalidChars allows valid keys', () => {
   it('does not prevent valid key (digit "3") in the interval input', () => {
     render(
-      <MinutesCron onChange={vi.fn()} value={['0', '0/5', '*', '*', '*', '?', '*']} translate={translate} />,
+      <MinutesCron
+        onChange={vi.fn()}
+        value={['0', '0/5', '*', '*', '*', '?', '*']}
+        translate={translate}
+      />,
     );
     const input = screen.getByRole('spinbutton');
     fireEvent.keyDown(input, { key: '3' });

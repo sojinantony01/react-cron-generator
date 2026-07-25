@@ -19,14 +19,7 @@ describe('Cron — recovers when quartzToUnix throws during output conversion', 
     const onChange = vi.fn();
     const consoleError = vi.spyOn(console, 'error').mockImplementation(() => {});
 
-    render(
-      <Cron
-        onChange={onChange}
-        showResultText={false}
-        showResultCron={true}
-        isUnix={true}
-      />,
-    );
+    render(<Cron onChange={onChange} showResultText={false} showResultCron={true} isUnix={true} />);
 
     expect(screen.getByText('Minutes')).toBeInTheDocument();
 

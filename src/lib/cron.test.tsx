@@ -832,18 +832,16 @@ describe('Cron Component - onValueChange empty value fallback', () => {
   it('resets to daily default when a tab component calls onChange with undefined', async () => {
     const onChange = vi.fn();
     const user = userEvent.setup();
-    render(
-      <Cron onChange={onChange} showResultText={false} showResultCron={true} />,
-    );
+    render(<Cron onChange={onChange} showResultText={false} showResultCron={true} />);
 
     const dailyTab = screen.getByLabelText('Select Daily tab');
     await user.click(dailyTab);
     await waitFor(() => expect(dailyTab).toHaveClass('active'));
 
     await waitFor(() =>
-      expect(
-        (document.querySelector('input[name="DailyRadio"]') as HTMLInputElement).checked,
-      ).toBe(true),
+      expect((document.querySelector('input[name="DailyRadio"]') as HTMLInputElement).checked).toBe(
+        true,
+      ),
     );
 
     fireEvent.click(screen.getByText('Every week day'));

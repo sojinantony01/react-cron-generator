@@ -127,9 +127,9 @@ describe('DailyCron', () => {
     render(<DailyCron onChange={onChange} value={defaultEveryValue()} translate={translate} />);
     // Wait for useEffect to set state.every = true
     await waitFor(() => {
-      expect(
-        (document.querySelector('input[name="DailyRadio"]') as HTMLInputElement).checked,
-      ).toBe(true);
+      expect((document.querySelector('input[name="DailyRadio"]') as HTMLInputElement).checked).toBe(
+        true,
+      );
     });
     // userEvent click on the unchecked radio fires the onChange handler
     const weekdayRadio = document.querySelector('input[name="EveryWeekDay"]') as HTMLInputElement;
@@ -175,7 +175,12 @@ describe('DailyCron — handlers when disabled', () => {
   it('onAtHourChange does not call onChange when disabled', () => {
     const onChange = vi.fn();
     render(
-      <DailyCron onChange={onChange} value={['0', '0', '00', '1/1', '*', '?', '*']} translate={(k) => k} disabled={true} />,
+      <DailyCron
+        onChange={onChange}
+        value={['0', '0', '00', '1/1', '*', '?', '*']}
+        translate={(k) => k}
+        disabled={true}
+      />,
     );
     fireEvent.change(document.querySelector('select.hours')!, { target: { value: '09' } });
     expect(onChange).not.toHaveBeenCalled();
@@ -184,7 +189,12 @@ describe('DailyCron — handlers when disabled', () => {
   it('onAtMinuteChange does not call onChange when disabled', () => {
     const onChange = vi.fn();
     render(
-      <DailyCron onChange={onChange} value={['0', '0', '00', '1/1', '*', '?', '*']} translate={(k) => k} disabled={true} />,
+      <DailyCron
+        onChange={onChange}
+        value={['0', '0', '00', '1/1', '*', '?', '*']}
+        translate={(k) => k}
+        disabled={true}
+      />,
     );
     fireEvent.change(document.querySelector('select.minutes')!, { target: { value: '30' } });
     expect(onChange).not.toHaveBeenCalled();
@@ -193,10 +203,17 @@ describe('DailyCron — handlers when disabled', () => {
   it('does not fire onClickEveryWeekDay when disabled', async () => {
     const onChange = vi.fn();
     render(
-      <DailyCron onChange={onChange} value={['0', '0', '00', '1/1', '*', '?', '*']} translate={(k) => k} disabled={true} />,
+      <DailyCron
+        onChange={onChange}
+        value={['0', '0', '00', '1/1', '*', '?', '*']}
+        translate={(k) => k}
+        disabled={true}
+      />,
     );
     await waitFor(() =>
-      expect((document.querySelector('input[name="DailyRadio"]') as HTMLInputElement).checked).toBe(true),
+      expect((document.querySelector('input[name="DailyRadio"]') as HTMLInputElement).checked).toBe(
+        true,
+      ),
     );
     fireEvent.click(screen.getByText('Every week day'));
     expect(onChange).not.toHaveBeenCalled();
@@ -205,10 +222,17 @@ describe('DailyCron — handlers when disabled', () => {
   it('does not fire onClickDailyRadio when disabled', async () => {
     const onChange = vi.fn();
     render(
-      <DailyCron onChange={onChange} value={['0', '0', '00', '?', '*', 'MON-FRI', '*']} translate={(k) => k} disabled={true} />,
+      <DailyCron
+        onChange={onChange}
+        value={['0', '0', '00', '?', '*', 'MON-FRI', '*']}
+        translate={(k) => k}
+        disabled={true}
+      />,
     );
     await waitFor(() =>
-      expect((document.querySelector('input[name="EveryWeekDay"]') as HTMLInputElement).checked).toBe(true),
+      expect(
+        (document.querySelector('input[name="EveryWeekDay"]') as HTMLInputElement).checked,
+      ).toBe(true),
     );
     fireEvent.click(screen.getAllByText('Every')[0]);
     expect(onChange).not.toHaveBeenCalled();

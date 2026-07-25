@@ -305,7 +305,6 @@ describe('validateCron', () => {
   });
 });
 
-
 describe('validateQuartzCron — non-numeric, non-name token in DOW comma list', () => {
   it('rejects a DOW comma list containing a non-numeric, non-day-name token', () => {
     const r = validateQuartzCron('0 0 0 ? * 1,XYZ *');

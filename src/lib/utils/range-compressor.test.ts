@@ -1,5 +1,10 @@
 import { describe, it, expect } from 'vitest';
-import { compressWeekdays, expandWeekdays, compressMonthDays, expandMonthDays } from './range-compressor';
+import {
+  compressWeekdays,
+  expandWeekdays,
+  compressMonthDays,
+  expandMonthDays,
+} from './range-compressor';
 
 describe('compressWeekdays', () => {
   it('returns * for empty array', () => {

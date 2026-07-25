@@ -41,9 +41,7 @@ describe('HourlyCron', () => {
   it('checks the "At" radio when val[2] is a plain hour (specific-hour mode)', async () => {
     render(<HourlyCron onChange={onChange} value={specificHourValue()} translate={translate} />);
     await waitFor(() => {
-      const radio = document.querySelector(
-        'input[name="EverySpecificHour"]',
-      ) as HTMLInputElement;
+      const radio = document.querySelector('input[name="EverySpecificHour"]') as HTMLInputElement;
       expect(radio.checked).toBe(true);
     });
   });
@@ -255,7 +253,12 @@ describe('HourlyCron — onMinuteChange does not fire when state.every is false'
   it('does not call onChange for minute input when disabled', () => {
     const onChange = vi.fn();
     render(
-      <HourlyCron onChange={onChange} value={everyHourValue()} translate={(k) => k} disabled={true} />,
+      <HourlyCron
+        onChange={onChange}
+        value={everyHourValue()}
+        translate={(k) => k}
+        disabled={true}
+      />,
     );
     const minuteInput = document.querySelectorAll('input[type="Number"]')[1] as HTMLInputElement;
     minuteInput.removeAttribute('disabled');
@@ -268,10 +271,17 @@ describe('HourlyCron — radio click handlers when disabled', () => {
   it('does not fire when disabled and "Every" radio is clicked', async () => {
     const onChange = vi.fn();
     render(
-      <HourlyCron onChange={onChange} value={['0', '30', '8', '1/1', '*', '?', '*']} translate={(k) => k} disabled={true} />,
+      <HourlyCron
+        onChange={onChange}
+        value={['0', '30', '8', '1/1', '*', '?', '*']}
+        translate={(k) => k}
+        disabled={true}
+      />,
     );
     await waitFor(() =>
-      expect((document.querySelector('input[name="EverySpecificHour"]') as HTMLInputElement).checked).toBe(true),
+      expect(
+        (document.querySelector('input[name="EverySpecificHour"]') as HTMLInputElement).checked,
+      ).toBe(true),
     );
     fireEvent.click(document.querySelector('input[name="EveryHourMinute"]')!);
     expect(onChange).not.toHaveBeenCalled();
@@ -280,10 +290,17 @@ describe('HourlyCron — radio click handlers when disabled', () => {
   it('does not fire when disabled and "At" radio is clicked', async () => {
     const onChange = vi.fn();
     render(
-      <HourlyCron onChange={onChange} value={['0', '0', '0/1', '1/1', '*', '?', '*']} translate={(k) => k} disabled={true} />,
+      <HourlyCron
+        onChange={onChange}
+        value={['0', '0', '0/1', '1/1', '*', '?', '*']}
+        translate={(k) => k}
+        disabled={true}
+      />,
     );
     await waitFor(() =>
-      expect((document.querySelector('input[name="EveryHourMinute"]') as HTMLInputElement).checked).toBe(true),
+      expect(
+        (document.querySelector('input[name="EveryHourMinute"]') as HTMLInputElement).checked,
+      ).toBe(true),
     );
     fireEvent.click(document.querySelector('input[name="EverySpecificHour"]')!);
     expect(onChange).not.toHaveBeenCalled();

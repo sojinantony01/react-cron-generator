@@ -124,7 +124,12 @@ describe('WeeklyCron', () => {
 
   it('all checkboxes are disabled when disabled prop is true', () => {
     render(
-      <WeeklyCron onChange={onChange} value={defaultValue()} translate={translate} disabled={true} />,
+      <WeeklyCron
+        onChange={onChange}
+        value={defaultValue()}
+        translate={translate}
+        disabled={true}
+      />,
     );
     ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'].forEach(
       (day) => {
@@ -136,7 +141,12 @@ describe('WeeklyCron', () => {
   it('does not call onChange when disabled and a checkbox is clicked', async () => {
     const user = userEvent.setup();
     render(
-      <WeeklyCron onChange={onChange} value={defaultValue()} translate={translate} disabled={true} />,
+      <WeeklyCron
+        onChange={onChange}
+        value={defaultValue()}
+        translate={translate}
+        disabled={true}
+      />,
     );
     await user.click(screen.getByLabelText('Monday'));
     expect(onChange).not.toHaveBeenCalled();
@@ -155,7 +165,12 @@ describe('WeeklyCron — minute select when disabled', () => {
   it('does not call onChange when disabled and minute select changes', () => {
     const onChange = vi.fn();
     render(
-      <WeeklyCron onChange={onChange} value={['0', '0', '00', '?', '*', 'MON', '*']} translate={(k) => k} disabled={true} />,
+      <WeeklyCron
+        onChange={onChange}
+        value={['0', '0', '00', '?', '*', 'MON', '*']}
+        translate={(k) => k}
+        disabled={true}
+      />,
     );
     fireEvent.change(document.querySelector('select.minutes')!, { target: { value: '30' } });
     expect(onChange).not.toHaveBeenCalled();
@@ -164,7 +179,12 @@ describe('WeeklyCron — minute select when disabled', () => {
   it('renders all checkboxes as disabled when disabled=true', () => {
     const onChange = vi.fn();
     render(
-      <WeeklyCron onChange={onChange} value={['0', '0', '00', '?', '*', '*', '*']} translate={(k) => k} disabled={true} />,
+      <WeeklyCron
+        onChange={onChange}
+        value={['0', '0', '00', '?', '*', '*', '*']}
+        translate={(k) => k}
+        disabled={true}
+      />,
     );
     expect(screen.getByLabelText('Monday')).toBeDisabled();
     expect(screen.getByLabelText('Wednesday')).toBeDisabled();
