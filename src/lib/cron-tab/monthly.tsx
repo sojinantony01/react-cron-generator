@@ -84,9 +84,6 @@ const MonthlyCron: FunctionComponent<MonthlyCronProp> = (props) => {
   };
 
   const onMultiDayChange = (value: string[]) => {
-    if (props.disabled) {
-      return;
-    }
     setState({ ...state, every: '5' });
     const val = [
       '0',

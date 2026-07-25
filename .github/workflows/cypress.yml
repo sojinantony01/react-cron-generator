@@ -32,7 +32,7 @@ jobs:
       run: npm run format-check
 
     - name: Run unit tests
-      run: npm test
+      run: npm run test:coverage
 
     - name: Build package
       run: npm run build
@@ -62,10 +62,5 @@ jobs:
     - name: Build demo app
       run: npm run demo:build
 
-    - name: Upload coverage to Codecov
-      uses: codecov/codecov-action@v4
-      with:
-        token: ${{ secrets.CODECOV_TOKEN }}
-        fail_ci_if_error: false
 
 

@@ -1,5 +1,10 @@
 import { describe, it, expect } from 'vitest';
-import { compressWeekdays, expandWeekdays, compressMonthDays } from './range-compressor';
+import {
+  compressWeekdays,
+  expandWeekdays,
+  compressMonthDays,
+  expandMonthDays,
+} from './range-compressor';
 
 describe('compressWeekdays', () => {
   it('returns * for empty array', () => {
@@ -107,5 +112,35 @@ describe('compressMonthDays', () => {
   it('compresses full month range', () => {
     const days = Array.from({ length: 31 }, (_, i) => String(i + 1));
     expect(compressMonthDays(days)).toBe('1-31');
+  });
+});
+
+describe('expandWeekdays — non-weekday range fallback', () => {
+  it('keeps a numeric-only range as-is when neither endpoint is a weekday name', () => {
+    expect(expandWeekdays('1-5')).toEqual(['1-5']);
+  });
+
+  it('keeps an unknown range as-is', () => {
+    expect(expandWeekdays('ABC-XYZ')).toEqual(['ABC-XYZ']);
+  });
+});
+
+describe('expandMonthDays — non-numeric range fallback', () => {
+  it('keeps a non-numeric range part as-is', () => {
+    expect(expandMonthDays('L-3')).toEqual(['L-3']);
+  });
+
+  it('handles a bang-list where one segment is a non-numeric range', () => {
+    expect(expandMonthDays('5!L-3!10')).toEqual(['5', 'L-3', '10']);
+  });
+});
+
+describe('expandMonthDays — edge cases', () => {
+  it('returns [] for empty string', () => {
+    expect(expandMonthDays('')).toEqual([]);
+  });
+
+  it('skips empty parts from double-bang input', () => {
+    expect(expandMonthDays('5!!10')).toEqual(['5', '10']);
   });
 });

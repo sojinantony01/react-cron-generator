@@ -109,10 +109,6 @@ function validateCronField(
   min: number,
   max: number,
 ): CronValidationResult {
-  if (!field) {
-    return { isValid: false, error: `${name} field is required` };
-  }
-
   // Allow wildcards
   if (field === '*' || field === '?') {
     return { isValid: true };
