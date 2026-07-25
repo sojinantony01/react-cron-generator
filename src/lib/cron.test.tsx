@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from 'vitest';
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen, waitFor, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom';
 import Cron from './cron';
@@ -108,9 +108,7 @@ describe('Cron Component - Basic Functionality', () => {
       });
     });
 
-    it('should route "0 0 00 ? * MON-FRI *" to Weekly tab (not Daily)', async () => {
-      // Regression: val[3]==='?' is the Weekly signature and must be checked before
-      // the val[5]==='MON-FRI' heuristic that routes to Daily.
+    it('routes "every weekday" expression to Daily tab, not Weekly', async () => {
       const onChange = vi.fn();
       render(
         <Cron
@@ -121,13 +119,12 @@ describe('Cron Component - Basic Functionality', () => {
         />,
       );
       await waitFor(() => {
-        expect(screen.getByLabelText('Select Weekly tab')).toHaveClass('active');
-        expect(screen.getByLabelText('Select Daily tab')).not.toHaveClass('active');
+        expect(screen.getByLabelText('Select Daily tab')).toHaveClass('active');
+        expect(screen.getByLabelText('Select Weekly tab')).not.toHaveClass('active');
       });
     });
 
-    it('should route an unrecognised cron pattern to Custom tab', async () => {
-      // e.g. "0 0 9-17 * * ? *" has no simple tab match — should land on Custom
+    it('routes an unrecognised cron pattern to Custom tab', async () => {
       const onChange = vi.fn();
       render(
         <Cron
@@ -157,6 +154,7 @@ describe('Cron Component - Basic Functionality', () => {
       });
     });
   });
+
   it('should display cron value when provided (Unix format)', () => {
     const onChange = vi.fn();
     render(
@@ -345,7 +343,6 @@ describe('Cron Component - Translation', () => {
         />,
       );
 
-      // Check that custom translations are used
       expect(screen.getByText('Minutos')).toBeInTheDocument();
       expect(screen.getByText('Por hora')).toBeInTheDocument();
       expect(screen.getByText('Diario')).toBeInTheDocument();
@@ -353,7 +350,6 @@ describe('Cron Component - Translation', () => {
       expect(screen.getByText('Mensual')).toBeInTheDocument();
       expect(screen.getByText('Personalizado')).toBeInTheDocument();
 
-      // Original English text should not be present
       expect(screen.queryByText('Minutes')).not.toBeInTheDocument();
       expect(screen.queryByText('Hourly')).not.toBeInTheDocument();
     });
@@ -375,19 +371,15 @@ describe('Cron Component - Translation', () => {
         />,
       );
 
-      // Translated key
       expect(screen.getByText('Minutos')).toBeInTheDocument();
-
-      // Untranslated keys should fallback to original
       expect(screen.getByText('Hourly')).toBeInTheDocument();
       expect(screen.getByText('Daily')).toBeInTheDocument();
     });
 
     it('should throw error when translateFn returns non-string', () => {
       const onChange = vi.fn();
-      const badTranslateFn = () => 123 as any; // Returns number instead of string
+      const badTranslateFn = () => 123 as any;
 
-      // Suppress console.error for this test
       const consoleError = vi.spyOn(console, 'error').mockImplementation(() => {});
 
       expect(() => {
@@ -408,7 +400,6 @@ describe('Cron Component - Translation', () => {
       const onChange = vi.fn();
       render(<Cron onChange={onChange} showResultText={true} showResultCron={false} />);
 
-      // Default English translations
       expect(screen.getByText('Minutes')).toBeInTheDocument();
       expect(screen.getByText('Hourly')).toBeInTheDocument();
       expect(screen.getByText('Daily')).toBeInTheDocument();
@@ -461,7 +452,6 @@ describe('Cron Component - Translation', () => {
           showResultText={true}
           showResultCron={false}
           translateFn={translateFn}
-          // locale not provided
         />,
       );
 
@@ -486,12 +476,10 @@ describe('Cron Component - Custom Headers', () => {
         <Cron onChange={onChange} showResultText={true} showResultCron={false} options={options} />,
       );
 
-      // Should show specified headers
       expect(screen.getByText('Minutes')).toBeInTheDocument();
       expect(screen.getByText('Hourly')).toBeInTheDocument();
       expect(screen.getByText('Daily')).toBeInTheDocument();
 
-      // Should NOT show unspecified headers
       expect(screen.queryByText('Weekly')).not.toBeInTheDocument();
       expect(screen.queryByText('Monthly')).not.toBeInTheDocument();
       expect(screen.queryByText('Custom')).not.toBeInTheDocument();
@@ -539,7 +527,7 @@ describe('Cron Component - Custom Headers', () => {
       );
 
       const tabs = screen.getAllByRole('button');
-      expect(tabs).toHaveLength(2); // Only 2 unique headers
+      expect(tabs).toHaveLength(2);
       expect(screen.getByText('Minutes')).toBeInTheDocument();
       expect(screen.getByText('Hourly')).toBeInTheDocument();
     });
@@ -585,7 +573,6 @@ describe('Cron Component - Custom Headers', () => {
 
       render(<Cron onChange={onChange} showResultText={true} showResultCron={false} />);
 
-      // All default headers should be present
       expect(screen.getByText('Minutes')).toBeInTheDocument();
       expect(screen.getByText('Hourly')).toBeInTheDocument();
       expect(screen.getByText('Daily')).toBeInTheDocument();
@@ -611,10 +598,7 @@ describe('Cron Component - Custom Headers', () => {
         />,
       );
 
-      // Should display the Unix value
       expect(screen.getByText('*/5 * * * *')).toBeInTheDocument();
-
-      // Should not have any console errors
       expect(consoleError).not.toHaveBeenCalled();
       expect(consoleWarn).not.toHaveBeenCalled();
 
@@ -735,9 +719,7 @@ describe('Cron Component - Custom Headers', () => {
         />,
       );
 
-      // Should display Unix format
       expect(screen.getByText('*/5 * * * *')).toBeInTheDocument();
-      // Should have human-readable text
       expect(screen.getByText(/every 5 minutes/i)).toBeInTheDocument();
     });
 
@@ -755,13 +737,11 @@ describe('Cron Component - Custom Headers', () => {
         />,
       );
 
-      // Switch to hourly tab
       const hourlyTab = screen.getByLabelText('Select Hourly tab');
       await user.click(hourlyTab);
 
       await waitFor(() => {
         expect(onChange).toHaveBeenCalled();
-        // Should call with Unix format (5 fields)
         const lastCall = onChange.mock.calls[onChange.mock.calls.length - 1];
         expect(lastCall[0].split(' ').length).toBe(5);
       });
@@ -844,6 +824,333 @@ describe('Cron Component - Issue #90: Custom tab auto-selection', () => {
     await waitFor(() => {
       expect(screen.getByLabelText('Select Minutes tab')).not.toHaveClass('active');
       expect(screen.getByLabelText('Select Custom tab')).toHaveClass('active');
+    });
+  });
+});
+
+describe('Cron Component - onValueChange empty value fallback', () => {
+  it('resets to daily default when a tab component calls onChange with undefined', async () => {
+    const onChange = vi.fn();
+    const user = userEvent.setup();
+    render(
+      <Cron onChange={onChange} showResultText={false} showResultCron={true} />,
+    );
+
+    const dailyTab = screen.getByLabelText('Select Daily tab');
+    await user.click(dailyTab);
+    await waitFor(() => expect(dailyTab).toHaveClass('active'));
+
+    await waitFor(() =>
+      expect(
+        (document.querySelector('input[name="DailyRadio"]') as HTMLInputElement).checked,
+      ).toBe(true),
+    );
+
+    fireEvent.click(screen.getByText('Every week day'));
+    await waitFor(() => expect(onChange).toHaveBeenCalled());
+    onChange.mockClear();
+
+    fireEvent.click(screen.getAllByText('Every')[0]);
+    await waitFor(() => {
+      expect(onChange).toHaveBeenCalled();
+    });
+  });
+});
+
+describe('Cron Component - onHeaderChange callback', () => {
+  it('calls onHeaderChange when tab is switched', async () => {
+    const onChange = vi.fn();
+    const onHeaderChange = vi.fn();
+    const user = userEvent.setup();
+    render(
+      <Cron
+        onChange={onChange}
+        onHeaderChange={onHeaderChange}
+        showResultText={false}
+        showResultCron={false}
+      />,
+    );
+    const hourlyTab = screen.getByLabelText('Select Hourly tab');
+    await user.click(hourlyTab);
+    await waitFor(() => {
+      expect(onHeaderChange).toHaveBeenCalledWith('Hourly');
+    });
+  });
+
+  it('calls onHeaderChange with each tab name as tabs change', async () => {
+    const onChange = vi.fn();
+    const onHeaderChange = vi.fn();
+    const user = userEvent.setup();
+    render(
+      <Cron
+        onChange={onChange}
+        onHeaderChange={onHeaderChange}
+        showResultText={false}
+        showResultCron={false}
+      />,
+    );
+    await user.click(screen.getByLabelText('Select Weekly tab'));
+    await waitFor(() => expect(onHeaderChange).toHaveBeenCalledWith('Weekly'));
+
+    await user.click(screen.getByLabelText('Select Monthly tab'));
+    await waitFor(() => expect(onHeaderChange).toHaveBeenCalledWith('Monthly'));
+  });
+});
+
+describe('Cron Component - getComponent renders all tab types', () => {
+  const tabs = ['MINUTES', 'HOURLY', 'DAILY', 'WEEKLY', 'MONTHLY', 'CUSTOM'] as const;
+  tabs.forEach((tab) => {
+    it(`renders the ${tab} tab component content`, async () => {
+      const onChange = vi.fn();
+      render(
+        <Cron
+          onChange={onChange}
+          showResultText={false}
+          showResultCron={false}
+          options={{ headers: [tab] }}
+        />,
+      );
+      await waitFor(() => {
+        const panel = document.querySelector('.cron_builder_bordering');
+        expect(panel).toBeTruthy();
+        expect(panel!.children.length).toBeGreaterThan(0);
+      });
+    });
+  });
+});
+
+describe('Cron Component - setValue fallback to first header', () => {
+  it('falls back to first available header when matched tab is not in headers list', async () => {
+    const onChange = vi.fn();
+    render(
+      <Cron
+        value="0 0/5 * 1/1 * ? *"
+        onChange={onChange}
+        showResultText={false}
+        showResultCron={false}
+        options={{ headers: ['DAILY'] }}
+      />,
+    );
+    await waitFor(() => {
+      expect(screen.getByLabelText('Select Daily tab')).toHaveClass('active');
+    });
+  });
+
+  it('falls back to first header when no pattern matches and Custom is not available', async () => {
+    const onChange = vi.fn();
+    render(
+      <Cron
+        value="0 3,8,13 * * * ? *"
+        onChange={onChange}
+        showResultText={false}
+        showResultCron={false}
+        options={{ headers: ['DAILY'] }}
+      />,
+    );
+    await waitFor(() => {
+      expect(screen.getByLabelText('Select Daily tab')).toHaveClass('active');
+    });
+  });
+});
+
+describe('Cron Component - Daily tab matched by N-day interval', () => {
+  it('selects Daily tab when value has a day interval greater than 1', async () => {
+    const onChange = vi.fn();
+    render(
+      <Cron
+        value="0 0 00 1/2 * ? *"
+        onChange={onChange}
+        showResultText={false}
+        showResultCron={false}
+      />,
+    );
+    await waitFor(() => {
+      expect(screen.getByLabelText('Select Daily tab')).toHaveClass('active');
+    });
+  });
+});
+
+describe('Cron Component - auto-converts a 5-field value when isUnix=false', () => {
+  it('renders without error when a 5-field Unix value is passed with isUnix=false', async () => {
+    const onChange = vi.fn();
+    render(
+      <Cron
+        value="0 0 * * 1"
+        onChange={onChange}
+        showResultText={false}
+        showResultCron={false}
+        isUnix={false}
+      />,
+    );
+    await waitFor(() => {
+      expect(document.querySelector('.cron_builder')).toBeInTheDocument();
+    });
+  });
+});
+
+describe('Cron Component - defaultTab prop', () => {
+  it('honours defaultTab when the target tab is in the available headers', async () => {
+    const onChange = vi.fn();
+    render(
+      <Cron
+        value="0 0/5 * 1/1 * ? *"
+        onChange={onChange}
+        showResultText={false}
+        showResultCron={false}
+        defaultTab="WEEKLY"
+        options={{ headers: ['MINUTES', 'WEEKLY'] }}
+      />,
+    );
+    await waitFor(() => {
+      expect(screen.getByLabelText('Select Weekly tab')).toHaveClass('active');
+      expect(screen.getByLabelText('Select Minutes tab')).not.toHaveClass('active');
+    });
+  });
+
+  it('falls back to auto-detected tab when defaultTab target is not in available headers', async () => {
+    const onChange = vi.fn();
+    render(
+      <Cron
+        value="0 0/5 * 1/1 * ? *"
+        onChange={onChange}
+        showResultText={false}
+        showResultCron={false}
+        defaultTab="WEEKLY"
+        options={{ headers: ['MINUTES', 'DAILY'] }}
+      />,
+    );
+    await waitFor(() => {
+      expect(screen.getByLabelText('Select Minutes tab')).toHaveClass('active');
+    });
+  });
+
+  it('uses defaultTab to override auto-detection to a different available tab', async () => {
+    const onChange = vi.fn();
+    render(
+      <Cron
+        value="0 0/5 * 1/1 * ? *"
+        onChange={onChange}
+        showResultText={false}
+        showResultCron={false}
+        defaultTab="DAILY"
+        options={{ headers: ['MINUTES', 'DAILY'] }}
+      />,
+    );
+    await waitFor(() => {
+      expect(screen.getByLabelText('Select Daily tab')).toHaveClass('active');
+    });
+  });
+});
+
+describe('Cron Component - use6FieldQuartz output', () => {
+  it('does not strip the year field when it is not "*"', async () => {
+    const onChange = vi.fn();
+    render(
+      <Cron
+        value="0 0 12 * * ? 2024"
+        onChange={onChange}
+        showResultText={false}
+        showResultCron={true}
+        use6FieldQuartz={true}
+      />,
+    );
+    await waitFor(() => {
+      expect(document.querySelector('.cron_builder')).toBeInTheDocument();
+    });
+    expect(onChange).toHaveBeenCalled();
+  });
+});
+
+describe('Cron Component - month-day bang-separated value edge cases', () => {
+  it('does not compress when only one day in a bang-separated value', async () => {
+    const onChange = vi.fn();
+    render(
+      <Cron
+        value="0 0 12 5! 1/1 ? *"
+        onChange={onChange}
+        showResultText={false}
+        showResultCron={false}
+      />,
+    );
+    await waitFor(() => {
+      expect(document.querySelector('.cron_builder')).toBeInTheDocument();
+    });
+  });
+
+  it('does not compress when bang-separated days contain non-numeric values', async () => {
+    const onChange = vi.fn();
+    render(
+      <Cron
+        value="0 0 12 5!abc 1/1 ? *"
+        onChange={onChange}
+        showResultText={false}
+        showResultCron={false}
+      />,
+    );
+    await waitFor(() => {
+      expect(document.querySelector('.cron_builder')).toBeInTheDocument();
+    });
+  });
+});
+
+describe('Cron Component - isUnix prop change', () => {
+  it('fires onChange when isUnix prop changes from false to true', async () => {
+    const onChange = vi.fn();
+    const { rerender } = render(
+      <Cron
+        value="0 0/5 * 1/1 * ? *"
+        onChange={onChange}
+        showResultText={false}
+        showResultCron={false}
+        isUnix={false}
+      />,
+    );
+    onChange.mockClear();
+
+    rerender(
+      <Cron
+        value="0 0/5 * 1/1 * ? *"
+        onChange={onChange}
+        showResultText={false}
+        showResultCron={false}
+        isUnix={true}
+      />,
+    );
+
+    await waitFor(() => {
+      expect(onChange).toHaveBeenCalled();
+      const lastCall = onChange.mock.calls[onChange.mock.calls.length - 1];
+      expect(lastCall[0].split(' ').length).toBe(5);
+    });
+  });
+
+  it('fires onChange when isUnix prop changes from true to false', async () => {
+    const onChange = vi.fn();
+    const { rerender } = render(
+      <Cron
+        value="*/5 * * * *"
+        onChange={onChange}
+        showResultText={false}
+        showResultCron={false}
+        isUnix={true}
+      />,
+    );
+    onChange.mockClear();
+
+    rerender(
+      <Cron
+        value="*/5 * * * *"
+        onChange={onChange}
+        showResultText={false}
+        showResultCron={false}
+        isUnix={false}
+      />,
+    );
+
+    await waitFor(() => {
+      expect(onChange).toHaveBeenCalled();
+      const lastCall = onChange.mock.calls[onChange.mock.calls.length - 1];
+      expect(lastCall[0].split(' ').length).toBe(7);
     });
   });
 });

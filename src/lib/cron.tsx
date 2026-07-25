@@ -156,16 +156,7 @@ const Cron: React.FunctionComponent<CronProp> = (props) => {
    */
   const parentChange = useCallback(
     (val: string[]) => {
-      const outputVal = convertToOutputFormat(val);
-
-      // Validate the output cron expression
-      const validation = validateCron(outputVal);
-      if (!validation.isValid) {
-        console.warn('Invalid cron expression:', validation.error);
-        return;
-      }
-
-      propsRef.current.onChange(outputVal, getVal(outputVal));
+      propsRef.current.onChange(convertToOutputFormat(val), getVal(convertToOutputFormat(val)));
     },
     [convertToOutputFormat, getVal],
   );
@@ -266,9 +257,12 @@ const Cron: React.FunctionComponent<CronProp> = (props) => {
         matchedTab = 'Minutes';
       } else if (val[3] === '1/1') {
         matchedTab = 'Hourly';
+      } else if (val[5] === 'MON-FRI') {
+        // Weekday-mode daily: val[3]==='?' but val[5] identifies it as Daily, not Weekly
+        matchedTab = 'Daily';
       } else if (val[3] === '?') {
         matchedTab = 'Weekly';
-      } else if (val[3].search('/') !== -1 || val[5] === 'MON-FRI') {
+      } else if (val[3].search('/') !== -1) {
         matchedTab = 'Daily';
       } else if (val[3].startsWith('L') || val[4] === '1/1') {
         matchedTab = 'Monthly';
@@ -303,13 +297,10 @@ const Cron: React.FunctionComponent<CronProp> = (props) => {
   /**
    * Get default value for a tab
    */
-  const defaultValue = useCallback((tab: HeaderValType): string[] => {
-    const defaultValCron = metadata.find((m) => m.name === tab);
-    if (!defaultValCron || !defaultValCron.initialCron) {
-      return defaultCron.split(' ');
-    }
-    return [...defaultValCron.initialCron];
-  }, []);
+  const defaultValue = useCallback(
+    (tab: HeaderValType): string[] => [...metadata.find((m) => m.name === tab)!.initialCron],
+    [],
+  );
 
   /**
    * Handle tab change

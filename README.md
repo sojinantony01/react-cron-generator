@@ -7,6 +7,7 @@
 [![license](https://img.shields.io/npm/l/react-cron-generator.svg)](https://github.com/sojinantony01/react-cron-generator/blob/main/LICENSE)
 ![React](https://img.shields.io/badge/React-16.8%2B%20%7C%2017%20%7C%2018%20%7C%2019-blue)
 [![TypeScript](https://img.shields.io/badge/TypeScript-Ready-blue)](https://www.typescriptlang.org/)
+[![codecov](https://codecov.io/gh/sojinantony01/react-cron-generator/graph/badge.svg)](https://codecov.io/gh/sojinantony01/react-cron-generator)
 
 ## 🎮 [Try it Live!](https://sojinantony01.github.io/react-cron-generator/)
 
