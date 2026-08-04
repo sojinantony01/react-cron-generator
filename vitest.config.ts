@@ -16,8 +16,8 @@ export default defineConfig({
         'src/setupTests.ts',
         'src/**/*.d.ts',
         'src/reportWebVitals.ts',
-        'src/lib/types/index.ts',  // type-only file — no runtime statements to cover
-        'src/lib/index.ts',        // barrel re-exports only — no executable statements for V8
+        'src/lib/types/index.ts', // type-only file — no runtime statements to cover
+        'src/lib/index.ts', // barrel re-exports only — no executable statements for V8
       ],
       reportsDirectory: './coverage',
     },

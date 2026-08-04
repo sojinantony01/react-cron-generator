@@ -106,9 +106,7 @@ describe('YearlyCron', () => {
 
   it('does not call onChange on hour change when disabled', () => {
     const onChange = vi.fn();
-    render(
-      <YearlyCron onChange={onChange} value={defaultValue} translate={translate} disabled />,
-    );
+    render(<YearlyCron onChange={onChange} value={defaultValue} translate={translate} disabled />);
     const selects = screen.getAllByRole('combobox');
     fireEvent.change(selects[2], { target: { value: '10' } });
     expect(onChange).not.toHaveBeenCalled();
@@ -116,9 +114,7 @@ describe('YearlyCron', () => {
 
   it('does not call onChange on minute change when disabled', () => {
     const onChange = vi.fn();
-    render(
-      <YearlyCron onChange={onChange} value={defaultValue} translate={translate} disabled />,
-    );
+    render(<YearlyCron onChange={onChange} value={defaultValue} translate={translate} disabled />);
     const selects = screen.getAllByRole('combobox');
     fireEvent.change(selects[3], { target: { value: '45' } });
     expect(onChange).not.toHaveBeenCalled();
@@ -126,9 +122,7 @@ describe('YearlyCron', () => {
 
   it('does not call onChange on day change when disabled', () => {
     const onChange = vi.fn();
-    render(
-      <YearlyCron onChange={onChange} value={defaultValue} translate={translate} disabled />,
-    );
+    render(<YearlyCron onChange={onChange} value={defaultValue} translate={translate} disabled />);
     const selects = screen.getAllByRole('combobox');
     fireEvent.change(selects[1], { target: { value: '20' } });
     expect(onChange).not.toHaveBeenCalled();
@@ -171,5 +165,4 @@ describe('YearlyCron', () => {
     // Should render without crashing; day select should have options up to 31
     expect(screen.getByText('1')).toBeInTheDocument(); // day option 1 always present
   });
-
 });

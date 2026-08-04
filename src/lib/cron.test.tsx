@@ -1238,4 +1238,3 @@ describe('Cron Component - use6FieldQuartz strips year field when year is *', ()
     });
   });
 });
-
