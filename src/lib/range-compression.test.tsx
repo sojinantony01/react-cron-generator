@@ -51,7 +51,7 @@ function domField(cronStr: string) {
 // ---------------------------------------------------------------------------
 
 describe('Weekly tab — range compression', () => {
-  let onChange: ReturnType<typeof vi.fn>;
+  let onChange: ReturnType<typeof vi.fn<(val: string, text: string) => void>>;
 
   beforeEach(() => {
     onChange = vi.fn();
@@ -322,7 +322,7 @@ describe('Weekly tab — range compression', () => {
 // ---------------------------------------------------------------------------
 
 describe('Monthly tab — range compression for multi-day picker', () => {
-  let onChange: ReturnType<typeof vi.fn>;
+  let onChange: ReturnType<typeof vi.fn<(val: string, text: string) => void>>;
 
   beforeEach(() => {
     onChange = vi.fn();
