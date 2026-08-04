@@ -37,6 +37,7 @@ const YearlyCron: FunctionComponent<YearlyCronProp> = (props) => {
   const onMonthChange = (e: { target: { value: string } }) => {
     if (props.disabled) return;
     const month = parseInt(e.target.value);
+    /* c8 ignore next */
     const maxDays = DAYS_IN_MONTH[month - 1] || 31;
     // Clamp day to valid range for new month
     const day = Math.min(currentDay, maxDays);

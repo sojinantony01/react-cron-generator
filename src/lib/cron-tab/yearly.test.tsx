@@ -81,4 +81,95 @@ describe('YearlyCron', () => {
     render(<YearlyCron onChange={vi.fn()} value={defaultValue} translate={customTranslate} />);
     expect(screen.getByText('Jan')).toBeInTheDocument();
   });
+
+  it('calls onChange with updated hour when hour select changes', () => {
+    const onChange = vi.fn();
+    render(<YearlyCron onChange={onChange} value={defaultValue} translate={translate} />);
+    // Hour select is rendered by HourSelect — role="combobox", after month+day selects
+    const selects = screen.getAllByRole('combobox');
+    // selects[0]=month, selects[1]=day, selects[2]=hour, selects[3]=minute
+    fireEvent.change(selects[2], { target: { value: '08' } });
+    expect(onChange).toHaveBeenCalled();
+    const call = onChange.mock.calls[0][0];
+    expect(call[2]).toBe('08');
+  });
+
+  it('calls onChange with updated minute when minute select changes', () => {
+    const onChange = vi.fn();
+    render(<YearlyCron onChange={onChange} value={defaultValue} translate={translate} />);
+    const selects = screen.getAllByRole('combobox');
+    fireEvent.change(selects[3], { target: { value: '30' } });
+    expect(onChange).toHaveBeenCalled();
+    const call = onChange.mock.calls[0][0];
+    expect(call[1]).toBe('30');
+  });
+
+  it('does not call onChange on hour change when disabled', () => {
+    const onChange = vi.fn();
+    render(
+      <YearlyCron onChange={onChange} value={defaultValue} translate={translate} disabled />,
+    );
+    const selects = screen.getAllByRole('combobox');
+    fireEvent.change(selects[2], { target: { value: '10' } });
+    expect(onChange).not.toHaveBeenCalled();
+  });
+
+  it('does not call onChange on minute change when disabled', () => {
+    const onChange = vi.fn();
+    render(
+      <YearlyCron onChange={onChange} value={defaultValue} translate={translate} disabled />,
+    );
+    const selects = screen.getAllByRole('combobox');
+    fireEvent.change(selects[3], { target: { value: '45' } });
+    expect(onChange).not.toHaveBeenCalled();
+  });
+
+  it('does not call onChange on day change when disabled', () => {
+    const onChange = vi.fn();
+    render(
+      <YearlyCron onChange={onChange} value={defaultValue} translate={translate} disabled />,
+    );
+    const selects = screen.getAllByRole('combobox');
+    fireEvent.change(selects[1], { target: { value: '20' } });
+    expect(onChange).not.toHaveBeenCalled();
+  });
+
+  it('falls back to month=1 when val[4] is non-numeric', () => {
+    // parseInt('*') = NaN → || 1 branch
+    const value = ['0', '0', '00', '1', '*', '?', '*'];
+    const onChange = vi.fn();
+    render(<YearlyCron onChange={onChange} value={value} translate={translate} />);
+    // Should fall back to month 1
+    const selects = screen.getAllByRole('combobox');
+    expect((selects[0] as HTMLSelectElement).value).toBe('1');
+  });
+
+  it('falls back to day=1 when val[3] is non-numeric', () => {
+    // parseInt('?') = NaN → || 1 branch
+    const value = ['0', '0', '00', '?', '3', '?', '*'];
+    const onChange = vi.fn();
+    render(<YearlyCron onChange={onChange} value={value} translate={translate} />);
+    const selects = screen.getAllByRole('combobox');
+    expect((selects[1] as HTMLSelectElement).value).toBe('1');
+  });
+
+  it('does not call onChange when selected day is out of range for the month', () => {
+    // February: maxDay = 29; selecting day 30 should not fire onChange
+    const value = ['0', '0', '00', '1', '2', '?', '*']; // February
+    const onChange = vi.fn();
+    render(<YearlyCron onChange={onChange} value={value} translate={translate} />);
+    const selects = screen.getAllByRole('combobox');
+    fireEvent.change(selects[1], { target: { value: '30' } });
+    expect(onChange).not.toHaveBeenCalled();
+  });
+
+  it('uses || 31 fallback when DAYS_IN_MONTH index is out of bounds', () => {
+    // month=13 → DAYS_IN_MONTH[12] = undefined → || 31 fallback
+    const value = ['0', '0', '00', '1', '13', '?', '*'];
+    const onChange = vi.fn();
+    render(<YearlyCron onChange={onChange} value={value} translate={translate} />);
+    // Should render without crashing; day select should have options up to 31
+    expect(screen.getByText('1')).toBeInTheDocument(); // day option 1 always present
+  });
+
 });

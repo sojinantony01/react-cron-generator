@@ -1152,3 +1152,90 @@ describe('Cron Component - isUnix prop change', () => {
     });
   });
 });
+
+describe('Cron Component - Yearly tab detection', () => {
+  it('selects Yearly tab when value has a specific day and specific month', async () => {
+    const onChange = vi.fn();
+    render(
+      <Cron
+        value="0 0 00 4 7 ? *"
+        onChange={onChange}
+        showResultText={false}
+        showResultCron={false}
+      />,
+    );
+    await waitFor(() => {
+      expect(screen.getByLabelText('Select Yearly tab')).toHaveClass('active');
+    });
+  });
+
+  it('selects Yearly tab for Jan 1st midnight (initial cron)', async () => {
+    const onChange = vi.fn();
+    render(
+      <Cron
+        value="0 0 00 1 1 ? *"
+        onChange={onChange}
+        showResultText={false}
+        showResultCron={false}
+      />,
+    );
+    await waitFor(() => {
+      expect(screen.getByLabelText('Select Yearly tab')).toHaveClass('active');
+    });
+  });
+
+  it('does NOT select Yearly when Yearly tab is excluded from headers — falls back to first header', async () => {
+    const onChange = vi.fn();
+    render(
+      <Cron
+        value="0 0 00 4 7 ? *"
+        onChange={onChange}
+        showResultText={false}
+        showResultCron={false}
+        options={{ headers: ['MONTHLY', 'CUSTOM'] }}
+      />,
+    );
+    await waitFor(() => {
+      // Yearly matched but not available → falls back to first header (Monthly)
+      expect(screen.getByLabelText('Select Monthly tab')).toHaveClass('active');
+    });
+  });
+
+  it('renders the Yearly tab component in getComponent', async () => {
+    const onChange = vi.fn();
+    render(
+      <Cron
+        value="0 0 00 4 7 ? *"
+        onChange={onChange}
+        showResultText={false}
+        showResultCron={false}
+        options={{ headers: ['YEARLY'] }}
+      />,
+    );
+    await waitFor(() => {
+      expect(screen.getByText('Every year in')).toBeInTheDocument();
+    });
+  });
+});
+
+describe('Cron Component - use6FieldQuartz strips year field when year is *', () => {
+  it('strips the year field when use6FieldQuartz=true and year is *', async () => {
+    const onChange = vi.fn();
+    render(
+      <Cron
+        value="0 0 12 * * ? *"
+        onChange={onChange}
+        showResultText={false}
+        showResultCron={true}
+        use6FieldQuartz={true}
+      />,
+    );
+    await waitFor(() => {
+      expect(onChange).toHaveBeenCalled();
+      // Output should be 6 fields (year stripped)
+      const lastCall = onChange.mock.calls[onChange.mock.calls.length - 1];
+      expect(lastCall[0].split(' ').length).toBe(6);
+    });
+  });
+});
+
