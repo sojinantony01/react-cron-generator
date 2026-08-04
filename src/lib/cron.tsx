@@ -175,6 +175,7 @@ const Cron: React.FunctionComponent<CronProp> = (props) => {
         DAILY: 'Daily',
         WEEKLY: 'Weekly',
         MONTHLY: 'Monthly',
+        YEARLY: 'Yearly',
         CUSTOM: 'Custom',
       };
       const desired = keyToVal[defaultTab];
@@ -266,6 +267,9 @@ const Cron: React.FunctionComponent<CronProp> = (props) => {
         matchedTab = 'Daily';
       } else if (val[3].startsWith('L') || val[4] === '1/1') {
         matchedTab = 'Monthly';
+      } else if (!isNaN(Number(val[3])) && !isNaN(Number(val[4])) && val[4] !== '*') {
+        // Specific day + specific month (not wildcard, not interval) = Yearly
+        matchedTab = 'Yearly';
       }
 
       // Determine selectedTab:

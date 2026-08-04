@@ -3,16 +3,32 @@ import Daily from '../cron-tab/daily';
 import Hourly from '../cron-tab/hourly';
 import Weekly from '../cron-tab/weekly';
 import Monthly from '../cron-tab/monthly';
+import Yearly from '../cron-tab/yearly';
 import Custom from '../cron-tab/custom';
 
-export type HeaderKeyType = 'MINUTES' | 'HOURLY' | 'DAILY' | 'WEEKLY' | 'MONTHLY' | 'CUSTOM';
-export type HeaderValType = 'Minutes' | 'Hourly' | 'Daily' | 'Weekly' | 'Monthly' | 'Custom';
+export type HeaderKeyType =
+  | 'MINUTES'
+  | 'HOURLY'
+  | 'DAILY'
+  | 'WEEKLY'
+  | 'MONTHLY'
+  | 'YEARLY'
+  | 'CUSTOM';
+export type HeaderValType =
+  | 'Minutes'
+  | 'Hourly'
+  | 'Daily'
+  | 'Weekly'
+  | 'Monthly'
+  | 'Yearly'
+  | 'Custom';
 interface HeadersKeyInterface {
   MINUTES: 'MINUTES';
   HOURLY: 'HOURLY';
   DAILY: 'DAILY';
   WEEKLY: 'WEEKLY';
   MONTHLY: 'MONTHLY';
+  YEARLY: 'YEARLY';
   CUSTOM: 'CUSTOM';
 }
 interface HeadersInterface {
@@ -21,6 +37,7 @@ interface HeadersInterface {
   DAILY: 'Daily';
   WEEKLY: 'Weekly';
   MONTHLY: 'Monthly';
+  YEARLY: 'Yearly';
   CUSTOM: 'Custom';
 }
 export const HEADER: HeadersKeyInterface = {
@@ -29,6 +46,7 @@ export const HEADER: HeadersKeyInterface = {
   DAILY: 'DAILY',
   WEEKLY: 'WEEKLY',
   MONTHLY: 'MONTHLY',
+  YEARLY: 'YEARLY',
   CUSTOM: 'CUSTOM',
 };
 
@@ -38,6 +56,7 @@ const HEADER_VALUES: HeadersInterface = {
   DAILY: 'Daily',
   WEEKLY: 'Weekly',
   MONTHLY: 'Monthly',
+  YEARLY: 'Yearly',
   CUSTOM: 'Custom',
 };
 
@@ -47,6 +66,7 @@ const defaultTabs: HeaderValType[] = [
   HEADER_VALUES.DAILY,
   HEADER_VALUES.WEEKLY,
   HEADER_VALUES.MONTHLY,
+  HEADER_VALUES.YEARLY,
   HEADER_VALUES.CUSTOM,
 ];
 
@@ -81,6 +101,12 @@ export const metadata: MetadataInterface[] = [
     component: Monthly,
     name: HEADER_VALUES.MONTHLY,
     initialCron: ['0', '0', '00', '1', '1/1', '?', '*'],
+  },
+  {
+    component: Yearly,
+    name: HEADER_VALUES.YEARLY,
+    // 0 0 00 1 1 ? * — at midnight on Jan 1st every year
+    initialCron: ['0', '0', '00', '1', '1', '?', '*'],
   },
   {
     component: Custom,
