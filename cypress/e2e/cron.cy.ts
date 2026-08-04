@@ -88,7 +88,7 @@ describe("Cron gen - Quartz Format (Default)", () => {
 
   it("Custom passes", () => {
     cy.visit("/");
-    cy.get(":nth-child(6) > .nav-link").click();
+    cy.get(":nth-child(7) > .nav-link").click();
     /* ==== Generated with Cypress Studio ==== */
     cy.get('input[type="text"]').clear().type("0 03 04 L-4 1/1 ? *");
     /* ==== End Cypress Studio ==== */
@@ -198,14 +198,14 @@ describe("Cron gen - Unix Format", () => {
   });
 
   it("Custom - Unix format manual entry", () => {
-    cy.get(":nth-child(6) > .nav-link").click();
-    cy.get("input").eq(1).clear().type("*/10 * * * *");
+    cy.get(":nth-child(7) > .nav-link").click();
+    cy.get('input[type="text"]').clear().type("*/10 * * * *");
     cy.get(".cron_builder > :nth-child(4)").should("have.text", "*/10 * * * *");
   });
 
   it("Custom - Unix format complex expression", () => {
-    cy.get(":nth-child(6) > .nav-link").click();
-    cy.get("input").eq(1).clear().type("0 9-17 * * 1-5");
+    cy.get(":nth-child(7) > .nav-link").click();
+    cy.get('input[type="text"]').clear().type("0 9-17 * * 1-5");
     cy.get(".cron_builder > :nth-child(4)").should("have.text", "0 9-17 * * 1-5");
   });
 });
@@ -279,8 +279,8 @@ describe("Cron gen - Edge Cases", () => {
   it("Handles invalid Unix cron in custom field", () => {
     cy.visit("/");
     cy.get('input[type="checkbox"]').first().check();
-    cy.get(":nth-child(6) > .nav-link").click();
-    cy.get("input").eq(1).clear().type("invalid cron");
+    cy.get(":nth-child(7) > .nav-link").click();
+    cy.get('input[type="text"]').clear().type("invalid cron");
     // Should handle error gracefully
     cy.get(".cron_builder").should("exist");
   });
@@ -307,7 +307,7 @@ describe("Cron gen - 6-Field Quartz Format", () => {
     cy.visit("/");
     
     // Use custom tab to input a 6-field cron
-    cy.get(":nth-child(6) > .nav-link").click();
+    cy.get(":nth-child(7) > .nav-link").click();
     cy.get('input[type="text"]').clear().type("0 0 12 * * ?");
     
     // Verify it displays as 6-field
@@ -318,7 +318,7 @@ describe("Cron gen - 6-Field Quartz Format", () => {
     cy.visit("/");
     
     // Input 6-field cron in custom tab
-    cy.get(":nth-child(6) > .nav-link").click();
+    cy.get(":nth-child(7) > .nav-link").click();
     cy.get('input[type="text"]').clear().type("0 0/5 * * * ?");
     
     // Verify it displays as 6-field
@@ -329,7 +329,7 @@ describe("Cron gen - 6-Field Quartz Format", () => {
     cy.visit("/");
     
     // Start with 6-field cron
-    cy.get(":nth-child(6) > .nav-link").click();
+    cy.get(":nth-child(7) > .nav-link").click();
     cy.get('input[type="text"]').clear().type("0 0 00 1/1 * ?");
     cy.get(".cron_builder > :nth-child(4)").should("have.text", "0 0 00 1/1 * ?");
     
@@ -346,7 +346,7 @@ describe("Cron gen - 6-Field Quartz Format", () => {
     cy.visit("/");
     
     // Input 6-field monthly cron
-    cy.get(":nth-child(6) > .nav-link").click();
+    cy.get(":nth-child(7) > .nav-link").click();
     cy.get('input[type="text"]').clear().type("0 0 00 15 1/1 ?");
     
     // Verify it's displayed as 6-field
@@ -357,7 +357,7 @@ describe("Cron gen - 6-Field Quartz Format", () => {
     cy.visit("/");
     
     // Test 7-field format
-    cy.get(":nth-child(6) > .nav-link").click();
+    cy.get(":nth-child(7) > .nav-link").click();
     cy.get('input[type="text"]').clear().type("0 0 12 * * ? *");
     cy.get(".cron_builder > :nth-child(4)").should("have.text", "0 0 12 * * ? *");
     
