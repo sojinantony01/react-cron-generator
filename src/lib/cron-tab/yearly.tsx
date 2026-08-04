@@ -80,11 +80,7 @@ const YearlyCron: FunctionComponent<YearlyCronProp> = (props) => {
     <div className="tab-pane">
       <label className="well well-small">
         <span>{translateFn('Every year in')}</span>
-        <select
-          value={currentMonth}
-          onChange={onMonthChange}
-          disabled={props.disabled}
-        >
+        <select value={currentMonth} onChange={onMonthChange} disabled={props.disabled}>
           {MONTHS.map((month, idx) => (
             <option key={idx + 1} value={idx + 1}>
               {translateFn(month)}
@@ -92,11 +88,7 @@ const YearlyCron: FunctionComponent<YearlyCronProp> = (props) => {
           ))}
         </select>
         <span>{translateFn('on day')}</span>
-        <select
-          value={currentDay}
-          onChange={onDayChange}
-          disabled={props.disabled}
-        >
+        <select value={currentDay} onChange={onDayChange} disabled={props.disabled}>
           {Array.from({ length: maxDay }, (_, i) => i + 1).map((day) => (
             <option key={day} value={day}>
               {day}

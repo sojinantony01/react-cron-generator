@@ -35,7 +35,15 @@ describe('metadata', () => {
 describe('loadHeaders', () => {
   it('returns all 7 default tabs when called with no options', () => {
     const headers = loadHeaders();
-    expect(headers).toEqual(['Minutes', 'Hourly', 'Daily', 'Weekly', 'Monthly', 'Yearly', 'Custom']);
+    expect(headers).toEqual([
+      'Minutes',
+      'Hourly',
+      'Daily',
+      'Weekly',
+      'Monthly',
+      'Yearly',
+      'Custom',
+    ]);
   });
 
   it('returns filtered tabs when a subset of valid headers is provided', () => {
@@ -64,7 +72,15 @@ describe('loadHeaders', () => {
   it('returns all default tabs when options is provided without a headers key', () => {
     // options object exists but has no "headers" property
     const headers = loadHeaders({} as any);
-    expect(headers).toEqual(['Minutes', 'Hourly', 'Daily', 'Weekly', 'Monthly', 'Yearly', 'Custom']);
+    expect(headers).toEqual([
+      'Minutes',
+      'Hourly',
+      'Daily',
+      'Weekly',
+      'Monthly',
+      'Yearly',
+      'Custom',
+    ]);
   });
 
   it('returns Yearly tab when YEARLY header is requested', () => {

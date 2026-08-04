@@ -58,9 +58,7 @@ describe('YearlyCron', () => {
 
   it('does not call onChange when disabled', () => {
     const onChange = vi.fn();
-    render(
-      <YearlyCron onChange={onChange} value={defaultValue} translate={translate} disabled />,
-    );
+    render(<YearlyCron onChange={onChange} value={defaultValue} translate={translate} disabled />);
     const selects = screen.getAllByRole('combobox');
     fireEvent.change(selects[0], { target: { value: '6' } });
     expect(onChange).not.toHaveBeenCalled();
